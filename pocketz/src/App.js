@@ -1,13 +1,25 @@
 import React from 'react'
-import account from './account';
+import useLocalStorage from './hooks/useLocalStorage'
+import CreateAccountForm from './components/CreateAccountForm'
 
 function App() {
+
+  const [users, setUser] = useLocalStorage("users", []);
+  
   return (
     <div className="App">
-      <button onClick={()=>{
-        const acc = account.create();
-        console.log(acc);
-      }}>Create</button>
+      <CreateAccountForm/>
+      <ul>
+        {users.map((doc) => {
+          return (
+            <li key={doc.key}>
+              Username: {doc.username} <br/>
+              Address: {doc.account.address} <br />
+              PrivateKey: {doc.account.privateKey}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
