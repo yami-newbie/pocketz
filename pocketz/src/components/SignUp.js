@@ -7,9 +7,9 @@ function SignUp() {
 
   const [password, setPassword] = useState("");
 
-  const signUp = () => {
+  const signUp = async () => {
     if (password !== "") {
-      setWallet({
+      await setWallet({
         password: password,
         isLogin: true,
       });

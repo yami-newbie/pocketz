@@ -1,9 +1,9 @@
 import useLocalStorage from "../hooks/useLocalStorage";
-import React from "react";
+import React, { useState } from "react";
 import accountDataService from '../service/account'
 
 function CreateAccountForm() {
-    const [username, setUsername] = useLocalStorage("username", "");
+    const [username, setUsername] = useState("");
     const [key, setKey] = useLocalStorage("key", 0);
     const [count, setCount] = useLocalStorage("count", 0);
     const [account, setAccount] = useLocalStorage("listAccount", []);

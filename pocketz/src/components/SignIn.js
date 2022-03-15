@@ -1,15 +1,16 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../service/UserContext";
+import LogOut from "./LogOut";
 function SignIn() {
   const [password, setPassword] = useState("");
   const { wallet, setWallet } = useContext(UserContext);
 
-  const login = () => {
+  const login = async () => {
     try {
       if (wallet.password !== "") {
         console.log("it here");
         if (wallet.password === password) {
-          setWallet({
+          await setWallet({
             isLogin: true,
             password: wallet.password,
           });
@@ -20,15 +21,21 @@ function SignIn() {
     }
   };
   return (
-    <form onSubmit={login}>
-      <input
-        placeholder="Password"
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      />
-      <button>Sign In</button>
-    </form>
+    <div>
+      {wallet.isLogin ? (
+        <LogOut />
+      ) : (
+        <form onSubmit={login}>
+          <input
+            placeholder="Password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <button>Sign In</button>
+        </form>
+      )}
+    </div>
   );
 }
 
