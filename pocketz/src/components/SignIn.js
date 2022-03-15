@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../service/UserContext";
+import { TextField } from "@mui/material";
+import { Button } from "@mui/material";
 function SignIn() {
   const [password, setPassword] = useState("");
   const { wallet, setWallet } = useContext(UserContext);
@@ -21,13 +23,16 @@ function SignIn() {
   };
   return (
     <form onSubmit={login}>
-      <input
-        placeholder="Password"
+      <TextField 
+        id="standard-basic"
+        label="Password"
+        variant="standard" 
+        type="password"
         onChange={(e) => {
           setPassword(e.target.value);
         }}
-      />
-      <button>Sign In</button>
+      /><br/><br/>
+      <Button variant="contained">Unlock</Button>
     </form>
   );
 }

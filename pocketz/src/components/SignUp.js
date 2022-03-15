@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { UserContext } from "../service/UserContext";
+import { TextField } from "@mui/material";
+import { Button } from "@mui/material";
 
 function SignUp() {
   const [wallet, setWallet] = useLocalStorage("wallet", {});
@@ -17,13 +19,25 @@ function SignUp() {
   };
   return (
     <form onSubmit={signUp}>
-      <input
-        placeholder="Password"
+      <TextField 
+        id="standard-basic"
+        label="New password"
+        variant="standard" 
+        type="password"
         onChange={(e) => {
           setPassword(e.target.value);
         }}
-      />
-      <button>Sign Up</button>
+      /><br/><br/>
+      <TextField 
+        id="standard-basic"
+        label="Confirm password"
+        variant="standard" 
+        type="password"
+        // onChange={(e) => {
+        //   setPassword(e.target.value);
+        // }}
+      /><br/><br/>
+      <Button variant="contained">Sign up</Button>
     </form>
   );
 }

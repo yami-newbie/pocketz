@@ -1,6 +1,11 @@
 import useLocalStorage from "../hooks/useLocalStorage";
 import React from "react";
+import ReactDOM from 'react-dom';
 import accountDataService from '../service/account'
+import Button from '@mui/material/Button'
+import { TextField } from "@mui/material";
+import { FormControl } from "@mui/material";
+import { OutlinedInput } from "@mui/material";
 
 function CreateAccountForm() {
     const [username, setUsername] = useLocalStorage("username", "");
@@ -29,13 +34,11 @@ function CreateAccountForm() {
     return (
       <div>
         <form onSubmit={createAccount}>
-          <input
-            placeholder="username"
-            onChange={(e) => {
-              setUsername(e.target.value);
-            }}
-          />
-          <button>Create</button>
+          <FormControl sx={{ width: '25ch' }}>
+            <OutlinedInput placeholder="Username" />
+          </FormControl><br/><br/><br/>
+          <Button variant="outlined">Cancel</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <Button variant="contained">Create</Button>
         </form>
       </div>
     );
