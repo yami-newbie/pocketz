@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import useLocalStorage from './hooks/useLocalStorage'
+import CreateAccountForm from './components/CreateAccountForm'
 
 function App() {
+
+  const [users, setUser] = useLocalStorage("users", []);
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <CreateAccountForm/>
+      <ul>
+        {users.map((doc) => {
+          return (
+            <li key={doc.key}>
+              Username: {doc.username} <br/>
+              Address: {doc.account.address} <br />
+              PrivateKey: {doc.account.privateKey}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
