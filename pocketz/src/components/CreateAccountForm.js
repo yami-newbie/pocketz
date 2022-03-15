@@ -1,23 +1,25 @@
 import useLocalStorage from "../hooks/useLocalStorage";
 import React from "react";
-import account from "../service/account";
+import accountDataService from '../service/account'
 
 function CreateAccountForm() {
     const [username, setUsername] = useLocalStorage("username", "");
     const [key, setKey] = useLocalStorage("key", 0);
     const [count, setCount] = useLocalStorage("count", 0);
-    const [users, setUser] = useLocalStorage("users", []);
+    const [account, setAccount] = useLocalStorage("listAccount", []);
+
     const createAccount = async () => {
         const _key = key;
         setKey(_key + 1);
         if(username === "")
             setCount(count + 1);
         try {
-            await account.create({
-            key: key,
-            state: [users, setUser],
-            username: username === "" ? 'Account ' + count : username,
+            const acc = await accountDataService.create({
+              key: key,
+              username: username === "" ? "Account " + count : username,
             });
+            console.log("account");
+            setAccount([...account, acc]);
         } catch (e) {
             console.log(e);
         }

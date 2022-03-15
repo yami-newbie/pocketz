@@ -1,26 +1,45 @@
-import React from 'react'
-import useLocalStorage from './hooks/useLocalStorage'
-import CreateAccountForm from './components/CreateAccountForm'
+import React, { useMemo } from 'react'
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import ListAccount from './components/ListAccount';
+import SignIn from './components/SignIn';
+import SignUp from './components/SignUp';
+import useLocalStorage from './hooks/useLocalStorage';
+import { UserContext } from './service/UserContext';
 
 function App() {
-
-  const [users, setUser] = useLocalStorage("users", []);
-  
+  const [wallet, setWallet] = useLocalStorage("wallet", {
+    password: "",
+    reset_password: "",
+    list_Account: [],
+    isLogin: false,
+  });
+  const providerValue = useMemo(
+    () => ({ wallet, setWallet }),
+    [wallet, setWallet]
+  );
   return (
-    <div className="App">
-      <CreateAccountForm/>
-      <ul>
-        {users.map((doc) => {
-          return (
-            <li key={doc.key}>
-              Username: {doc.username} <br/>
-              Address: {doc.account.address} <br />
-              PrivateKey: {doc.account.privateKey}
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <BrowserRouter>
+      <nav>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/login"> Sign In</Link>
+          </li>
+          <li>
+            <Link to="/register"> SignUp</Link>
+          </li>
+        </ul>
+      </nav>
+      <UserContext.Provider value={providerValue}>
+        <Routes>
+          <Route path="/" element={<ListAccount/>}></Route>
+          <Route path="/login" element={<SignIn/>}></Route>
+          <Route path="/register" element={<SignUp/>}></Route>
+        </Routes>
+      </UserContext.Provider>
+    </BrowserRouter>
   );
 }
 
