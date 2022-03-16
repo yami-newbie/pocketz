@@ -1,7 +1,9 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../service/UserContext";
-import { TextField } from "@mui/material";
+import { CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
+import { Card } from "@mui/material";
+import { Typography } from "@mui/material";
 function SignIn() {
   const [password, setPassword] = useState("");
   const { wallet, setWallet } = useContext(UserContext);
@@ -22,18 +24,39 @@ function SignIn() {
     }
   };
   return (
-    <form onSubmit={login}>
-      <TextField 
-        id="standard-basic"
-        label="Password"
-        variant="standard" 
-        type="password"
-        onChange={(e) => {
-          setPassword(e.target.value);
-        }}
-      /><br/><br/>
-      <Button variant="contained">Unlock</Button>
-    </form>
+    // <form onSubmit={login}>
+    //   <TextField 
+    //     id="standard-basic"
+    //     label="Password"
+    //     variant="standard" 
+    //     type="password"
+    //     onChange={(e) => {
+    //       setPassword(e.target.value);
+    //     }}
+    //   /><br/><br/>
+    //   <Button variant="contained">Unlock</Button>
+    //   <Card variant="outlined">{card}</Card>
+    // </form>
+    <Card sx={{ maxWidth: 275 }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          Welcome back
+        </Typography>
+        <TextField 
+          id="standard-basic"
+          label="Password"
+          variant="standard" 
+          type="password"
+        /><br/><br/>
+        <Button 
+          variant="contained" 
+          onClick={(e) => {
+            setPassword(e.target.value);}}>
+          Unlock
+        </Button>
+      </CardContent>
+    </Card>
+    
   );
 }
 
