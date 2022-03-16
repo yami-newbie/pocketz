@@ -30,32 +30,33 @@ function SignIn() {
         <LogOut />
       ) : (
         <Card sx={{ maxWidth: 275 }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          Welcome back
-        </Typography>
-        <TextField 
-          id="standard-basic"
-          label="Password"
-          variant="standard" 
-          type="password"
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-        /><br/><br/>
-        <Button 
-          variant="contained">
-          Unlock
-        </Button>
-      </CardContent>
-    </Card>
+          <CardContent>
+            <Typography variant="h5" component="div">
+              Welcome back
+            </Typography>
+            <TextField
+              id="standard-basic"
+              label="Password"
+              variant="standard"
+              type="password"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+            <br />
+            <br />
+            <Button onClick={login} variant="contained">
+              Unlock
+            </Button>
+          </CardContent>
+        </Card>
       )}
     </div>
     // <form onSubmit={login}>
-    //   <TextField 
+    //   <TextField
     //     id="standard-basic"
     //     label="Password"
-    //     variant="standard" 
+    //     variant="standard"
     //     type="password"
     //     onChange={(e) => {
     //       setPassword(e.target.value);
@@ -64,8 +65,6 @@ function SignIn() {
     //   <Button variant="contained">Unlock</Button>
     //   <Card variant="outlined">{card}</Card>
     // </form>
-    
-    
   );
 }
 
