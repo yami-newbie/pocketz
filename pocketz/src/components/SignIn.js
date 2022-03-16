@@ -29,15 +29,26 @@ function SignIn() {
       {wallet.isLogin ? (
         <LogOut />
       ) : (
-        <form onSubmit={login}>
-          <input
-            placeholder="Password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <button>Sign In</button>
-        </form>
+        <Card sx={{ maxWidth: 275 }}>
+      <CardContent>
+        <Typography variant="h5" component="div">
+          Welcome back
+        </Typography>
+        <TextField 
+          id="standard-basic"
+          label="Password"
+          variant="standard" 
+          type="password"
+          onChange={(e) => {
+            setPassword(e.target.value);
+          }}
+        /><br/><br/>
+        <Button 
+          variant="contained">
+          Unlock
+        </Button>
+      </CardContent>
+    </Card>
       )}
     </div>
     // <form onSubmit={login}>
@@ -53,25 +64,7 @@ function SignIn() {
     //   <Button variant="contained">Unlock</Button>
     //   <Card variant="outlined">{card}</Card>
     // </form>
-    <Card sx={{ maxWidth: 275 }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          Welcome back
-        </Typography>
-        <TextField 
-          id="standard-basic"
-          label="Password"
-          variant="standard" 
-          type="password"
-        /><br/><br/>
-        <Button 
-          variant="contained" 
-          onClick={(e) => {
-            setPassword(e.target.value);}}>
-          Unlock
-        </Button>
-      </CardContent>
-    </Card>
+    
     
   );
 }
