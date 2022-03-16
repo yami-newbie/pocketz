@@ -1,5 +1,5 @@
 import useLocalStorage from "../hooks/useLocalStorage";
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM from 'react-dom';
 import accountDataService from '../service/account'
 import Button from '@mui/material/Button'
@@ -9,7 +9,7 @@ import { OutlinedInput } from "@mui/material";
 import { Card } from "@mui/material";
 
 function CreateAccountForm() {
-    const [username, setUsername] = useLocalStorage("username", "");
+    const [username, setUsername] = useState("");
     const [key, setKey] = useLocalStorage("key", 0);
     const [count, setCount] = useLocalStorage("count", 0);
     const [account, setAccount] = useLocalStorage("listAccount", []);

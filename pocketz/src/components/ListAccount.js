@@ -3,6 +3,7 @@ import { useContext, useEffect } from "react";
 import { UserContext } from "../service/UserContext";
 import CreateAccountForm from "./CreateAccountForm";
 import useLocalStorage from "../hooks/useLocalStorage";
+import ImportAccount from "./ImportAccount";
 
 function ListAccount () {
   const [account] = useLocalStorage("listAccount", []);
@@ -10,6 +11,7 @@ function ListAccount () {
 
     return (
       <div>
+        <ImportAccount/>
         <CreateAccountForm />
         {wallet.isLogin && account ? (
           <ul>

@@ -4,16 +4,17 @@ import { CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { Card } from "@mui/material";
 import { Typography } from "@mui/material";
+import LogOut from "./LogOut";
 function SignIn() {
   const [password, setPassword] = useState("");
   const { wallet, setWallet } = useContext(UserContext);
 
-  const login = () => {
+  const login = async () => {
     try {
       if (wallet.password !== "") {
         console.log("it here");
         if (wallet.password === password) {
-          setWallet({
+          await setWallet({
             isLogin: true,
             password: wallet.password,
           });
@@ -24,6 +25,21 @@ function SignIn() {
     }
   };
   return (
+    <div>
+      {wallet.isLogin ? (
+        <LogOut />
+      ) : (
+        <form onSubmit={login}>
+          <input
+            placeholder="Password"
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <button>Sign In</button>
+        </form>
+      )}
+    </div>
     // <form onSubmit={login}>
     //   <TextField 
     //     id="standard-basic"

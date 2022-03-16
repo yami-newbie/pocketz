@@ -1,18 +1,14 @@
 import React, { useMemo } from 'react'
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import ListAccount from './components/ListAccount';
+import LogOut from './components/LogOut';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import useLocalStorage from './hooks/useLocalStorage';
 import { UserContext } from './service/UserContext';
 
 function App() {
-  const [wallet, setWallet] = useLocalStorage("wallet", {
-    password: "",
-    reset_password: "",
-    list_Account: [],
-    isLogin: false,
-  });
+  const [wallet, setWallet] = useLocalStorage("wallet", {});
   const providerValue = useMemo(
     () => ({ wallet, setWallet }),
     [wallet, setWallet]
@@ -28,7 +24,7 @@ function App() {
             <Link to="/login"> Sign In</Link>
           </li>
           <li>
-            <Link to="/register"> SignUp</Link>
+            <Link to="/register"> Sign Up</Link>
           </li>
         </ul>
       </nav>
