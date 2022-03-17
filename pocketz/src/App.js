@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import ListAccount from './components/ListAccount';
-import LogOut from './components/LogOut';
 import SignIn from './components/SignIn';
 import SignUp from './components/SignUp';
 import useLocalStorage from './hooks/useLocalStorage';

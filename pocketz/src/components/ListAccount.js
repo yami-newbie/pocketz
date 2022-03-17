@@ -1,34 +1,44 @@
 
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { UserContext } from "../service/UserContext";
-import CreateAccountForm from "./CreateAccountForm";
 import useLocalStorage from "../hooks/useLocalStorage";
-import ImportAccount from "./ImportAccount";
+import { Link, List, ListItem, ListItemButton } from "@mui/material";
+import ListAccountItem from "./ListAccountItems";
+import { color } from "@mui/system";
 
 function ListAccount () {
   const [account] = useLocalStorage("listAccount", []);
   const { wallet } = useContext(UserContext);
 
     return (
-      <div>
-        <ImportAccount/>
-        <CreateAccountForm />
+      <List
+        className="list-Account"
+        sx={{
+          bgcolor: "text.secondary",
+          mr: 1,
+        }}
+      >
+        {/* <ImportAccount/>
+        <CreateAccountForm /> */}
         {wallet.isLogin && account ? (
-          <ul>
-            {account.map((doc) => {
-              return (
-                <li key={doc.key}>
-                  Username: {doc.username} <br />
-                  Address: {doc.account.address} <br />
-                  PrivateKey: {doc.account.privateKey}
-                </li>
-              );
-            })}
-          </ul>
+          account.map((doc) => {
+            return (
+              <ListItemButton
+                sx={{
+                  color: "white",
+                  ml: 1,
+                  mr: 1,
+                }}
+                key={doc.key}
+              >
+                <ListAccountItem />
+              </ListItemButton>
+            );
+          })
         ) : (
           <p>null</p>
         )}
-      </div>
+      </List>
     );
 }
 

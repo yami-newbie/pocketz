@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -12,6 +13,21 @@ code {
     monospace;
 }
 
-#imgShow {
-  height: 300px;
+
+.list-Account{
+  background-color: white;
+}
+
+.avatar-icon-button {
+  display: flex;
+  align-items: center;
+}
+
+.username {
+  margin-left: 10px;
+  font-size: larger;
+}
+
+.username #sub {
+  font-size: smaller;
 }
