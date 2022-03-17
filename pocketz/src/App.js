@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react'
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import ListAccount from './components/ListAccount';
-import SignIn from './components/SignIn';
-import SignUp from './components/SignUp';
 import useLocalStorage from './hooks/useLocalStorage';
+import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import { UserContext } from './service/UserContext';
 
 function App() {
@@ -29,9 +29,9 @@ function App() {
       </nav>
       <UserContext.Provider value={providerValue}>
         <Routes>
-          <Route path="/" element={<ListAccount/>}></Route>
-          <Route path="/login" element={<SignIn/>}></Route>
-          <Route path="/register" element={<SignUp/>}></Route>
+          <Route path="/" element={<HomePage />}></Route>
+          <Route path="/login" element={<LoginPage />}></Route>
+          <Route path="/register" element={<RegisterPage />}></Route>
         </Routes>
       </UserContext.Provider>
     </BrowserRouter>
