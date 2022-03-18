@@ -34,7 +34,7 @@ function ListAccountItem({Account}) {
           <Avatar src={getAvatar()} alt={getUsername()} />
         </div>
         <div className="username">
-          <div>{getUsername()}</div>
+          <div>{Account.username}</div>
           <div id="sub">sub title</div>
         </div>
       </div>

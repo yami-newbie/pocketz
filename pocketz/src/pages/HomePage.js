@@ -1,15 +1,30 @@
-import CreateAccountForm from "../components/CreateAccountForm";
-import ImportAccount from "../components/ImportAccount";
-import ListAccount from "../components/ListAccount";
+import AppMenu from "../components/AppMenu";
+import { useAuth } from "../serviceData/walletAccount";
+import LoginPage from "./LoginPage";
+import RegisterPage from "./RegisterPage";
 
 function HomePage() {
+    const auth = useAuth();
     return (
-        <div>
-            <ImportAccount/>
-            <CreateAccountForm/>
-            <ListAccount/>
-        </div>
-    )
+      <div>
+        {auth.wallet.isLogin ? (
+          <div>
+            <button onClick={() => auth.signout()}>Sign Out</button>
+            <div>
+              <div>
+                List Account
+              </div>
+             <AppMenu/>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <LoginPage />
+            <RegisterPage />
+          </div>
+        )}
+      </div>
+    );
 }
 
 export default HomePage;

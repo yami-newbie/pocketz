@@ -1,14 +1,14 @@
 
-import { useContext } from "react";
-import { UserContext } from "../service/UserContext";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { Link, List, ListItem, ListItemButton } from "@mui/material";
 import ListAccountItem from "./ListAccountItems";
 import { color } from "@mui/system";
+import { useAuth } from "../serviceData/walletAccount";
+import { useListAccount } from "../serviceData/listAccount";
 
 function ListAccount () {
-  const [account] = useLocalStorage("listAccount", []);
-  const { wallet } = useContext(UserContext);
+  const auth = useAuth();
+  const listAcc = useListAccount();
 
     return (
       <List
@@ -20,8 +20,8 @@ function ListAccount () {
       >
         {/* <ImportAccount/>
         <CreateAccountForm /> */}
-        {wallet.isLogin && account ? (
-          account.map((doc) => {
+        {auth.wallet.isLogin && listAcc.accounts ? (
+          listAcc.accounts.map((doc) => {
             return (
               <ListItemButton
                 sx={{
@@ -31,7 +31,7 @@ function ListAccount () {
                 }}
                 key={doc.key}
               >
-                <ListAccountItem />
+                <ListAccountItem Account={doc}/>
               </ListItemButton>
             );
           })
