@@ -26,8 +26,8 @@ function SignIn() {
       {auth.wallet.isLogin ? (
         <button onClick={() => auth.signout()}>Sign Out</button>
       ) : (
-        <Card sx={{ maxWidth: 275 }}>
-          <CardContent>
+        <Card sx={{ maxWidth: 500 }}>
+          <CardContent sx={{display: "flex"}}>
             <Typography variant="h5" component="div">
               Welcome back
             </Typography>

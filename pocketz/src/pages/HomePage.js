@@ -11,9 +11,6 @@ function HomePage() {
           <div>
             <button onClick={() => auth.signout()}>Sign Out</button>
             <div>
-              <div>
-                List Account
-              </div>
              <AppMenu/>
             </div>
           </div>

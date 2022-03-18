@@ -13,6 +13,9 @@ code {
     monospace;
 }
 
+.class-set{
+  display: flex;
+}
 
 .list-Account{
   background-color: white;
@@ -20,14 +23,22 @@ code {
 
 .avatar-icon-button {
   display: flex;
-  align-items: center;
+  align-items: center;  
 }
 
 .username {
   margin-left: 10px;
-  font-size: larger;
 }
 
 .username #sub {
   font-size: smaller;
+}
+
+.header-menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu {
+  max-width: 300px;
 }

@@ -22,7 +22,6 @@ const listUser = [
 function ListAccountItem({Account}) {
     const getAvatar = () => {
         const randomAva = Math.floor(Math.random() * listAvatar.length);
-        console.log("Avatar:", randomAva);
         return listAvatar[randomAva];
     }
     const getUsername = () => {
@@ -31,7 +30,7 @@ function ListAccountItem({Account}) {
     return (
       <div className="avatar-icon-button">
         <div>
-          <Avatar src={getAvatar()} alt={getUsername()} />
+          <Avatar sx={{width: 24, height: 24}} src={getAvatar()} alt={getUsername()} />
         </div>
         <div className="username">
           <div>{Account.username}</div>
