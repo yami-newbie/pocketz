@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from '@mui/material/Button'
-import { CardContent, TextField } from "@mui/material";
+import { CardContent } from "@mui/material";
 import { OutlinedInput } from "@mui/material";
 import { Card } from "@mui/material";
 import { useListAccount } from "../serviceData/listAccount";
@@ -11,6 +11,12 @@ function CreateAccountForm() {
     const [username, setUsername] = useState("");
     const listAcc = useListAccount();
     let navigate = useNavigate();
+
+    useEffect(() => {
+      return () => {
+        setUsername("");
+      }
+    }, [])
 
     const createAccount = async () => {
       try {
@@ -28,18 +34,9 @@ function CreateAccountForm() {
           setUsername("");
     };
     return (
-      // <div>
-      //   <form onSubmit={createAccount}>
-      //     <FormControl sx={{ width: '25ch' }}>
-      //       <OutlinedInput placeholder="Username" />
-      //     </FormControl><br/><br/>
-      //     <Button variant="outlined">Cancel</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-      //     <Button variant="contained">Create</Button>
-      //   </form>
-      // </div>
       <Card sx={{ maxWidth: 275 }}>
         <CardContent>
-          <OutlinedInput placeholder="Username"/>
+          <OutlinedInput onChange={(e) => {setUsername(e.target.value)}} placeholder="Username"/>
           <Button onClick={() => navigate("/")} variant="outlined">Cancel</Button>
           <Button 
             variant="contained"

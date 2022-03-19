@@ -18,7 +18,7 @@ function ListAccountData() {
   const [count, setCount] = useLocalStorage("count", 0);
 
   const importAccount = ({username, address, privateKey}) => {
-    console.log("it here");
+    
     setKey(key + 1);
     if (username === "") 
       setCount(count + 1);
@@ -39,7 +39,7 @@ function ListAccountData() {
   const selectAccount = (key) => {
     let list = [];
     accounts.map((account) => {
-      if(account.key != key) {
+      if(account.key !== key) {
         list = [...list, setSelectedFalse(account)];
       }
       else {
@@ -49,33 +49,42 @@ function ListAccountData() {
     setAccounts(list);
   }
 
+  const getSelectedAccount = () => {
+    let _account = null;
+    accounts.map((account) => {
+      if(account.selected)
+        _account = account;
+    })
+    return _account;
+  }
+
   const setSelectedFalse = (account) => {
     return {
       key: account.key,
       username: account.username,
       selected: false,
       account: {
-        address: account.address,
-        privateKey: account.privateKey,
+        address: account.account.address,
+        privateKey: account.account.privateKey,
       },
     };
   };
 
   const setSelectedTrue = (account) => {
+    console.log(account);
     return {
       key: account.key,
       username: account.username,
       selected: true,
       account: {
-        address: account.address,
-        privateKey: account.privateKey,
+        address: account.account.address,
+        privateKey: account.account.privateKey,
       },
     };
   };
 
   useEffect(() => {
     const unsubscribe = () => {
-      console.log("work?")
       if (accounts) {
         setAccounts(accounts);
       } else {
@@ -89,5 +98,6 @@ function ListAccountData() {
     accounts,
     importAccount,
     selectAccount,
+    getSelectedAccount,
   };
 }

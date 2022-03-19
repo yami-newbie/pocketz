@@ -72,7 +72,7 @@ function ListAccount() {
               );
             })
           ) : (
-            <ListItemText>No have result</ListItemText>
+            <ListItemText sx={{pl: 3}}>Không có tài khoản nào</ListItemText>
           )
         ) : (
           <p>null</p>

@@ -4,7 +4,7 @@ const web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
 
 class AccountDataService {
   create = () => {
-    return { address: "test acc", privateKey: "test key" }; //web3.eth.accounts.create();
+    return { address: "address", privateKey: "privateKey" }; //web3.eth.accounts.create();
   };
 }
 

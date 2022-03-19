@@ -44,18 +44,10 @@ code {
   font-size: smaller;
 }
 
-.header-menu {
-  display: flex;
+.header-bar {
   justify-content: space-between;
-}
-
-.setCenter {
-  background-color: aqua;
-  width: 200px;
-}
-
-
-
-.menu {
-  max-width: 300px;
+  display: flex;
+  align-items: center;
+  padding-left: 15px;
+  padding-right: 15px;
 }
