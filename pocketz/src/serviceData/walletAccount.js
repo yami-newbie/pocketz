@@ -18,10 +18,11 @@ function WalletAccountData(){
 
     const signin = (password) => {
         if(password === wallet.password){
-            return setWallet({
+            setWallet({
             password: wallet.password,
             isLogin: true,
             });
+            return true; 
         }
         else {
             // eslint-disable-next-line no-throw-literal

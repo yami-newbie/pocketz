@@ -1,21 +1,18 @@
 import {
   toBuffer,
-  isValidPrivate,
-  bufferToHex,
-  stripHexPrefix,
+  isValidPrivate
 } from "ethereumjs-util";
 import { useEffect, useRef, useState } from "react";
 import Wallet from "ethereumjs-wallet";
-import useLocalStorage
- from "../hooks/useLocalStorage";
+import { useListAccount } from "../serviceData/listAccount";
+import {useNavigate} from 'react-router-dom'
+
 function ImportAccount() {
   const [file, setFile] = useState(null);
-  const [_src, setSrc] = useState(null);
   const [privateKey, setPrivateKey] = useState(null);
   const inputFile = useRef(null);
-   const [key, setKey] = useLocalStorage("key", 0);
-   const [count, setCount] = useLocalStorage("count", 0);
-   const [account, setAccount] = useLocalStorage("listAccount", []);
+  const listAcc = useListAccount();
+  let navigate = useNavigate();
 
   const _onchange = (e) => {
     var _file = e.target.files[0];
@@ -35,12 +32,14 @@ function ImportAccount() {
       if(!value) return false;
       const wallet = Wallet.fromPrivateKey(buffer);
 
-      setAccount({
-        key: key,
-        count: count,
+      listAcc.ImportAccount({
+        usename: "",
         address: wallet.getAddressString(),
-        privateKey: wallet.getPrivateKeyString()
+        privateKey: wallet.getPrivateKeyString(),
       });
+
+      navigate("/");
+
     } catch (e) {
       console.log(e);
     }
@@ -72,14 +71,17 @@ function ImportAccount() {
           _onchange(e);
         }}
       />
-      <form onSubmit={submit}>
+      <form>
         <input
           placeholder="private key"
           onChange={(e) => {
             setPrivateKey(e.target.value);
           }}
         />
-        <button>Import</button>
+        <div>
+          <button onClick={submit}>Import</button>
+          <button onClick={() => navigate("/")}>Cancel</button>
+        </div>
       </form>
       <br />
       {/* <pre>{file}</pre> */}

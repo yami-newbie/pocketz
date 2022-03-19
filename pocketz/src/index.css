@@ -39,6 +39,13 @@ code {
   justify-content: space-between;
 }
 
+.setCenter {
+  background-color: aqua;
+  width: 200px;
+}
+
+
+
 .menu {
   max-width: 300px;
 }

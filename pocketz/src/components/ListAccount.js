@@ -32,7 +32,7 @@ function ListAccount() {
     else{
       setValueSort(listAcc.accounts);
     }
-  }, [sortName]);
+  }, [sortName, listAcc]);
 
   return (
     <div>
@@ -65,6 +65,7 @@ function ListAccount() {
                     mr: 1,
                   }}
                   key={doc.key}
+                  onClick={() => listAcc.selectAccount(doc.key)}
                 >
                   <ListAccountItem Account={doc} />
                 </ListItemButton>

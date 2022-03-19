@@ -1,5 +1,6 @@
-import { Avatar, Grid, IconButton } from "@mui/material";
-
+import { Avatar } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
+import { sizeHeight } from "@mui/system";
 const listAvatar = [
   "./images/91266124_p0.jpg",
   "./images/91848990_p0.jpg",
@@ -30,7 +31,14 @@ function ListAccountItem({Account}) {
     return (
       <div className="avatar-icon-button">
         <div>
-          <Avatar sx={{width: 24, height: 24}} src={getAvatar()} alt={getUsername()} />
+          {Account.selected ? <DoneIcon /> : <div style={{ width: 24 }}></div>}
+        </div>
+        <div>
+          <Avatar
+            sx={{ width: 24, height: 24, ml: 1 }}
+            src={getAvatar()}
+            alt={getUsername()}
+          />
         </div>
         <div className="username">
           <div>{Account.username}</div>

@@ -1,24 +1,18 @@
 import AppMenu from "../components/AppMenu";
 import { useAuth } from "../serviceData/walletAccount";
-import LoginPage from "./LoginPage";
-import RegisterPage from "./RegisterPage";
+import {useNavigate} from 'react-router-dom'
 
 function HomePage() {
+  let navigate = useNavigate();
     const auth = useAuth();
     return (
       <div>
         {auth.wallet.isLogin ? (
           <div>
-            <button onClick={() => auth.signout()}>Sign Out</button>
-            <div>
-             <AppMenu/>
-            </div>
+            <AppMenu />
           </div>
         ) : (
-          <div>
-            <LoginPage />
-            <RegisterPage />
-          </div>
+          navigate("./login")
         )}
       </div>
     );
