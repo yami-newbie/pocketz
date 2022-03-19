@@ -1,17 +1,18 @@
 import useLocalStorage from "../hooks/useLocalStorage";
 import React, { useState } from "react";
-import accountDataService from '../serviceData/accountETH'
+import ReactDOM from 'react-dom';
+import accountDataService from '../service/account'
 import Button from '@mui/material/Button'
 import { CardContent, TextField } from "@mui/material";
+import { FormControl } from "@mui/material";
 import { OutlinedInput } from "@mui/material";
 import { Card } from "@mui/material";
-import { useListAccount } from "../serviceData/listAccount";
 
 function CreateAccountForm() {
     const [username, setUsername] = useState("");
     const [key, setKey] = useLocalStorage("key", 0);
     const [count, setCount] = useLocalStorage("count", 0);
-    const listAcc = useListAccount();
+    const [account, setAccount] = useLocalStorage("listAccount", []);
 
     const createAccount = async () => {
         const _key = key;
@@ -23,7 +24,8 @@ function CreateAccountForm() {
               key: key,
               username: username === "" ? "Account " + count : username,
             });
-            listAcc.addAccount(acc);
+            console.log("account");
+            setAccount([...account, acc]);
         } catch (e) {
             console.log(e);
         }
@@ -40,17 +42,20 @@ function CreateAccountForm() {
       //     <Button variant="contained">Create</Button>
       //   </form>
       // </div>
-      <Card sx={{ maxWidth: 275 }}>
-        <CardContent>
-          <OutlinedInput placeholder="Username"/>
-          <Button variant="outlined">Cancel</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-          <Button 
-            variant="contained"
-            onClick={createAccount}>
-              Create
-          </Button>
-        </CardContent>
-      </Card>
+      <div>
+        <Card sx={{ maxWidth: 275 }}>
+          <CardContent>
+            <OutlinedInput placeholder="Username"/>
+            <Button variant="outlined">Cancel</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <Button 
+              variant="contained"
+              onClick={createAccount}>
+                Create
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+      
     );
 }
 

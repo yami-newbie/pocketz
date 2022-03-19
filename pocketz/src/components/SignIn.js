@@ -3,9 +3,8 @@ import { CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { Card } from "@mui/material";
 import { Typography, Link } from "@mui/material";
-import LogOut from "./LogOut";
+
 import { maxHeight } from "@mui/system";
-import { Typography } from "@mui/material";
 import { useAuth } from "../serviceData/walletAccount";
 function SignIn() {
 
