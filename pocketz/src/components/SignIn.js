@@ -59,7 +59,7 @@ function SignIn() {
               Unlock
             </Button>
             <br/>
-            <p>Or</p>&nbsp;
+            <a>Or</a>&nbsp;
             <Link href="#" underline="hover">
               {'Link'}
             </Link>

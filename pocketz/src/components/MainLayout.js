@@ -1,6 +1,6 @@
 import { Button, Card, CardContent, CardHeader, Box } from '@mui/material'
 import React from 'react'
-import { IconButton, Divider, Tabs, Tab } from '@mui/material'
+import { IconButton, Divider, Tabs, Tab, Menu, MenuItem, Typography } from '@mui/material'
 import { TabList, TabContext, TabPanel  } from '@mui/lab';
 import MoreVertIcon from '@mui/icons-material/Menu';
 import { red } from '@mui/material/colors';
@@ -8,12 +8,20 @@ import { red } from '@mui/material/colors';
 export default function MainLayout() {
     const [value, setValue] = React.useState(0);
 
+    const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   const handleChangeIndex = (index) => {
     setValue(index);
+  };
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
   };
   return (
     <div>
@@ -23,9 +31,32 @@ export default function MainLayout() {
                 subheader = "text"
                 action={
                     <>
-                        <IconButton aria-label="settings">
+                        <IconButton aria-label="settings"
+                        onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                             <MoreVertIcon />
                         </IconButton>
+                        <Menu
+                        sx={{ mt: '45px' }}
+                        id="menu-appbar"
+                        anchorEl={anchorElUser}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
+                        >
+                        {settings.map((setting) => (
+                            <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                            <Typography textAlign="center">{setting}</Typography>
+                            </MenuItem>
+                        ))}
+                        </Menu>
                     </>
                 }
             />
