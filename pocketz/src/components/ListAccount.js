@@ -1,35 +1,84 @@
-
-import { useContext, useEffect } from "react";
-import { UserContext } from "../service/UserContext";
-import CreateAccountForm from "./CreateAccountForm";
 import useLocalStorage from "../hooks/useLocalStorage";
-import ImportAccount from "./ImportAccount";
+import {
+  Link,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+} from "@mui/material";
+import ListAccountItem from "./ListAccountItems";
+import { alpha, color } from "@mui/system";
+import { useAuth } from "../serviceData/walletAccount";
+import { useListAccount } from "../serviceData/listAccount";
+import { useEffect, useState } from "react";
+import styled from "@emotion/styled";
+import { Search } from "./customs/Search";
 
-function ListAccount () {
-  const [account] = useLocalStorage("listAccount", []);
-  const { wallet } = useContext(UserContext);
+function ListAccount() {
+  const auth = useAuth();
+  const listAcc = useListAccount();
+  const [sortName, setSortName] = useState("");
+  const [valueSort, setValueSort] = useState(listAcc.accounts);
+  
+  useEffect(() => {
+    if (sortName !== "") {
+      let list = [];
+      listAcc.accounts.map((acc) => {
+        if (acc.username.toLowerCase().includes(sortName.toLowerCase()))
+          list = [...list, acc];
+      });
+      setValueSort(list);
+    }
+    else{
+      setValueSort(listAcc.accounts);
+    }
+  }, [sortName]);
 
-    return (
-      <div>
-        <ImportAccount/>
-        <CreateAccountForm />
-        {wallet.isLogin && account ? (
-          <ul>
-            {account.map((doc) => {
+  return (
+    <div>
+      <Search
+        sx={{
+          mr: 1,
+        }}
+        onchange={(e) => {
+          setSortName(e.target.value);
+        }}
+      />
+      <List
+        className="list-Account"
+        sx={{
+          mr: 1,
+          overflow: "auto",
+          maxHeight: 100,
+          width: '100%'
+        }}
+      >
+        {/* <ImportAccount/>
+        <CreateAccountForm /> */}
+        {auth.wallet.isLogin && listAcc.accounts ? (
+          valueSort.length ? (
+            valueSort.map((doc) => {
               return (
-                <li key={doc.key}>
-                  Username: {doc.username} <br />
-                  Address: {doc.account.address} <br />
-                  PrivateKey: {doc.account.privateKey}
-                </li>
+                <ListItemButton
+                  sx={{
+                    ml: 1,
+                    mr: 1,
+                  }}
+                  key={doc.key}
+                >
+                  <ListAccountItem Account={doc} />
+                </ListItemButton>
               );
-            })}
-          </ul>
+            })
+          ) : (
+            <ListItemText>No have result</ListItemText>
+          )
         ) : (
           <p>null</p>
         )}
-      </div>
-    );
+      </List>
+    </div>
+  );
 }
 
 export default ListAccount;

@@ -1,20 +1,15 @@
-import { useContext, useState } from "react";
-import useLocalStorage from "../hooks/useLocalStorage";
-import { UserContext } from "../service/UserContext";
+import { useState } from "react";
 import { Card, CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
+import { useAuth } from "../serviceData/walletAccount";
 
 function SignUp() {
-  const [wallet, setWallet] = useLocalStorage("wallet", {});
-
+  const wallet = useAuth();
   const [password, setPassword] = useState("");
 
   const signUp = async () => {
     if (password !== "") {
-      await setWallet({
-        password: password,
-        isLogin: true,
-      });
+      wallet.signup(password);
     }
   };
   return (

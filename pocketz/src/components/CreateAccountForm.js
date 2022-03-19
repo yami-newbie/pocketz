@@ -1,18 +1,17 @@
 import useLocalStorage from "../hooks/useLocalStorage";
 import React, { useState } from "react";
-import ReactDOM from 'react-dom';
-import accountDataService from '../service/account'
+import accountDataService from '../serviceData/accountETH'
 import Button from '@mui/material/Button'
 import { CardContent, TextField } from "@mui/material";
-import { FormControl } from "@mui/material";
 import { OutlinedInput } from "@mui/material";
 import { Card } from "@mui/material";
+import { useListAccount } from "../serviceData/listAccount";
 
 function CreateAccountForm() {
     const [username, setUsername] = useState("");
     const [key, setKey] = useLocalStorage("key", 0);
     const [count, setCount] = useLocalStorage("count", 0);
-    const [account, setAccount] = useLocalStorage("listAccount", []);
+    const listAcc = useListAccount();
 
     const createAccount = async () => {
         const _key = key;
@@ -24,8 +23,7 @@ function CreateAccountForm() {
               key: key,
               username: username === "" ? "Account " + count : username,
             });
-            console.log("account");
-            setAccount([...account, acc]);
+            listAcc.addAccount(acc);
         } catch (e) {
             console.log(e);
         }

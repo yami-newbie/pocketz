@@ -1,34 +1,33 @@
-import { useContext, useState } from "react";
-import { UserContext } from "../service/UserContext";
+import { useState } from "react";
 import { CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { Card } from "@mui/material";
 import { Typography, Link } from "@mui/material";
 import LogOut from "./LogOut";
 import { maxHeight } from "@mui/system";
+import { Typography } from "@mui/material";
+import { useAuth } from "../serviceData/walletAccount";
 function SignIn() {
+
   const [password, setPassword] = useState("");
-  const { wallet, setWallet } = useContext(UserContext);
+  const auth = useAuth();
 
   const login = async () => {
     try {
-      if (wallet.password !== "") {
-        console.log("it here");
-        if (wallet.password === password) {
-          await setWallet({
-            isLogin: true,
-            password: wallet.password,
-          });
-        }
+      if (auth.wallet.password !== "") {
+        auth.signin(password);
       } else console.log("It null");
     } catch (e) {
-      console.log(e);
+      if(e === "password not true"){
+        //console.log("sai mat khau")
+      }
     }
   };
+  
   return (
-    <div  class = "centered">
-      {wallet.isLogin ? (
-        <LogOut />
+    <div>
+      {auth.wallet.isLogin ? (
+        <button onClick={() => auth.signout()}>Sign Out</button>
       ) : (
         <Card sx={{ maxWidth: '100%', width: 500}}>
           <CardContent sx={{ maxWidth: '100%', width: 500}}>

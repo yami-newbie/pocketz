@@ -32,18 +32,15 @@ function ImportAccount() {
       const prefixed = addHexPrefix(privateKey); // toBuffer(privateKey)
       const buffer = toBuffer(prefixed);
       const value = isValidPrivate(buffer);
+      if(!value) return false;
       const wallet = Wallet.fromPrivateKey(buffer);
-      console.log("address", wallet.getAddressString());
-      const acc = {
+
+      setAccount({
         key: key,
-        username: "Account " + count,
-        account: { 
-            address: wallet.getAddressString(), 
-            privateKey: wallet.getPrivateKeyString()
-        },
-      };
-      console.log("account");
-      setAccount([...account, acc]);
+        count: count,
+        address: wallet.getAddressString(),
+        privateKey: wallet.getPrivateKeyString()
+      });
     } catch (e) {
       console.log(e);
     }
