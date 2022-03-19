@@ -39,26 +39,28 @@ function SignUp() {
     //   /><br/><br/>
     //   <Button variant="contained">Sign up</Button>
     // </form>
-    <Card sx={{ maxWidth: 275 }}>
-      <CardContent>
-        <TextField
-          id="standard-basic"
-          label="New password"
-          variant="standard"
-          type="password"/><br/><br/>
-        <TextField
-          id="standard-basic"
-          label="Confirm password"
-          variant="standard"
-          type="password"/><br/><br/>
-        <Button
-          variant="contained"
-          onClick={(e) => {
-            setPassword(e.target.value);
-          }}
-        >Sign up</Button>
-      </CardContent>
-    </Card>
+    <div class = "centered">
+      <Card sx={{ maxWidth: 275 }}>
+        <CardContent>
+          <TextField
+            id="standard-basic"
+            label="New password"
+            variant="standard"
+            type="password"/><br/><br/>
+          <TextField
+            id="standard-basic"
+            label="Confirm password"
+            variant="standard"
+            type="password"/><br/><br/>
+          <Button
+            variant="contained"
+            onClick={(e) => {
+              setPassword(e.target.value);
+            }}
+          >Sign up</Button>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 
