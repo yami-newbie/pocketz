@@ -2,6 +2,9 @@ import { useState } from "react";
 import { CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { Card } from "@mui/material";
+import { Typography, Link } from "@mui/material";
+import LogOut from "./LogOut";
+import { maxHeight } from "@mui/system";
 import { Typography } from "@mui/material";
 import { useAuth } from "../serviceData/walletAccount";
 import { useNavigate } from "react-router-dom";
@@ -26,27 +29,46 @@ function SignIn() {
   
   return (
     <div>
-      <Card sx={{ maxWidth: 300 }}>
-        <CardContent>
-          <Typography variant="h5" component="div">
-            Welcome back
-          </Typography>
-          <TextField
-            id="standard-basic"
-            label="Password"
-            variant="standard"
-            type="password"
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          />
-          <br />
-          <br />
-          <Button onClick={login} variant="contained">
-            Unlock
-          </Button>
-        </CardContent>
-      </Card>
+      {auth.wallet.isLogin ? (
+        <button onClick={() => auth.signout()}>Sign Out</button>
+      ) : (
+        <Card sx={{ maxWidth: '100%', width: 500}}>
+          <CardContent sx={{ maxWidth: '100%', width: 500}}>
+            <Typography variant="h3" component="div">
+              Welcome back
+            </Typography>
+            <br/>
+            <br/>
+            <Typography variant="h5" component="div">
+              Welcome to pocketz
+            </Typography>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <TextField
+              id="standard-basic"
+              label="Password"
+              variant="standard"
+              type="password"
+              property="fullWidth"
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+            />
+            <br/>
+            <br/>
+            <Button onClick={login} variant="contained">
+              Unlock
+            </Button>
+            <br/>
+            <p>Or</p>&nbsp;
+            <Link href="#" underline="hover">
+              {'Link'}
+            </Link>
+          </CardContent>
+        </Card>
+      )}
     </div>
     // <form onSubmit={login}>
     //   <TextField
