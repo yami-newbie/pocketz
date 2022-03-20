@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Wallet from "ethereumjs-wallet";
 import { useListAccount } from "../serviceData/listAccount";
 import {useNavigate} from 'react-router-dom'
+import AccountDataService from '../serviceData/accountETH'
 
 function ImportAccount() {
   const [file, setFile] = useState(null);
@@ -26,18 +27,20 @@ function ImportAccount() {
   };
   const submit = () => {
     try {
+      
       const prefixed = addHexPrefix(privateKey); // toBuffer(privateKey)
       const buffer = toBuffer(prefixed);
       const value = isValidPrivate(buffer);
       if(!value) return false;
       const wallet = Wallet.fromPrivateKey(buffer);
+      console.log(wallet.getPublicKeyString());
 
-      listAcc.ImportAccount({
-        usename: "",
+      listAcc.importAccount({
+        username: "",
         address: wallet.getAddressString(),
         privateKey: wallet.getPrivateKeyString(),
       });
-
+      
       navigate("/");
 
     } catch (e) {
