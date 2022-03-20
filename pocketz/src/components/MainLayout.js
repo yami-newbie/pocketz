@@ -17,7 +17,7 @@ export default function MainLayout({Account}) {
         setBalance(bal);
       }
       load();
-  }, [])
+  }, [Account])
   return (
     <div>
       <Card sx={{ minWidth: 345 }}>

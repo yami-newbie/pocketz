@@ -17,7 +17,6 @@ class AccountDataService {
   getBalance = async (address) => {
     var balance = await web3.eth.getBalance(address); //Will give value in.
     balance = web3.utils.fromWei(String(balance));
-    console.log(balance);
     return balance.toString();
   }
 }
