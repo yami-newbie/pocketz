@@ -31,14 +31,15 @@ function SignIn() {
       ) : (
         <Card sx={{ maxWidth: '100%', width: 500}}>
           <CardContent sx={{ maxWidth: '100%', width: 500}}>
-            <Typography variant="h3" component="div">
-              Welcome back
-            </Typography>
-            <br/>
-            <br/>
-            <Typography variant="h5" component="div">
-              Welcome to pocketz
-            </Typography>
+            <div style = {{ display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', height: '40vh'}}>
+              <Typography variant="h3" component="div">
+                Welcome back
+              </Typography>
+              <br/>
+              <Typography variant="h5" component="div">
+                Welcome to pocketz
+              </Typography>
+            </div>
             <br/>
             <br/>
             <br/>
