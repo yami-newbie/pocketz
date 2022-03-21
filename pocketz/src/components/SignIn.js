@@ -3,19 +3,19 @@ import { CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { Card } from "@mui/material";
 import { Typography, Link, Box } from "@mui/material";
-import { useAuth } from "../serviceData/walletAccount";
+import { useWallet } from "../serviceData/walletAccount";
 import { useNavigate } from "react-router-dom";
 
 function SignIn() {
   let navigate = useNavigate();
 
   const [password, setPassword] = useState("");
-  const auth = useAuth();
+  const wallet = useWallet();
 
   const login = async () => {
     try {
-      if (auth.wallet.password !== "")
-        if(auth.signin(password))
+      if (wallet.wallet.password !== "")
+        if(wallet.signin(password))
           navigate("/");
     } catch (e) {
       if(e === "password not true"){
@@ -26,8 +26,8 @@ function SignIn() {
   
   return (
     <div className="centered">
-      {auth.wallet.isLogin ? (
-        <button onClick={() => auth.signout()}>Sign Out</button>
+      {wallet.wallet.isLogin ? (
+        <button onClick={() => wallet.signout()}>Sign Out</button>
       ) : (
         <Card sx={{ width: 400, height: 500 }}>
           <CardContent

@@ -14,7 +14,7 @@ export default function MainLayout({Account}) {
   };
   useEffect(() => {
     const load = async () => {
-      const bal = await web3.getBalance(Account.account.address);
+      const bal = Account ? await web3.getBalance(Account.account.address) : 0;
       setBalance(bal);
     };
     load();

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import { AppProvider } from './components/Provider/AppProvider';
 import CreateAccountPage from './pages/CreateAcountPage';
@@ -6,37 +6,15 @@ import HomePage from './pages/HomePage';
 import ImportAccountPage from './pages/ImportAccountPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-//import { useMoralis } from "react-moralis";
+import SendTransactionPage from './pages/SendTxPage';
 
 function App() {
-  // const {
-  //   authenticate,
-  //   isAuthenticated,
-  //   isAuthenticating,
-  //   user,
-  //   account,
-  //   logout,
-  // } = useMoralis();
-  // useEffect(() => {
-  //   const login = async () => {
-  //     if (!isAuthenticated) {
 
-  //       await authenticate({signingMessage: "Log in using Moralis" })
-  //         .then(function (user) {
-  //           console.log("logged in user:", user);
-  //           console.log(user?.get("ethAddress"));
-  //         })
-  //         .catch(function (error) {
-  //           console.log(error);
-  //         });
-  //     }
-  //   }
-  //   login();
-  // }, [])
   return (
     <AppProvider>
         <BrowserRouter>
           <Routes>
+            <Route path="/sendtx" element={<SendTransactionPage/>}></Route>
             <Route path="/" element={<HomePage />}></Route>
             <Route path="/login" element={<LoginPage />}></Route>
             <Route path="/register" element={<RegisterPage />}></Route>

@@ -1,30 +1,9 @@
+import { ethers } from 'ethers';
 import { createContext, useContext, useEffect, useState } from 'react';
 import Web3 from 'web3'
 import useLocalStorage from '../hooks/useLocalStorage';
 
-// let web3 = new Web3(
-//   "wss://ropsten.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647"
-// );
-
-// class AccountDataService {
-//   create = () => {
-//     const account = web3.eth.accounts.create();
-//     return account;
-//   };
-
-//   getLibrary = (provider) => {
-//     web3 = new Web3(provider);
-//     return web3;
-//   }
-
-//   getBalance = async (address) => {
-//     var balance = await web3.eth.getBalance(address); //Will give value in.
-//     balance = web3.utils.fromWei(String(balance));
-//     return balance.toString();
-//   }
-// }
-// export default new AccountDataService();
-const defaultProvider = [
+export const defaultProvider = [
   {
     providerUrl: "wss://ropsten.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: true,
@@ -87,8 +66,55 @@ function AccountETH() {
   );
 
   const create = () => {
-    const account = web3.eth.accounts.create();
+    const account = getWeb3().eth.accounts.create();
     return account;
+  };
+
+  const sendTx = async () => {
+    const myAddress = "0x9b256C409b86dD70C3F335f2Ed404F4Be314BfF5"; //TODO: replace this address with your own public address
+
+    const nonce = await getWeb3().eth.getTransactionCount(myAddress, "latest");
+    let gasPrice = null;
+    web3.eth.getGasPrice().then((gas) => {gasPrice = gas});
+    const transaction = {
+      to: "toAddress", // faucet address to return eth
+      value: ethers.utils.parseUnits("0.001", "ether"),
+      gas: gasPrice,
+      maxPriorityFeePerGas: ethers.utils.hexlify(100000),
+      nonce: nonce,
+      // optional data field to send message or execute smart contract
+    };
+    console.log(transaction);
+    // const signedTx = await web3.eth.accounts.signTransaction(
+    //   transaction,
+    //   "privateKey"
+    // );
+
+    // web3.eth.sendSignedTransaction(
+    //   signedTx.rawTransaction,
+    //   function (error, hash) {
+    //     if (!error) {
+    //       console.log(
+    //         "🎉 The hash of your transaction is: ",
+    //         hash,
+    //         "\n Check Alchemy's Mempool to view the status of your transaction!"
+    //       );
+    //     } else {
+    //       console.log(
+    //         "❗Something went wrong while submitting your transaction:",
+    //         error
+    //       );
+    //     }
+    //   }
+    // );
+  };
+
+  const setDefaultAccount = (address) => {
+    getWeb3().defaultAccount = address;
+  }
+
+  const getDefaultAccount = () => {
+    return getWeb3().defaultAccount;
   };
 
   const getSelectedProvider = () => {
@@ -158,21 +184,17 @@ function AccountETH() {
     return balance.toString();
   };
 
-  useEffect(() => {
-    const init = () => {
-      console.log("it init");
-    }
-    init();
-  }, [])
-
   return {
     providers,
     create,
     getBalance,
-    getLibrary: getWeb3,
+    getWeb3,
     getProviders,
     addProvider,
     switchProvider,
     getSelectedProvider,
+    setDefaultAccount,
+    getDefaultAccount,
+    sendTx,
   };
 }

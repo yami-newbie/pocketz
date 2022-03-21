@@ -1,28 +1,26 @@
 import { useEffect, useState } from "react";
 import { Card, CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
-import { useAuth } from "../serviceData/walletAccount";
+import { useWallet } from "../serviceData/walletAccount";
 import { useNavigate } from "react-router";
 
 function SignUp() {
   let navigate = useNavigate();
-  const wallet = useAuth();
+  const wallet = useWallet();
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
-    if(!wallet.wallet){
+    if(wallet.wallet.isLogin){
       return navigate("/")
     }
-  })
+  }, [wallet])
 
   const signUp = async () => {
     if (password !== "" && confirmpassword !== "") {
       if(password === confirmpassword) {
         wallet.signup(password);
-        navigate("/");
       }
-
     }
   };
   return (

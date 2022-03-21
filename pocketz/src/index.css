@@ -23,6 +23,20 @@ code {
     monospace;
 }
 
+.input-center {
+  display: flex;
+  flex-direction: column;
+  max-width: 200px;
+}
+
+.send-center {
+  margin-left: 10px;
+}
+
+.input-center input {
+  margin: 10px;
+}
+
 .class-set{
   display: flex;
 }

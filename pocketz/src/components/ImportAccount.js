@@ -3,11 +3,10 @@ import {
   isValidPrivate
 } from "ethereumjs-util";
 import * as React from 'react';
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Wallet from "ethereumjs-wallet";
 import { useListAccount } from "../serviceData/listAccount";
-import {useNavigate} from 'react-router-dom'
-import AccountDataService from '../serviceData/accountETH'
+import { useNavigate } from 'react-router-dom'
 import {
   MenuItem,
   Card,
