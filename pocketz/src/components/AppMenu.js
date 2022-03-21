@@ -19,9 +19,11 @@ function AppMenu() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
+
   return (
     <CardHeader
       title={selectedAccount?.username}

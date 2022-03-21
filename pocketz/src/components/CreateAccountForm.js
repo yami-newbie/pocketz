@@ -5,12 +5,13 @@ import { OutlinedInput } from "@mui/material";
 import { Card } from "@mui/material";
 import { useListAccount } from "../serviceData/listAccount";
 import { useNavigate } from "react-router";
-import AccountDataService from '../serviceData/accountETH';
+import { useWeb3Service } from '../serviceData/accountETH';
 
 function CreateAccountForm() {
     const [username, setUsername] = useState("");
     const listAcc = useListAccount();
     let navigate = useNavigate();
+    const web3 = useWeb3Service();
 
     useEffect(() => {
       return () => {
@@ -20,7 +21,7 @@ function CreateAccountForm() {
 
     const createAccount = async () => {
       try {
-        const acc = await AccountDataService.create();
+        const acc = await web3.create();
         listAcc.importAccount({
           username: username ? username : "",
           address: acc.address,

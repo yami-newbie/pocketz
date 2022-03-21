@@ -1,23 +1,24 @@
 import {  Card, CardContent } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { Divider, Tabs, Tab } from '@mui/material';
-import accountETH from "../serviceData/accountETH";
+import { useWeb3Service } from "../serviceData/accountETH";
 import AppMenu from "./AppMenu";
 
 export default function MainLayout({Account}) {
     const [value, setValue] = useState(0);
     const [balance, setBalance] = useState();
+    const web3 = useWeb3Service();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   useEffect(() => {
-      const load = async () => {
-        const bal = await accountETH.getBalance(Account.account.address);
-        setBalance(bal);
-      }
-      load();
-  }, [Account])
+    const load = async () => {
+      const bal = await web3.getBalance(Account.account.address);
+      setBalance(bal);
+    };
+    load();
+  }, [Account]);
   return (
     <div>
       <Card sx={{ minWidth: 345 }}>

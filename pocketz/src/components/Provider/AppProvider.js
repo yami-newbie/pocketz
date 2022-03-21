@@ -1,13 +1,12 @@
+import ProviderWeb3Service from "../../serviceData/accountETH";
 import { ProvideAccountList } from "../../serviceData/listAccount";
 import { ProvideAuth } from "../../serviceData/walletAccount";
-import Web3ProviderApp from "./Web3Provider";
 export function AppProvider({ children }) {
-  
   return (
-    <Web3ProviderApp>
-      <ProvideAuth>
-        <ProvideAccountList>{children}</ProvideAccountList>
-      </ProvideAuth>
-    </Web3ProviderApp>
+    <ProvideAuth>
+      <ProvideAccountList>
+        <ProviderWeb3Service>{children}</ProviderWeb3Service>
+      </ProvideAccountList>
+    </ProvideAuth>
   );
 };
