@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import Wallet from "ethereumjs-wallet";
 import { useListAccount } from "../serviceData/listAccount";
 import {useNavigate} from 'react-router-dom'
-import { Card, CardContent, Divider, TextField, Typography } from "@mui/material";
+import { Card, CardContent, Divider, TextField, Typography, Box, MenuItem } from "@mui/material";
 
 function ImportAccount() {
   const [file, setFile] = useState(null);
@@ -112,21 +112,31 @@ function ImportAccount() {
           <Typography variant="p" component="div">
             Type:
           </Typography>
-          <TextField
-            id = "outline-selected-type"
-            select
-            value={way}
-            onChange={handleChange}
-            helperText="Please select your input method"
+          <Box
+            component="form"
+            sx={{
+              '& .MuiTextField-root': { m: 1, width: '25ch' },
+            }}
+            noValidate
+            autoComplete="off"
           >
-            {
-              ways.map((option) =>(
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))
-            }
-          </TextField>
+            <TextField
+              id = "outline-selected-type"
+              select
+              value={way}
+              onChange={handleChange}
+              helperText="Please select your input method"
+            >
+              {
+                ways.map((option) =>(
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))
+              }
+            </TextField>
+          </Box>
+          
           <Divider/>
           <input
             type="file"

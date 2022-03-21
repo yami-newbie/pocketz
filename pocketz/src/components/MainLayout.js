@@ -11,8 +11,8 @@ export default function MainLayout(Account) {
   };
 
   return (
-    <div>
-        <Card sx={{ minWidth: 345 }}>
+    <div className='centered'>
+        <Card sx={{ width: 345 }}>
             <AppMenu/>
             <CardContent>
                 <Divider />

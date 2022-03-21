@@ -6,6 +6,7 @@ import { Typography, Link, Box } from "@mui/material";
 import { useAuth } from "../serviceData/walletAccount";
 import { useNavigate } from "react-router-dom";
 
+
 function SignIn() {
   let navigate = useNavigate();
 
@@ -29,10 +30,10 @@ function SignIn() {
       {auth.wallet.isLogin ? (
         <button onClick={() => auth.signout()}>Sign Out</button>
       ) : (
-        <Card sx={{ width: 400}} >
+        <Card sx={{ width: 275}} >
           <CardContent>
             <div style = {{ display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', height: '40vh'}}>
-              <Typography variant="h3" component="div">
+              <Typography variant="h4" component="div">
                 Welcome back
               </Typography>
               <br/>
@@ -46,7 +47,7 @@ function SignIn() {
               label="Password"
               variant="standard"
               type="password"
-              sx = {{ width: 400, maxWidth: '100%' }}
+              sx = {{ width: 275, maxWidth: '100%' }}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
