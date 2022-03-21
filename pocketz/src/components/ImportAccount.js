@@ -2,10 +2,12 @@ import {
   toBuffer,
   isValidPrivate
 } from "ethereumjs-util";
+import * as React from 'react';
 import { useEffect, useRef, useState } from "react";
 import Wallet from "ethereumjs-wallet";
 import { useListAccount } from "../serviceData/listAccount";
 import {useNavigate} from 'react-router-dom'
+import { Card, CardContent, Divider, TextField, Typography } from "@mui/material";
 
 function ImportAccount() {
   const [file, setFile] = useState(null);
@@ -62,9 +64,24 @@ function ImportAccount() {
 
     return `0x${str}`;
   };
+  const ways = [
+    {
+      value: 'key',
+      label: 'private key',
+    },
+    {
+      value: 'json',
+      label: 'JSON',
+    }
+  ]
+  const [way, setWay] = React.useState('key');
+
+  const handleChange = (event) => {
+    setWay(event.target.value);
+  };
   return (
-    <div>
-      <input
+    <div className="centered">
+      {/* <input
         type="file"
         ref={inputFile}
         onChange={(e) => {
@@ -83,9 +100,49 @@ function ImportAccount() {
           <button onClick={() => navigate("/")}>Cancel</button>
         </div>
       </form>
-      <br />
+      <br /> */}
       {/* <pre>{file}</pre> */}
       {/* { file ? <img src={_src} alt='img' id = "imgShow"/> : null} */}
+      <Card sx={{ maxWidth: 275 }}>
+        <CardContent>
+          <Typography variant="h5" component="div">
+            ImportAccount
+          </Typography>
+          <Divider/>
+          <Typography variant="p" component="div">
+            Type:
+          </Typography>
+          <TextField
+            id = "outline-selected-type"
+            select
+            value={way}
+            onChange={handleChange}
+            helperText="Please select your input method"
+          >
+            {
+              ways.map((option) =>(
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))
+            }
+          </TextField>
+          <Divider/>
+          <input
+            type="file"
+            ref={inputFile}
+            onChange={(e) => {
+              _onchange(e);
+            }}
+          />
+          <TextField id="outlined-basic" label="Password" variant="outlined" />
+          <Divider/>
+          <Typography variant="p" component="div">
+            Paste your private key here:
+          </Typography>
+          <TextField id="outlined-basic" label="Private key" variant="outlined" />
+        </CardContent>
+      </Card>
     </div>
   );
 }

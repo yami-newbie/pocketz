@@ -10,8 +10,6 @@ function HomePage() {
     const listAccount = useListAccount();
     useEffect(() => {
       const init = () => {
-        console.log("auth.wallet.password", auth.wallet.password);
-        console.log("auth.wallet.isLogin", auth.wallet.isLogin);
         if(!auth.wallet.password) {
           console.log("nah");
           return navigate("./register")
