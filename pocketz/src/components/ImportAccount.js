@@ -8,7 +8,14 @@ import Wallet from "ethereumjs-wallet";
 import { useListAccount } from "../serviceData/listAccount";
 import {useNavigate} from 'react-router-dom'
 import AccountDataService from '../serviceData/accountETH'
-import { Card, CardContent, Divider, TextField, Typography } from "@mui/material";
+import {
+  MenuItem,
+  Card,
+  CardContent,
+  Divider,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 function ImportAccount() {
   const [file, setFile] = useState(null);
@@ -111,39 +118,52 @@ function ImportAccount() {
           <Typography variant="h5" component="div">
             ImportAccount
           </Typography>
-          <Divider/>
+          <Divider />
           <Typography variant="p" component="div">
             Type:
           </Typography>
+
           <TextField
-            id = "outline-selected-type"
+            id="outline-selected-type"
             select
             value={way}
             onChange={handleChange}
             helperText="Please select your input method"
           >
-            {
-              ways.map((option) =>(
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))
-            }
+            {ways.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
           </TextField>
-          <Divider/>
-          <input
-            type="file"
-            ref={inputFile}
-            onChange={(e) => {
-              _onchange(e);
-            }}
-          />
+
+          <Divider />
+          {way === ways[1].value ? (
+            <input
+              type="file"
+              ref={inputFile}
+              onChange={(e) => {
+                _onchange(e);
+              }}
+            />
+          ) : (
+            <div>
+              <Typography variant="p" component="div">
+                Paste your private key here:
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Private key"
+                variant="outlined"
+                onChange={(e) => {
+                  setPrivateKey(e.target.value)
+                }}
+              />
+            </div>
+          )}
+
           <TextField id="outlined-basic" label="Password" variant="outlined" />
-          <Divider/>
-          <Typography variant="p" component="div">
-            Paste your private key here:
-          </Typography>
-          <TextField id="outlined-basic" label="Private key" variant="outlined" />
+          <Divider />
         </CardContent>
       </Card>
     </div>

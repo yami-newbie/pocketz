@@ -29,40 +29,60 @@ function SignIn() {
       {auth.wallet.isLogin ? (
         <button onClick={() => auth.signout()}>Sign Out</button>
       ) : (
-        <Card sx={{ width: 400}} >
-          <CardContent>
-            <div style = {{ display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', height: '40vh'}}>
+        <Card sx={{ width: 400, height: 500 }}>
+          <CardContent
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
+            }}
+          >
+            <div
+              style={{
+                height: "40vh",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+              }}
+            >
               <Typography variant="h3" component="div">
                 Welcome back
               </Typography>
-              <br/>
+              <br />
               <Typography variant="h5" component="div">
                 Welcome to pocketz
               </Typography>
             </div>
-            
+
             <TextField
               id="fullWidth"
               label="Password"
               variant="standard"
               type="password"
-              sx = {{ width: 400, maxWidth: '100%' }}
+              sx={{ width: 400, maxWidth: "80%" }}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
-            
-            <br/>
-            <br/>
-            <div style = {{ display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', height: '10vh'}}>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                height: "10vh",
+              }}
+            >
               <Button onClick={login} variant="contained">
                 Unlock
               </Button>
             </div>
-            <br/>
-            <a>Or</a>&nbsp;
+            <a>Or</a>
             <Link href="#" underline="hover">
-              {'Link'}
+              {"Link"}
             </Link>
           </CardContent>
         </Card>
