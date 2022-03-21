@@ -2,7 +2,7 @@ import { useState } from "react";
 import { CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { Card } from "@mui/material";
-import { Typography, Link } from "@mui/material";
+import { Typography, Link, Box } from "@mui/material";
 import { useAuth } from "../serviceData/walletAccount";
 import { useNavigate } from "react-router-dom";
 
@@ -25,39 +25,40 @@ function SignIn() {
   };
   
   return (
-    <div>
+    <div className="centered">
       {auth.wallet.isLogin ? (
         <button onClick={() => auth.signout()}>Sign Out</button>
       ) : (
-        <Card sx={{ maxWidth: '100%', width: 500}}>
-          <CardContent sx={{ maxWidth: '100%', width: 500}}>
-            <Typography variant="h3" component="div">
-              Welcome back
-            </Typography>
-            <br/>
-            <br/>
-            <Typography variant="h5" component="div">
-              Welcome to pocketz
-            </Typography>
-            <br/>
-            <br/>
-            <br/>
-            <br/>
+        <Card sx={{ width: 400}} >
+          <CardContent>
+            <div style = {{ display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', height: '40vh'}}>
+              <Typography variant="h3" component="div">
+                Welcome back
+              </Typography>
+              <br/>
+              <Typography variant="h5" component="div">
+                Welcome to pocketz
+              </Typography>
+            </div>
+            
             <TextField
-              id="standard-basic"
+              id="fullWidth"
               label="Password"
               variant="standard"
               type="password"
-              property="fullWidth"
+              sx = {{ width: 400, maxWidth: '100%' }}
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
             />
+            
             <br/>
             <br/>
-            <Button onClick={login} variant="contained">
-              Unlock
-            </Button>
+            <div style = {{ display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', height: '10vh'}}>
+              <Button onClick={login} variant="contained">
+                Unlock
+              </Button>
+            </div>
             <br/>
             <a>Or</a>&nbsp;
             <Link href="#" underline="hover">
