@@ -122,6 +122,27 @@ function ListAccountData() {
     });
   }
 
+  const changeUsername = (account, username) => {
+    let list = [];
+    accounts.map((_account) => {
+      if (_account !== account) {
+        list = [...list, _account];
+      }
+      else {
+        list = [
+          ...list,
+          {
+            key: account.key,
+            username: username,
+            account: account.account,
+            selected: account.selected,
+          },
+        ];
+      }
+    });
+    setAccounts(list);
+  }
+
   useEffect(() => {
     const init = () => {
       getSelectedAccount();
@@ -153,5 +174,6 @@ function ListAccountData() {
     removeAccount,
     getSelectedAccount,
     createAccount,
+    changeUsername,
   };
 }

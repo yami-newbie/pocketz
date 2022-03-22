@@ -12,6 +12,7 @@ function Header()
     const handleOpenUserMenu = (event) => {
       setAnchorElUser(event.currentTarget);
     };
+    
     return (
       <div>
         <Box
