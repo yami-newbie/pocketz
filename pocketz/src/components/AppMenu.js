@@ -106,10 +106,66 @@ function AppMenu() {
           <IconButton
               aria-label="settings"
               onClick={handleOpenUserMenu}
-              sx={{ p: 0, right: '0px' }}
+              sx={{ p: 0, right: '5px' }}
             >
               <MoreVertIcon />
           </IconButton>
+          <Menu
+              sx={{ mt: "45px" }}
+              id="menu-appbar"
+              anchorEl={anchorElUser}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              open={Boolean(anchorElUser)}
+              onClose={handleCloseUserMenu}
+            >
+              <MenuList>
+                <header className="header-menu">
+                  <div className="header-bar">
+                    Tài khoản của bạn
+                    <Button
+                      onClick={() => {
+                        auth.signout();
+                      }}
+                      size="small"
+                      variant="outlined"
+                    >
+                      Khóa
+                    </Button>
+                  </div>
+                </header>
+                <ListAccount />
+                <MenuItem
+                  onClick={() => {
+                    navigate("/create");
+                  }}
+                >
+                  <ListItemIcon>
+                    <AddIcon fontSize="medium" />
+                  </ListItemIcon>
+                  <Typography variant="inherit">Thêm tài khoản</Typography>
+                </MenuItem>
+                <MenuItem onClick={() => navigate("/import")}>
+                  <ListItemIcon>
+                    <KeyboardDoubleArrowDownIcon fontSize="medium" />
+                  </ListItemIcon>
+                  <Typography variant="inherit">Nhập tài khoản</Typography>
+                </MenuItem>
+                <MenuItem>
+                  <ListItemIcon>
+                    <SettingsIcon fontSize="medium" />
+                  </ListItemIcon>
+                  <Typography variant="inherit">Cài đặt</Typography>
+                </MenuItem>
+              </MenuList>
+            </Menu>
         </div>
       </Box>
     </div>
