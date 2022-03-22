@@ -7,7 +7,7 @@ import { useRef, useState } from "react";
 import Wallet from "ethereumjs-wallet";
 import { useListAccount } from "../serviceData/listAccount";
 import {useNavigate} from 'react-router-dom'
-import { Card, CardContent, Divider, TextField, Typography, Box, MenuItem } from "@mui/material";
+import { Card, CardContent, Divider, TextField, Typography, Box, MenuItem, Button } from "@mui/material";
 
 function ImportAccount() {
   const [file, setFile] = useState(null);
@@ -82,7 +82,7 @@ function ImportAccount() {
     setWay(event.target.value);
   };
   return (
-    <div className="centered">
+    <div className="centered-container">
       {/* <input
         type="file"
         ref={inputFile}
@@ -105,7 +105,7 @@ function ImportAccount() {
       <br /> */}
       {/* <pre>{file}</pre> */}
       {/* { file ? <img src={_src} alt='img' id = "imgShow"/> : null} */}
-      <Card sx={{ maxWidth: 275 }}>
+      <Card sx={{ width: 275 }}>
         <CardContent>
           <Typography variant="h5" component="div">
             ImportAccount
@@ -116,11 +116,12 @@ function ImportAccount() {
           </Typography>
 
           <TextField
+            sx = {{width: '240px'}}
             id="outline-selected-type"
+            size="small"
             select
             value={way}
             onChange={handleChange}
-            helperText="Please select your input method"
           >
             {ways.map((option) => (
               <MenuItem key={option.value} value={option.value}>
@@ -128,10 +129,9 @@ function ImportAccount() {
               </MenuItem>
             ))}
           </TextField>
-
-          <Divider />
           {way === ways[1].value ? (
             <input
+              className="centered-item-10px-topbot"
               type="file"
               ref={inputFile}
               onChange={(e) => {
@@ -140,22 +140,32 @@ function ImportAccount() {
             />
           ) : (
             <div>
-              <Typography variant="p" component="div">
-                Paste your private key here:
-              </Typography>
-              <TextField
-                id="outlined-basic"
-                label="Private key"
-                variant="outlined"
-                onChange={(e) => {
-                  setPrivateKey(e.target.value)
-                }}
-              />
+              <div className="centered-item-10px-top">
+                <Typography variant="p" component="div">
+                  Paste your private key here:
+                </Typography>
+              </div>
+              <div className="centered-item-10px-top">
+                <TextField
+                  id="outlined-basic"
+                  label="Private key"
+                  variant="outlined"
+                  onChange={(e) => {
+                    setPrivateKey(e.target.value)
+                  }}
+                />
+              </div>
             </div>
+            
           )}
-
-          <TextField id="outlined-basic" label="Password" variant="outlined" />
-          <Divider />
+          <div className="centered-item-10px-topbot">
+            <TextField id="outlined-basic" label="Password" variant="outlined" />
+          </div>
+          <div className="double-item-10px-bot">
+            <Button variant="outlined">Cancel</Button>
+            <Button variant="contained">Confirm</Button>
+          </div>
+          
         </CardContent>
       </Card>
     </div>

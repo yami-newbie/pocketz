@@ -7,11 +7,11 @@ function Header()
 {
     return (
         <div>
-            <Box sx ={{alignItems: 'center', display: 'flex', width: '700px', border: "3px solid #73AD21", justifyContent: 'space-between'}}>
+            <Box className='header'>
                 <div>
                   <img src = "favicon.ico" alt = "pocketz logo" />
                 </div>
-                <div sx ={{position: 'absolute',  border: "3px solid #f53636", right: '0px'}}>
+                <div className='absolute-right'>
                   <Avatar
                   >H</Avatar>
                 </div>

@@ -28,17 +28,23 @@ function CreateAccountForm() {
           setUsername("");
     };
     return (
-      <Card sx={{ maxWidth: 275 }}>
-        <CardContent>
-          <OutlinedInput onChange={(e) => {setUsername(e.target.value)}} placeholder="Username"/>
-          <Button onClick={() => navigate("/")} variant="outlined">Cancel</Button>
-          <Button 
-            variant="contained"
-            onClick={createAccount}>
-              Create
-          </Button>
-        </CardContent>
-      </Card>
+      <div className="centered-container">
+        <Card sx={{ maxWidth: 275 }}>
+          <CardContent>
+            <div className="centered-item-10px-topbot">
+              <OutlinedInput onChange={(e) => {setUsername(e.target.value)}} placeholder="Username"/>
+            </div>
+            <div className="double-item-10px-bot">
+              <Button onClick={() => navigate("/")} variant="outlined">Cancel</Button>
+              <Button 
+                variant="contained"
+                onClick={createAccount}>
+                  Create
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     );
 }
 

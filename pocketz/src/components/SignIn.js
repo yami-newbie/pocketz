@@ -26,13 +26,13 @@ function SignIn() {
   };
   
   return (
-    <div className="centered">
+    <div className="centered-container">
       {wallet.wallet.isLogin ? (
         <button onClick={() => wallet.signout()}>Sign Out</button>
       ) : (
         <Card sx={{ width: 275}} >
           <CardContent>
-            <div style = {{ display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', height: '40vh'}}>
+            <div className = "centered-item-40vh">
               <Typography variant="h4" component="div">
                 Welcome back
               </Typography>
@@ -41,32 +41,24 @@ function SignIn() {
                 Welcome to pocketz
               </Typography>
             </div>
-
+            
             <TextField
-              id="fullWidth"
-              label="Password"
-              variant="standard"
-              type="password"
-              sx = {{ width: 275, maxWidth: '100%' }}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                flexDirection: "column",
-                height: "10vh",
-              }}
-            >
+                id="fullWidth"
+                label="Password"
+                variant="standard"
+                type="password"
+                sx = {{ width: 275, maxWidth: '100%' }}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            
+            <div className="centered-item-10vh" >
               <Button onClick={login} variant="contained">
                 Unlock
               </Button>
             </div>
-            <a>Or</a>
+            <a>Or </a>
             <Link href="#" underline="hover">
               {"Link"}
             </Link>

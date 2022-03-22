@@ -97,14 +97,14 @@ function AppMenu() {
           </div>
         }
       /> */}
-      <Box sx ={{alignItems: 'center', display: 'flex',  justifyContent: 'space-between'}}>
-        <div sx = {{display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '15vh' }}>
+      <Box className="header">
+        <div sx = {{ height: '15vh' }}>
           <Button variant="text">
             Text<br/>
             text
           </Button>
         </div>
-        <div sx ={{position: 'absolute', right: '0px'}}>
+        <div className="absolute-right">
           <IconButton
               aria-label="settings"
               onClick={handleOpenUserMenu}

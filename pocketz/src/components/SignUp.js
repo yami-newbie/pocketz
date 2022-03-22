@@ -53,7 +53,7 @@ function SignUp() {
               setPassword(e.target.value);
             }}
             id="standard-basic"
-            label="New password"
+            label="Password"
             variant="standard"
             type="password"/><br/><br/>
           <TextField

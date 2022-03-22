@@ -25,12 +25,12 @@ export default function MainLayout({Account}) {
   
 
   return (
-    <div className='centered'>
+    <div className='centered-container'>
         <Card sx={{ width: 345 }}>
             <AppMenu/>
             <CardContent>
                 <Divider />
-                <div style = {{ display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', height: '40vh'}}>
+                <div className='centered-item-40vh'>
                     <h4>
                         text
                     </h4>
