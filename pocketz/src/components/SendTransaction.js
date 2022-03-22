@@ -1,20 +1,22 @@
-import { Avatar } from "@mui/material";
-import { red } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import { useWeb3Service } from "../serviceData/accountETH";
+import { useListAccount } from "../serviceData/listAccount";
 
 function SendTransaction() {
     const [address, setAddress] = useState("");
     const [value, setValue] = useState("");
-    const [gas, setGas] = useState("");
     const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState("");
     const web3 = useWeb3Service();
+    const listAccount = useListAccount();
+    const [account, setAccount] = useState(null);
+
     useEffect(() => {
-        const init = async () => {
-            //web3.eth.getGasPrice();
-        }
-        init();
-    }, [])
+      const init = () => {
+        setAccount(listAccount.getSelectedAccount().account);
+      }
+      init();
+    })
+
     return (
       <div>
         <div className="input-center">
@@ -34,13 +36,6 @@ function SendTransaction() {
           />
           <input
             type="text"
-            placeholder="Gas"
-            onChange={(e) => {
-              setGas(e.target.value);
-            }}
-          />
-          <input
-            type="text"
             placeholder="Max priority fee per gas"
             onChange={(e) => {
               setMaxPriorityFeePerGas(e.target.value);
@@ -52,7 +47,13 @@ function SendTransaction() {
         <button
           className="send-center"
           onClick={() => {
-            web3.sendTx();
+            //console.log(account.getSelectedAccount())
+            web3.sendTx({
+              account: account,
+              toAddress: address,
+              value: value,
+              gasLimit: maxPriorityFeePerGas,
+            });
           }}
         >
           SendTransaction

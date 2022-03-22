@@ -3,11 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { Divider, Tabs, Tab } from '@mui/material';
 import { useWeb3Service } from "../serviceData/accountETH";
 import AppMenu from "./AppMenu";
+import { useNavigate } from 'react-router';
 
 export default function MainLayout({Account}) {
     const [value, setValue] = useState(0);
-    const [balance, setBalance] = useState();
+    const [balance, setBalance] = useState(0);
     const web3 = useWeb3Service();
+    let navigate = useNavigate();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -19,6 +21,9 @@ export default function MainLayout({Account}) {
     };
     load();
   }, [Account]);
+
+  
+
   return (
     <div>
       <Card sx={{ minWidth: 345 }}>
@@ -35,7 +40,7 @@ export default function MainLayout({Account}) {
             }}
           >
             <h4>{balance}{" ETH"}</h4>
-            <h5>text</h5>
+            <button onClick={() => {navigate("/sendtx")}}>SendTransaction</button>
           </div>
 
           <Divider />

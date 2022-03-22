@@ -55,7 +55,6 @@ function WalletAccountData(){
     }
 
     const setAccounts = (accounts) => {
-      console.log(getMnemonic());
       setWallet({
         password: wallet.password,
         isLogin: wallet.isLogin,

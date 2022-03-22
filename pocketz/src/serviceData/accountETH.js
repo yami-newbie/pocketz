@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { createContext, useContext, useEffect, useState } from 'react';
 import Web3 from 'web3'
 import useLocalStorage from '../hooks/useLocalStorage';
+import { useListAccount } from './listAccount';
 
 export const defaultProvider = [
   {
@@ -43,7 +44,7 @@ export const defaultProvider = [
   },
 ];
 
-
+const gasLimitDefault = 21000;
 
 const web3Service = createContext();
 
@@ -70,43 +71,44 @@ function AccountETH() {
     return account;
   };
 
-  const sendTx = async () => {
-    const myAddress = "0x9b256C409b86dD70C3F335f2Ed404F4Be314BfF5"; //TODO: replace this address with your own public address
+  const sendTx = async ({
+    toAddress, value, gasLimit, account
+  }) => {
+    const myAddress = account.address; //TODO: replace this address with your own public address
 
     const nonce = await getWeb3().eth.getTransactionCount(myAddress, "latest");
-    let gasPrice = null;
-    web3.eth.getGasPrice().then((gas) => {gasPrice = gas});
+    
     const transaction = {
-      to: "toAddress", // faucet address to return eth
-      value: ethers.utils.parseUnits("0.001", "ether"),
-      gas: gasPrice,
-      maxPriorityFeePerGas: ethers.utils.hexlify(100000),
+      to: toAddress, // faucet address to return eth
+      value: ethers.utils.parseUnits(value, "ether"),
+      gasLimit: ethers.utils.hexlify(gasLimitDefault),
       nonce: nonce,
       // optional data field to send message or execute smart contract
     };
-    console.log(transaction);
-    // const signedTx = await web3.eth.accounts.signTransaction(
-    //   transaction,
-    //   "privateKey"
-    // );
+    // console.log(gasLimit ? gasLimit : gasLimitDefault);
+    
+    const signedTx = await web3.eth.accounts.signTransaction(
+      transaction,
+      account.privateKey
+    );
 
-    // web3.eth.sendSignedTransaction(
-    //   signedTx.rawTransaction,
-    //   function (error, hash) {
-    //     if (!error) {
-    //       console.log(
-    //         "🎉 The hash of your transaction is: ",
-    //         hash,
-    //         "\n Check Alchemy's Mempool to view the status of your transaction!"
-    //       );
-    //     } else {
-    //       console.log(
-    //         "❗Something went wrong while submitting your transaction:",
-    //         error
-    //       );
-    //     }
-    //   }
-    // );
+    web3.eth.sendSignedTransaction(
+      signedTx.rawTransaction,
+      function (error, hash) {
+        if (!error) {
+          console.log(
+            "🎉 The hash of your transaction is: ",
+            hash,
+            "\n Check Alchemy's Mempool to view the status of your transaction!"
+          );
+        } else {
+          console.log(
+            "❗Something went wrong while submitting your transaction:",
+            error
+          );
+        }
+      }
+    );
   };
 
   const setDefaultAccount = (address) => {

@@ -22,7 +22,6 @@ function ListAccountData() {
   const web3 = useWeb3Service();
 
   const importAccount = ({username, address, privateKey}) => {
-    
     setKey(key + 1);
     if (username === "") {
       setCount(count + 1);
@@ -125,6 +124,7 @@ function ListAccountData() {
 
   useEffect(() => {
     const init = () => {
+      getSelectedAccount();
       return accounts? null : createAccount("");
     }
     init();
