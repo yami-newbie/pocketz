@@ -3,7 +3,7 @@ import {
   isValidPrivate
 } from "ethereumjs-util";
 import * as React from 'react';
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Wallet from "ethereumjs-wallet";
 import { useListAccount } from "../serviceData/listAccount";
 import {useNavigate} from 'react-router-dom'
@@ -28,18 +28,20 @@ function ImportAccount() {
   };
   const submit = () => {
     try {
+      
       const prefixed = addHexPrefix(privateKey); // toBuffer(privateKey)
       const buffer = toBuffer(prefixed);
       const value = isValidPrivate(buffer);
       if(!value) return false;
       const wallet = Wallet.fromPrivateKey(buffer);
+      console.log(wallet.getPublicKeyString());
 
-      listAcc.ImportAccount({
-        usename: "",
+      listAcc.importAccount({
+        username: "",
         address: wallet.getAddressString(),
         privateKey: wallet.getPrivateKeyString(),
       });
-
+      
       navigate("/");
 
     } catch (e) {
@@ -108,49 +110,52 @@ function ImportAccount() {
           <Typography variant="h5" component="div">
             ImportAccount
           </Typography>
-          <Divider/>
+          <Divider />
           <Typography variant="p" component="div">
             Type:
           </Typography>
-          <Box
-            component="form"
-            sx={{
-              '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete="off"
+
+          <TextField
+            id="outline-selected-type"
+            select
+            value={way}
+            onChange={handleChange}
+            helperText="Please select your input method"
           >
-            <TextField
-              id = "outline-selected-type"
-              select
-              value={way}
-              onChange={handleChange}
-              helperText="Please select your input method"
-            >
-              {
-                ways.map((option) =>(
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.label}
-                  </MenuItem>
-                ))
-              }
-            </TextField>
-          </Box>
-          
-          <Divider/>
-          <input
-            type="file"
-            ref={inputFile}
-            onChange={(e) => {
-              _onchange(e);
-            }}
-          />
+            {ways.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+
+          <Divider />
+          {way === ways[1].value ? (
+            <input
+              type="file"
+              ref={inputFile}
+              onChange={(e) => {
+                _onchange(e);
+              }}
+            />
+          ) : (
+            <div>
+              <Typography variant="p" component="div">
+                Paste your private key here:
+              </Typography>
+              <TextField
+                id="outlined-basic"
+                label="Private key"
+                variant="outlined"
+                onChange={(e) => {
+                  setPrivateKey(e.target.value)
+                }}
+              />
+            </div>
+          )}
+
           <TextField id="outlined-basic" label="Password" variant="outlined" />
-          <Divider/>
-          <Typography variant="p" component="div">
-            Paste your private key here:
-          </Typography>
-          <TextField id="outlined-basic" label="Private key" variant="outlined" />
+          <Divider />
         </CardContent>
       </Card>
     </div>

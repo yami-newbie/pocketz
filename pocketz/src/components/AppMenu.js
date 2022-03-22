@@ -7,21 +7,23 @@ import { useNavigate } from "react-router";
 import { useState } from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useListAccount } from "../serviceData/listAccount";
-import { useAuth } from "../serviceData/walletAccount";
+import { useWallet } from "../serviceData/walletAccount";
 
 function AppMenu() {
   let navigate = useNavigate();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const listAccount = useListAccount();
-  const selectedAccount = listAccount.getSelectedAccount();
-  const auth = useAuth();
+  let selectedAccount = listAccount.getSelectedAccount();
+  const auth = useWallet();
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+  
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
+
   return (
     <div>
       {/* <CardHeader

@@ -3,7 +3,7 @@ import { CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { Card } from "@mui/material";
 import { Typography, Link, Box } from "@mui/material";
-import { useAuth } from "../serviceData/walletAccount";
+import { useWallet } from "../serviceData/walletAccount";
 import { useNavigate } from "react-router-dom";
 
 
@@ -11,12 +11,12 @@ function SignIn() {
   let navigate = useNavigate();
 
   const [password, setPassword] = useState("");
-  const auth = useAuth();
+  const wallet = useWallet();
 
   const login = async () => {
     try {
-      if (auth.wallet.password !== "")
-        if(auth.signin(password))
+      if (wallet.wallet.password !== "")
+        if(wallet.signin(password))
           navigate("/");
     } catch (e) {
       if(e === "password not true"){
@@ -27,8 +27,8 @@ function SignIn() {
   
   return (
     <div className="centered">
-      {auth.wallet.isLogin ? (
-        <button onClick={() => auth.signout()}>Sign Out</button>
+      {wallet.wallet.isLogin ? (
+        <button onClick={() => wallet.signout()}>Sign Out</button>
       ) : (
         <Card sx={{ width: 275}} >
           <CardContent>
@@ -36,12 +36,12 @@ function SignIn() {
               <Typography variant="h4" component="div">
                 Welcome back
               </Typography>
-              <br/>
+              <br />
               <Typography variant="h5" component="div">
                 Welcome to pocketz
               </Typography>
             </div>
-            
+
             <TextField
               id="fullWidth"
               label="Password"
@@ -52,18 +52,23 @@ function SignIn() {
                 setPassword(e.target.value);
               }}
             />
-            
-            <br/>
-            <br/>
-            <div style = {{ display: 'flex', justifyContent:'center', alignItems:'center', flexDirection:'column', height: '10vh'}}>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                flexDirection: "column",
+                height: "10vh",
+              }}
+            >
               <Button onClick={login} variant="contained">
                 Unlock
               </Button>
             </div>
-            <br/>
-            <a>Or</a>&nbsp;
+            <a>Or</a>
             <Link href="#" underline="hover">
-              {'Link'}
+              {"Link"}
             </Link>
           </CardContent>
         </Card>

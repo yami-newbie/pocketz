@@ -5,7 +5,6 @@ import { OutlinedInput } from "@mui/material";
 import { Card } from "@mui/material";
 import { useListAccount } from "../serviceData/listAccount";
 import { useNavigate } from "react-router";
-import AccountDataService from '../serviceData/accountETH';
 
 function CreateAccountForm() {
     const [username, setUsername] = useState("");
@@ -20,12 +19,7 @@ function CreateAccountForm() {
 
     const createAccount = async () => {
       try {
-        const acc = await AccountDataService.create();
-        listAcc.importAccount({
-          username: username ? username : "",
-          address: acc.address,
-          privateKey: acc.privateKey,
-        });
+        listAcc.createAccount(username);
         navigate("/");
       } catch (e) {
         console.log(e);

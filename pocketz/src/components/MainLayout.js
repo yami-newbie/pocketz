@@ -1,14 +1,28 @@
 import {  Card, CardContent } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Divider, Tabs, Tab } from '@mui/material';
-import AppMenu from './AppMenu';
+import { useWeb3Service } from "../serviceData/accountETH";
+import AppMenu from "./AppMenu";
+import { useNavigate } from 'react-router';
 
-export default function MainLayout(Account) {
-    const [value, setValue] = React.useState(0);
+export default function MainLayout({Account}) {
+    const [value, setValue] = useState(0);
+    const [balance, setBalance] = useState(0);
+    const web3 = useWeb3Service();
+    let navigate = useNavigate();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  useEffect(() => {
+    const load = async () => {
+      const bal = Account ? await web3.getBalance(Account.account.address) : 0;
+      setBalance(bal);
+    };
+    load();
+  }, [Account]);
+
+  
 
   return (
     <div className='centered'>
@@ -40,5 +54,5 @@ export default function MainLayout(Account) {
             </CardContent>
         </Card>
     </div>
-  )
+  );
 }

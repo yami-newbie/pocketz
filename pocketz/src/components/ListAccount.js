@@ -1,21 +1,16 @@
-import useLocalStorage from "../hooks/useLocalStorage";
 import {
-  Link,
   List,
-  ListItem,
   ListItemButton,
   ListItemText,
 } from "@mui/material";
 import ListAccountItem from "./ListAccountItems";
-import { alpha, color } from "@mui/system";
-import { useAuth } from "../serviceData/walletAccount";
+import { useWallet } from "../serviceData/walletAccount";
 import { useListAccount } from "../serviceData/listAccount";
 import { useEffect, useState } from "react";
-import styled from "@emotion/styled";
 import { Search } from "./customs/Search";
 
 function ListAccount() {
-  const auth = useAuth();
+  const wallet = useWallet();
   const listAcc = useListAccount();
   const [sortName, setSortName] = useState("");
   const [valueSort, setValueSort] = useState(listAcc.accounts);
@@ -55,7 +50,7 @@ function ListAccount() {
       >
         {/* <ImportAccount/>
         <CreateAccountForm /> */}
-        {auth.wallet.isLogin && listAcc.accounts ? (
+        {wallet.wallet.isLogin && listAcc.accounts ? (
           valueSort.length ? (
             valueSort.map((doc) => {
               return (
