@@ -20,7 +20,7 @@ function HomePage() {
         if(!wallet.wallet.isLogin) {
           return navigate("./login")
         }
-        const value = await web3.getWeb3().eth.getGasPrice()
+        //const value = await web3.getWeb3().eth.getGasPrice()
         //console.log(web3.getWeb3().utils.fromWei(value))
       }
       load();

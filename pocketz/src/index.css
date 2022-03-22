@@ -45,6 +45,32 @@ code {
   background-color: white;
 }
 
+.text-account-info {
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+}
+
+.balance-text-info {
+  display: flex;
+}
+
+.balance-text-info div {
+  margin-left: 3px;
+}
+
+.icon-header {
+  margin: 10px;
+}
+
+.icon-header img {
+  height: 40px;
+}
+
+.avatar-header {
+  margin: 10px;
+}
+
 .avatar-icon-button {
   display: flex;
   align-items: center;  

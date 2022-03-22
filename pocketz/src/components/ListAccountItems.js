@@ -20,32 +20,32 @@ const listUser = [
   "random8",
 ];
 
-function ListAccountItem({Account}) {
-    const getAvatar = () => {
-        const randomAva = Math.floor(Math.random() * listAvatar.length);
-        return listAvatar[randomAva];
-    }
-    const getUsername = () => {
-      return listUser[Math.floor(Math.random() * listAvatar.length)];
-    };
-    return (
-      <div className="avatar-icon-button">
-        <div>
-          {Account.selected ? <DoneIcon /> : <div style={{ width: 24 }}></div>}
-        </div>
-        <div>
-          <Avatar
-            sx={{ width: 24, height: 24, ml: 1 }}
-            src={getAvatar()}
-            alt={getUsername()}
-          />
-        </div>
-        <div className="username">
-          <div>{Account.username}</div>
-          <div id="sub">sub title</div>
-        </div>
+function ListAccountItem({ Account, onClick: handleCloseUserMenu }) {
+  const getAvatar = () => {
+    const randomAva = Math.floor(Math.random() * listAvatar.length);
+    return listAvatar[randomAva];
+  };
+  const getUsername = () => {
+    return listUser[Math.floor(Math.random() * listAvatar.length)];
+  };
+  return (
+    <div className="avatar-icon-button" onClick={handleCloseUserMenu}>
+      <div>
+        {Account.selected ? <DoneIcon /> : <div style={{ width: 24 }}></div>}
       </div>
-    );
+      <div>
+        <Avatar
+          sx={{ width: 24, height: 24, ml: 1 }}
+          src={getAvatar()}
+          alt={getUsername()}
+        />
+      </div>
+      <div className="username">
+        <div>{Account.username}</div>
+        <div id="sub">sub title</div>
+      </div>
+    </div>
+  );
 }
 
 export default ListAccountItem;
