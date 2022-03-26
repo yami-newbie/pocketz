@@ -65,6 +65,42 @@ code {
   background-color: white;
 }
 
+.grid-account-info {
+  align-items: center;
+  display: grid;
+  grid-template-columns: 33% 34% 33%;
+}
+
+.menu-account-icon {
+  display: block;
+  margin-left: auto;
+}
+
+.address-account {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.balance-text-info {
+  display: flex;
+}
+
+.balance-text-info div {
+  margin-left: 3px;
+}
+
+.icon-header {
+  margin: 10px;
+}
+
+.icon-header img {
+  height: 40px;
+}
+
+.avatar-header {
+  margin: 10px;
+}
+
 .avatar-icon-button {
   display: flex;
   align-items: center;  

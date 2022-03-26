@@ -9,12 +9,12 @@ import { useListAccount } from "../serviceData/listAccount";
 import { useEffect, useState } from "react";
 import { Search } from "./customs/Search";
 
-function ListAccount() {
+function ListAccount({ onClickItems: handleCloseUserMenu }) {
   const wallet = useWallet();
   const listAcc = useListAccount();
   const [sortName, setSortName] = useState("");
   const [valueSort, setValueSort] = useState(listAcc.accounts);
-  
+
   useEffect(() => {
     if (sortName !== "") {
       let list = [];
@@ -23,8 +23,7 @@ function ListAccount() {
           list = [...list, acc];
       });
       setValueSort(list);
-    }
-    else{
+    } else {
       setValueSort(listAcc.accounts);
     }
   }, [sortName, listAcc]);
@@ -45,7 +44,7 @@ function ListAccount() {
           mr: 1,
           overflow: "auto",
           maxHeight: 100,
-          width: '100%'
+          width: "100%",
         }}
       >
         {/* <ImportAccount/>
@@ -62,12 +61,15 @@ function ListAccount() {
                   key={doc.key}
                   onClick={() => listAcc.selectAccount(doc.key)}
                 >
-                  <ListAccountItem Account={doc} />
+                  <ListAccountItem
+                    Account={doc}
+                    onClick={handleCloseUserMenu}
+                  />
                 </ListItemButton>
               );
             })
           ) : (
-            <ListItemText sx={{pl: 3}}>Không có tài khoản nào</ListItemText>
+            <ListItemText sx={{ pl: 3 }}>Không có tài khoản nào</ListItemText>
           )
         ) : (
           <p>null</p>

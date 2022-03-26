@@ -1,21 +1,38 @@
-import { AppBar, Container, Avatar } from '@mui/material'
+import { Avatar } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
-
+import AppMenu from './AppMenu';
+import React, { useState } from "react";
 
 function Header()
 {
+    const [anchorElUser, setAnchorElUser] = useState(null);
+    const handleCloseUserMenu = () => {
+      setAnchorElUser(null);
+    };
+    const handleOpenUserMenu = (event) => {
+      setAnchorElUser(event.currentTarget);
+    };
+    
     return (
-        <div>
-            <Box className='header'>
-                <div>
-                  <img src = "favicon.ico" alt = "pocketz logo" />
-                </div>
-                <div className='absolute-right'>
-                  <Avatar
-                  >H</Avatar>
-                </div>
-            </Box>
-        </div>
-    )
+      <div>
+        <Box
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+        >
+          <div className="icon-header">
+            <img src="favicon.ico" alt="pocketz logo" />
+          </div>
+          <div className="avatar-header">
+            <Avatar onClick={handleOpenUserMenu}>H</Avatar>
+            <AppMenu state={anchorElUser} onClose={handleCloseUserMenu}/>
+          </div>
+        </Box>
+      </div>
+    );
 }
+
+export default Header;

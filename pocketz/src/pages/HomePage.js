@@ -4,6 +4,7 @@ import MainLayout from "../components/MainLayout";
 import { useListAccount } from "../serviceData/listAccount";
 import { useEffect, useState } from "react";
 import { useWeb3Service } from "../serviceData/accountETH";
+import AccountDetails from "../components/AccountDetails/AccountDetails";
 
 function HomePage() {
     let navigate = useNavigate();
@@ -20,7 +21,7 @@ function HomePage() {
         if(!wallet.wallet.isLogin) {
           return navigate("./login")
         }
-        const value = await web3.getWeb3().eth.getGasPrice()
+        //const value = await web3.getWeb3().eth.getGasPrice()
         //console.log(web3.getWeb3().utils.fromWei(value))
       }
       load();
@@ -36,6 +37,7 @@ function HomePage() {
     return (
       <div>
         <div>
+          {/* <AccountDetails Account={account} /> */}
           <MainLayout Account={account} />
         </div>
       </div>
