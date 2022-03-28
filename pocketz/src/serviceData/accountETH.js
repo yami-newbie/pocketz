@@ -2,41 +2,51 @@ import { ethers } from 'ethers';
 import { createContext, useContext, useEffect, useState } from 'react';
 import Web3 from 'web3'
 import useLocalStorage from '../hooks/useLocalStorage';
-import { useListAccount } from './listAccount';
 
 export const defaultProvider = [
   {
-    providerUrl: "wss://ropsten.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
+    key: 1,
+    providerUrl:
+      "wss://ropsten.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: true,
     name: "ropsten",
   },
   {
-    providerUrl: "wss://mainnet.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
+    key: 2,
+    providerUrl:
+      "wss://mainnet.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: false,
     name: "mainnet",
   },
   {
+    key: 3,
     providerUrl: "wss://kovan.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: false,
     name: "kovan",
   },
   {
-    providerUrl: "wss://rinkeby.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
+    key: 4,
+    providerUrl:
+      "wss://rinkeby.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: false,
     name: "rinkeby",
   },
   {
-    providerUrl: "wss://goerli.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
+    key: 5,
+    providerUrl:
+      "wss://goerli.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: false,
     name: "goerli",
   },
   {
+    key: 6,
     providerUrl:
       "wss://palm-mainnet.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: false,
     name: "palm-mainnet",
   },
   {
+    key: 7,
     providerUrl:
       "wss://palm-testnet.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: false,
@@ -129,10 +139,6 @@ function AccountETH() {
     return _selected;
   }
 
-  const getProviders = () => {
-    return providers;
-  }
-
   const addProvider = ({
     provider: _providerUrl,
     name: _name
@@ -140,6 +146,7 @@ function AccountETH() {
     setProviders([
       ...providers,
       {
+        key: providers.length + 1,
         providerUrl: _providerUrl,
         name: _name,
         selected: false,
@@ -148,20 +155,23 @@ function AccountETH() {
   }
 
   const switchProvider = (providerUrl) => {
+    let newProvider =
     providers.map((provider) => {
       if(provider.providerUrl === providerUrl){
-        setSelectProvider({
+        return setSelectProvider({
           provider: provider,
           isSelect: true,
         })
       }
       else {
-        setSelectProvider({
+        return setSelectProvider({
           provider: provider,
           isSelect: false,
         });
       }
     });
+    setProviders(newProvider);
+    //console.log("it work");
   }
 
   const setSelectProvider = ({
@@ -169,6 +179,7 @@ function AccountETH() {
     isSelect: value
   }) => {
     return {
+      key: _provider.key,
       providerUrl: _provider.providerUrl,
       name: _provider.name,
       selected: value
@@ -191,7 +202,6 @@ function AccountETH() {
     create,
     getBalance,
     getWeb3,
-    getProviders,
     addProvider,
     switchProvider,
     getSelectedProvider,

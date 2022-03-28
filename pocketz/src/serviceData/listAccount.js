@@ -4,6 +4,14 @@ import { useWallet } from "./walletAccount";
 import { useWeb3Service } from "../serviceData/accountETH";
 
 const listAccount = createContext();
+const listAvatar = [
+  "./images/91266124_p0.jpg",
+  "./images/91848990_p0.jpg",
+  "./images/92079201_p0.jpg",
+  "./images/92147597_p0.jpg",
+  "./images/92412225_p0.jpg",
+  "./images/92900006_p0.jpg",
+];
 
 export const useListAccount = () => {
   return useContext(listAccount);
@@ -13,6 +21,12 @@ export function ProvideAccountList({ children }) {
   const auth = ListAccountData();
   return <listAccount.Provider value={auth}>{children}</listAccount.Provider>;
 }
+
+const getAvatar = () => {
+  const randomAva = Math.floor(Math.random() * listAvatar.length);
+  return listAvatar[randomAva];
+};
+
 
 function ListAccountData() {
   const wallet = useWallet();
@@ -28,6 +42,7 @@ function ListAccountData() {
     }
     const newAcc = {
         key: key,
+        avatarSrc: getAvatar(),
         username: username !== "" ? username : "Account " + count,
         selected: true,
         account: {
@@ -92,6 +107,7 @@ function ListAccountData() {
   const setSelectedValue = ({account, value}) => {
     return {
       key: account.key,
+      avatarSrc: account.avatarSrc?account.avatarSrc : getAvatar(),
       username: account.username,
       selected: value,
       account: {
