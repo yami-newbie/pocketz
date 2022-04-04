@@ -30,7 +30,7 @@ export default function MainLayout({Account}) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };
+  };  
 
   useEffect(() => {
     const load = async () => {

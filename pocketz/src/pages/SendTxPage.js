@@ -1,10 +1,10 @@
-import SendTransaction from "../components/SendTransaction";
+import SendMain from "../components/SendMain";
 
 function SendTransactionPage() {
 
     return (
         <div>
-            <SendTransaction/>
+            <SendMain/>
         </div>
     );
 }
