@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { ethers } from "ethers";
+
 const UserContext = createContext();
 
 export const useWallet = () => {
@@ -11,6 +12,7 @@ export function ProvideAuth({ children }) {
   const auth = WalletAccountData();
   return <UserContext.Provider value={auth}>{children}</UserContext.Provider>;
 };
+
 
 function WalletAccountData(){
 

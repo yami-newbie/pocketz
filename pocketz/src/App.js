@@ -2,6 +2,8 @@ import React from 'react'
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import { AppProvider } from './components/Provider/AppProvider';
 import AccountDetailsPage from './pages/AccountDetailsPage';
+import AccountExportPrivateKeyPage from './pages/AccountExportPrivateKeyPage';
+import AddTokenPage from './pages/AddTokenPage';
 import CreateAccountPage from './pages/CreateAcountPage';
 import HomePage from './pages/HomePage';
 import ImportAccountPage from './pages/ImportAccountPage';
@@ -24,6 +26,8 @@ function App() {
           <Route path="/import" element={<ImportAccountPage />}></Route>
           <Route path="/create" element={<CreateAccountPage />}></Route>
           <Route path="/details" element={<AccountDetailsPage />}></Route>
+          <Route path="/details/exportprivatekey" element={<AccountExportPrivateKeyPage />}></Route>
+          <Route path="/addtoken" element={<AddTokenPage />}></Route>
         </Routes>
       </BrowserRouter>
     </AppProvider>

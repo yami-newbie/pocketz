@@ -1,4 +1,4 @@
-import {Avatar, Button, Icon, IconButton, TextField} from '@mui/material'
+import {Avatar, Button, IconButton, Stack, TextField} from '@mui/material'
 import QRCode from "react-qr-code";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import EditIcon from "@mui/icons-material/Edit";
@@ -9,6 +9,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import { useListAccount } from '../../serviceData/listAccount';
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from 'react-router';
+import { useWeb3Service } from '../../serviceData/accountETH';
 
 function AccountDetails({Account}) {
     const [show, setShow] = useState(false);
@@ -19,8 +20,15 @@ function AccountDetails({Account}) {
     const [username, setUsername] = useState(null);
     const [account, setAccount] = useState(null);
     const listAccount = useListAccount();
-    let navigate = useNavigate();
+    const web3Service = useWeb3Service();
 
+    let navigate = useNavigate();
+    const linkToEtherscan = () => {
+      return (
+        web3Service.getLinkCheckAccountInEtherscan() +
+        listAccount.getSelectedAccount().account.address
+      );
+    };
     const showDropdown = (e) => {
       setShow(!show);
       setText("Copy to clipboard");
@@ -46,14 +54,19 @@ function AccountDetails({Account}) {
       <div className="account-details">
         <div className="items" style={{ width: "100%" }}>
           <div className="grid-items">
-          <div/>
-            <Avatar sx={{ width: 56, height: 56, m: "auto" }} />
+            <div />
+            <Avatar
+              src={Account?.avatarSrc}
+              sx={{ width: 56, height: 56, m: "auto" }}
+            />
             <IconButton
               sx={{
                 marginLeft: "auto",
                 marginRight: "15px",
               }}
-              onClick={() => {navigate("/")}}
+              onClick={() => {
+                navigate("/");
+              }}
             >
               <CloseIcon />
             </IconButton>
@@ -75,7 +88,7 @@ function AccountDetails({Account}) {
                   setColorEditIcon("disabled");
                   setEdit(true);
                 }}
-                disabled={username?false:true}
+                disabled={username ? false : true}
                 sx={{
                   marginLeft: "auto",
                 }}
@@ -87,6 +100,7 @@ function AccountDetails({Account}) {
             <div className="grid-items">
               <div />
               <input
+                className="input-username"
                 type="text"
                 onChange={(e) => {
                   setUsername(e.target.value);
@@ -119,7 +133,7 @@ function AccountDetails({Account}) {
         <div className="items">
           <CopyToClipboard
             onCopy={onCopied}
-            value={account?.account.address}
+            text={account?.account.address}
             onMouseEnter={showDropdown}
             onMouseLeave={hideDropdown}
           >
@@ -138,16 +152,28 @@ function AccountDetails({Account}) {
             </div>
           </CopyToClipboard>
         </div>
-        <div className="items">
-          <Button className="button" variant="outlined">
+        <Stack spacing={1} sx={{ mb: "20px" }} className="items">
+          <Button
+            onClick={() => {
+              window.open(linkToEtherscan());
+            }}
+            sx={{ width: "100%", borderRadius: "32px" }}
+            className="button"
+            variant="outlined"
+          >
             Xem trên Etherscan
           </Button>
-        </div>
-        <div className="items">
-          <Button sx={{ mb: "20px" }} className="button" variant="outlined">
+          <Button
+            onClick={() => {
+              navigate("./exportprivatekey");
+            }}
+            sx={{ mb: "20px", borderRadius: "32px" }}
+            className="button"
+            variant="outlined"
+          >
             Xuất khóa riêng tư
           </Button>
-        </div>
+        </Stack>
       </div>
     );
 }

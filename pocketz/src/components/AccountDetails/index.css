@@ -1,4 +1,3 @@
-
 .account-details {
   width: 375px;
   background-color: white;
@@ -13,13 +12,14 @@
 }
 
 .account-details .address-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: 90% 10%;
+  margin-left: 40px;
+  margin-right: 40px;
   align-items: center;
 }
 
 .account-details .address-content {
-  width: 250px;
-  height: 60px;
   align-items: center;
   background-color: #F2F3F4;
 }
@@ -42,7 +42,7 @@
   margin-left: 10px;
 }
 
-.account-details input {
+.account-details .input-username {
   font-size: medium;
   text-align: center;
 }
@@ -85,4 +85,33 @@
 
 .tooltip:hover .tooltiptext {
   visibility: visible;
+}
+
+.text {
+  font-size: 20px;
+}
+
+.warning-content {
+  margin-top: 10px;
+  background-color: #FFF6F6;
+}
+
+.warning-text {
+  padding: 10px;
+  font-size: smaller;
+  color: #E91550;
+}
+
+.button-cancel {
+  height: 50px;
+  width: 150px;
+  background-color: white;
+  border-radius: 100px;
+  border-color: #037DD6;
+}
+
+.items-align-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
