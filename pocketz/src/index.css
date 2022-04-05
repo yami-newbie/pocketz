@@ -17,7 +17,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  height: 100vh;
+  height: 70vh;
 }
 .centered-item {
   display: flex;
@@ -187,11 +187,37 @@ code {
 .double-item
 {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin: 10px;
 }
+
 .margin-left
 {
   margin-left: 10px;
+}
+
+.item {
+  margin-top: 10px;
+}
+
+.kbietdattengi {
+  align-items: center;
+  word-break: break-all;
+  margin: 10px;
+  display: grid;
+  grid-template-columns: 90% 10%;
+}
+
+.search-container
+{
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  max-width: 360px;
+  background-color: lightgrey;
+  
 }

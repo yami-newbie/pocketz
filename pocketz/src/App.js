@@ -7,6 +7,7 @@ import HomePage from './pages/HomePage';
 import ImportAccountPage from './pages/ImportAccountPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
+import SendMainAltPage from './pages/SendMainAltPage';
 import SendTransactionPage from './pages/SendTxPage';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/sendtx" element={<SendTransactionPage />}></Route>
+          <Route path="/sendtx/mainalt" element={<SendMainAltPage />}></Route>
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>

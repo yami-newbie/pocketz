@@ -1,16 +1,17 @@
-import { Box, Typography, Link } from '@mui/system'
+import { Box } from '@mui/system'
+import { Typography, Link } from '@mui/material'
 import React from 'react'
+import { useNavigate } from 'react-router'
 
 export default function SendHeader() {
+  let navigate = useNavigate();
   return (
-    <Box className='header'>
-        <div sx ={{width: '100%', maxWidth: '360px', height: '100%', maxHeight: '50px'}}>
-            <Typography component="h6" className='address-account'>
-                Test
-            </Typography>
-            <Link href="#" className='absolute-right'>cancel</Link>
-        </div>
-    </Box>
+    <div className = 'double-item'>
+        <Typography component="h6">
+            Send
+        </Typography>
+      <div onClick={() => { navigate("/")}}>Cancel</div>
+    </div>
     
   )
 }

@@ -5,12 +5,15 @@ import { useListAccount } from '../serviceData/listAccount'
 import { useEffect, useState } from "react";
 import { InputAdornment, Card } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import SendMainAlt from './SendMainAlt'
+import { useNavigate } from 'react-router';
 
 export default function SendMain() {
   const listAcc = useListAccount();
   const [sortName, setSortName] = useState("");
   const [valueSort, setValueSort] = useState(listAcc.accounts);
-
+  const [show, setShow] = useState(false);
+  let navigate = useNavigate();
   useEffect(() => {
     if (sortName !== "") {
       let list = [];
@@ -26,34 +29,35 @@ export default function SendMain() {
   return (
     <div className='centered-container'>
       <div>
-        <div className='centered-item'sx = {{width: '100%', maxWidth: '360px'}}>
-          <TextField id="outlined-search" type="search" sx={{ width: '95%', bgcolor: 'white'}} InputProps={{
+        <div className='search-container'>
+          <TextField id="outlined-search" type="search"
+            sx={{ width: '95%', bgcolor: 'gray' }} InputProps={{
               startAdornment: (
-              <InputAdornment position="start">
+                <InputAdornment position="start">
                   <SearchIcon />
-              </InputAdornment>
+                </InputAdornment>
               ),
-          }}/>
+            }} />
         </div>
         <div className='centered-item-10px-top'>
-        <Card sx = {{ width: '100%', maxWidth: '360px', bgcolor: 'background.paper', height: '60vh' }}>
-            <List sx = {{width: '360px'}}>
-                {
-                  listAcc.accounts.map((acc) => {
-                    return (
-                      <div>
-                        <ListItem disablePadding>
-                          <ListItemButton>
-                              <ListItemText primary = {acc.username}/>
-                          </ListItemButton>
-                        </ListItem>
-                        <Divider/>
-                      </div>
-                    )
-                  })
-                }
+          <Card sx={{ width: '100%', maxWidth: '360px', bgcolor: 'background.paper', height: '60vh' }}>
+            <List sx={{ width: '360px' }}>
+              {
+                listAcc.accounts.map((acc) => {
+                  return (
+                    <div>
+                      <ListItem disablePadding onClick = {() => {navigate("./mainalt")}}>
+                        <ListItemButton>
+                          <ListItemText primary={acc.username} />
+                        </ListItemButton>
+                      </ListItem>
+                      <Divider />
+                    </div>
+                  )
+                })
+              }
             </List>
-        </Card>
+          </Card>
         </div>
       </div>
     </div>
