@@ -30,6 +30,10 @@ export default function MainLayout({ Account }) {
   let selectedAccount = listAccount.getSelectedAccount();
   let navigate = useNavigate();
 
+  useEffect(() => {
+    return web3.checkBlock({ address: selectedAccount?.account.address });
+  });
+
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };

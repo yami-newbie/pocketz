@@ -1,7 +1,7 @@
-import { ethers } from 'ethers';
-import { createContext, useContext, useEffect, useState } from 'react';
-import Web3 from 'web3'
-import useLocalStorage from '../hooks/useLocalStorage';
+import { ethers } from "ethers";
+import { createContext, useContext } from "react";
+import Web3 from "web3";
+import useLocalStorage from "../hooks/useLocalStorage";
 
 export const defaultProvider = [
   {
@@ -68,7 +68,6 @@ export default function ProviderWeb3Service({ children }) {
 }
 
 function AccountETH() {
-
   let web3 = null;
 
   const [providers, setProviders] = useLocalStorage(
@@ -81,13 +80,11 @@ function AccountETH() {
     return account;
   };
 
-  const sendTx = async ({
-    toAddress, value, gasLimit, account
-  }) => {
+  const sendTx = async ({ toAddress, value, gasLimit, account }) => {
     const myAddress = account.address; //TODO: replace this address with your own public address
 
     const nonce = await getWeb3().eth.getTransactionCount(myAddress, "latest");
-    
+
     const transaction = {
       to: toAddress, // faucet address to return eth
       value: ethers.utils.parseUnits(value, "ether"),
@@ -96,7 +93,7 @@ function AccountETH() {
       // optional data field to send message or execute smart contract
     };
     // console.log(gasLimit ? gasLimit : gasLimitDefault);
-    
+
     const signedTx = await web3.eth.accounts.signTransaction(
       transaction,
       account.privateKey
@@ -121,8 +118,35 @@ function AccountETH() {
     );
   };
 
+  const getTransactionLogCurrentAccount = () => {};
+
   const setDefaultAccount = (address) => {
     getWeb3().defaultAccount = address;
+  };
+
+  const checkBlock = async ({ address: address }) => {
+    console.log(
+    "nah"
+    )
+    getWeb3().eth
+      .getPastLogs({
+        fromBlock: "0x0",
+        address: address,
+      })
+      .then((res) => {
+        res.forEach((rec) => {
+          console.log(rec.blockNumber, rec.transactionHash, rec.topics);
+        });
+      })
+      .catch((err) => console.log("getPastLogs failed", err));
+  };
+
+  const getLinkCheckAccountInEtherscan = () => {
+    const provider = getSelectedProvider();
+    if(provider.name === "mainnet")
+      return "https://etherscan.io/address/";
+    else 
+      return "https://" + provider.name + ".etherscan.io/address/";
   }
 
   const getDefaultAccount = () => {
@@ -132,17 +156,13 @@ function AccountETH() {
   const getSelectedProvider = () => {
     let _selected = null;
     providers.map((provider) => {
-      if(provider.selected)
-        _selected = provider;
-    })
+      if (provider.selected) _selected = provider;
+    });
 
     return _selected;
-  }
+  };
 
-  const addProvider = ({
-    provider: _providerUrl,
-    name: _name
-  }) => {
+  const addProvider = ({ provider: _providerUrl, name: _name }) => {
     setProviders([
       ...providers,
       {
@@ -152,18 +172,16 @@ function AccountETH() {
         selected: false,
       },
     ]);
-  }
+  };
 
   const switchProvider = (providerUrl) => {
-    let newProvider =
-    providers.map((provider) => {
-      if(provider.providerUrl === providerUrl){
+    let newProvider = providers.map((provider) => {
+      if (provider.providerUrl === providerUrl) {
         return setSelectProvider({
           provider: provider,
           isSelect: true,
-        })
-      }
-      else {
+        });
+      } else {
         return setSelectProvider({
           provider: provider,
           isSelect: false,
@@ -172,22 +190,19 @@ function AccountETH() {
     });
     setProviders(newProvider);
     //console.log("it work");
-  }
+  };
 
-  const setSelectProvider = ({
-    provider: _provider,
-    isSelect: value
-  }) => {
+  const setSelectProvider = ({ provider: _provider, isSelect: value }) => {
     return {
       key: _provider.key,
       providerUrl: _provider.providerUrl,
       name: _provider.name,
-      selected: value
+      selected: value,
     };
-  }
+  };
 
   const getWeb3 = () => {
-    web3 = (new Web3(getSelectedProvider().providerUrl));
+    web3 = new Web3(getSelectedProvider().providerUrl);
     return web3;
   };
 
@@ -203,10 +218,12 @@ function AccountETH() {
     getBalance,
     getWeb3,
     addProvider,
+    getLinkCheckAccountInEtherscan,
     switchProvider,
     getSelectedProvider,
     setDefaultAccount,
     getDefaultAccount,
     sendTx,
+    checkBlock,
   };
 }

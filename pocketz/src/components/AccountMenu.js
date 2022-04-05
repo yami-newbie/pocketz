@@ -3,23 +3,18 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import InfoIcon from "@mui/icons-material/Info";
 import ExpandIcon from '@mui/icons-material/Expand';
 import { useListAccount } from "../serviceData/listAccount";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { useWeb3Service } from "../serviceData/accountETH";
 
 function AccountMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
     const listAccount = useListAccount();
-    const [linkToEtherscan, setLink] = useState(null);
     let navigate = useNavigate();
+    const web3Service = useWeb3Service();
 
-    useEffect(() => {
-        const loadLink = () => {
-            setLink(
-              "https://ropsten.etherscan.io/address/" +
-                listAccount.getSelectedAccount().account.address
-            );
-        }
-        loadLink();
-    }, [listAccount])
+    const linkToEtherscan = () => {
+       return web3Service.getLinkCheckAccountInEtherscan() +
+         listAccount.getSelectedAccount().account.address;
+    }
 
     return (
       <div>
@@ -40,7 +35,7 @@ function AccountMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
           onClose={handleCloseUserMenu}
         >
           <MenuList>
-            <MenuItem onClick={() => {window.open(linkToEtherscan);}}>
+            <MenuItem onClick={() => {window.open(linkToEtherscan());}}>
               <ListItemIcon>
                 <OpenInNewIcon fontSize="medium" />
               </ListItemIcon>
