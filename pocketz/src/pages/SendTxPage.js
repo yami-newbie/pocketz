@@ -1,10 +1,10 @@
-import SendMain from "../components/SendMain";
+import SendMainAlt from "../components/SendMainAlt";
 
 function SendTransactionPage() {
 
     return (
         <div>
-            <SendMain/>
+            <SendMainAlt/>
         </div>
     );
 }

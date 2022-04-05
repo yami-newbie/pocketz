@@ -17,7 +17,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  height: 100vh; 
+  height: 100vh;
 }
 .centered-item {
   display: flex;
@@ -173,4 +173,25 @@ code {
   justify-content: center;
   flex-direction: column;
   margin-top: 10px;
+}
+.round-border
+{
+  border: 2px solid aqua;
+  border-radius: 8px;
+  padding: 5px;
+}
+.margin-right
+{
+  margin-right: 10px;
+}
+.double-item
+{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.margin-left
+{
+  margin-left: 10px;
 }

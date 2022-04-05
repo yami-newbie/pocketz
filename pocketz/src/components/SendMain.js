@@ -40,17 +40,16 @@ export default function SendMain() {
             <List sx = {{width: '360px'}}>
                 {
                   listAcc.accounts.map((acc) => {
-                    if (acc.username !== listAcc.selectAccount.username)
-                      return (
-                        <div>
-                          <ListItem disablePadding>
-                            <ListItemButton>
-                                <ListItemText primary = {acc.username}/>
-                            </ListItemButton>
-                          </ListItem>
-                          <Divider/>
-                        </div>
-                      )
+                    return (
+                      <div>
+                        <ListItem disablePadding>
+                          <ListItemButton>
+                              <ListItemText primary = {acc.username}/>
+                          </ListItemButton>
+                        </ListItem>
+                        <Divider/>
+                      </div>
+                    )
                   })
                 }
             </List>
