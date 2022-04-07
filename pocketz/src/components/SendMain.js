@@ -26,11 +26,12 @@ export default function SendMain() {
       setValueSort(listAcc.accounts);
     }
   }, [sortName, listAcc]);
+
   return (
     <div className='centered-container'>
       <div>
         <div className='search-container'>
-          <TextField id="outlined-search" type="search"
+          <TextField onChange={(e) => {setSortName(e.target.value)}} id="outlined-search" type="search"
             sx={{ width: '95%', bgcolor: 'gray' }} InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
@@ -43,7 +44,7 @@ export default function SendMain() {
           <Card sx={{ width: '100%', maxWidth: '360px', bgcolor: 'background.paper', height: '60vh' }}>
             <List sx={{ width: '360px' }}>
               {
-                listAcc.accounts.map((acc) => {
+                valueSort.map((acc) => {
                   return (
                     <div>
                       <ListItem disablePadding onClick = {() => {navigate("./mainalt")}}>
