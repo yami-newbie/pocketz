@@ -46,7 +46,7 @@ function Header() {
           paddingTop: "10px",
           paddingBottom: "10px",
           width: "100%",
-          justifyContent: "space-between",
+          justifyContent: "flex-end",
         }}
       >
         <Avatar className="icon-header">

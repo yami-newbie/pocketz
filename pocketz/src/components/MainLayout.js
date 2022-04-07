@@ -63,9 +63,12 @@ export default function MainLayout({ Account }) {
   };
 
   return (
-    <div className="centered">
-      <Card sx={{ width: 345 }}>
-        <Header />
+    <div className="centered-item">
+      <div style = {{width: '400px'}}>
+        <Header/>
+      </div>
+
+      <Card sx={{ width: '400px' }}>
         <div className="grid-account-info">
           <div />
           <div className="address-account">
