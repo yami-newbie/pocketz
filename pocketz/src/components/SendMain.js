@@ -7,13 +7,15 @@ import { InputAdornment, Card } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import SendMainAlt from './SendMainAlt'
 import { useNavigate } from 'react-router';
+import SendHeader from './SendHeader';
 
 export default function SendMain() {
   const listAcc = useListAccount();
   const [sortName, setSortName] = useState("");
   const [valueSort, setValueSort] = useState(listAcc.accounts);
   const [show, setShow] = useState(false);
-  let navigate = useNavigate();
+  const [accountSelect, setAccountSelect] = useState();
+
   useEffect(() => {
     if (sortName !== "") {
       let list = [];
@@ -26,41 +28,70 @@ export default function SendMain() {
       setValueSort(listAcc.accounts);
     }
   }, [sortName, listAcc]);
+  const onSelectAccount = () => {
+    setShow(true);
+  }
+  const onExit = () => {
+    setShow(false);
+  }
 
   return (
-    <div className='centered-container'>
-      <div>
-        <div className='search-container'>
-          <TextField onChange={(e) => {setSortName(e.target.value)}} id="outlined-search" type="search"
-            sx={{ width: '95%', bgcolor: 'gray' }} InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }} />
-        </div>
-        <div className='centered-item-10px-top'>
-          <Card sx={{ width: '100%', maxWidth: '360px', bgcolor: 'background.paper', height: '60vh' }}>
-            <List sx={{ width: '360px' }}>
-              {
-                valueSort.map((acc) => {
+    <div className="centered-container">
+      {!show ? (
+        <div>
+          <SendHeader />
+
+          <div className="search-container">
+            <TextField
+              id="outlined-search"
+              onChange={(e) =>{setSortName(e.target.value)}}
+              type="search"
+              sx={{ width: "95%", bgcolor: "gray" }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
+          <div className="centered-item-10px-top">
+            <Card
+              sx={{
+                width: "100%",
+                maxWidth: "360px",
+                bgcolor: "background.paper",
+                height: "60vh",
+              }}
+            >
+              <List sx={{ width: "360px" }}>
+                {valueSort.map((acc) => {
                   return (
                     <div>
-                      <ListItem disablePadding onClick = {() => {navigate("./mainalt")}}>
+                      <ListItem
+                        disablePadding
+                        onClick={() => {
+                          setAccountSelect(acc);
+                          onSelectAccount();
+                          //navigate("./mainalt");
+                        }}
+                      >
                         <ListItemButton>
                           <ListItemText primary={acc.username} />
                         </ListItemButton>
                       </ListItem>
                       <Divider />
                     </div>
-                  )
-                })
-              }
-            </List>
-          </Card>
+                  );
+                })}
+              </List>
+            </Card>
+          </div>
         </div>
-      </div>
+      ) : (
+        <SendMainAlt Account={accountSelect} onExit={onExit} />
+      )}
     </div>
-  )
+  );
 }
