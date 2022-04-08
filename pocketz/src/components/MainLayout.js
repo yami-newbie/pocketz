@@ -97,6 +97,7 @@ export default function MainLayout({ Account }) {
                       width: "32px",
                       height: "32px",
                     }}
+                    src="/images/ethereum-eth.png"
                   />
                 </div>
                 <div className="balance-text-info">
@@ -116,18 +117,20 @@ export default function MainLayout({ Account }) {
                   >
                     <ArrowDownwardIcon />
                   </Avatar>
-                  <div>Mua</div>
+                  <div className="text-button">Mua</div>
                 </div>
                 <div className="items-button">
                   <Avatar
-                    onClick={() => {navigate("./sendtx")}}
+                    onClick={() => {
+                      navigate("./sendtx");
+                    }}
                     sx={{
                       bgcolor: "#2196f3",
                     }}
                   >
                     <SendIcon />
                   </Avatar>
-                  <div>Gửi</div>
+                  <div className="text-button">Gửi</div>
                 </div>
                 <div className="items-button">
                   <Avatar
@@ -137,7 +140,7 @@ export default function MainLayout({ Account }) {
                   >
                     <SwapHorizIcon />
                   </Avatar>
-                  <div>Hoán đổi</div>
+                  <div className="text-button">Hoán đổi</div>
                 </div>
               </div>
             </div>
@@ -163,9 +166,7 @@ export default function MainLayout({ Account }) {
             </TabContext>
           </Box>
         </CardContent>
-        <footer>
-          
-        </footer>
+        <footer></footer>
       </Card>
     </div>
   );
