@@ -7,6 +7,10 @@ import {
   IconButton,
   Button,
   Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useWeb3Service } from "../serviceData/accountETH";
@@ -63,9 +67,12 @@ export default function MainLayout({ Account }) {
   };
 
   return (
-    <div className="centered">
-      <Card sx={{ width: 345 }}>
-        <Header />
+    <div className="centered-item">
+      <div style = {{width: '400px'}}>
+        <Header/>
+      </div>
+
+      <Card sx={{ width: '400px' }}>
         <div className="grid-account-info">
           <div />
           <div className="address-account">
@@ -161,7 +168,15 @@ export default function MainLayout({ Account }) {
                   <Tab label="Hoạt động" value="2" />
                 </TabList>
               </Box>
-              <TabPanel value="1">Item One</TabPanel>
+              <TabPanel value="1">
+                <List>
+                    <ListItem disablePadding>
+                      <ListItemButton>
+                        <ListItemText primary= "0 ETH" />
+                      </ListItemButton>
+                    </ListItem>
+                </List>
+              </TabPanel>
               <TabPanel value="2">Item Two</TabPanel>
             </TabContext>
           </Box>

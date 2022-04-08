@@ -6,6 +6,7 @@ import * as React from 'react';
 import { useRef, useState } from "react";
 import Wallet from "ethereumjs-wallet";
 import { useListAccount } from "../serviceData/listAccount";
+import Header from "./AppHeader";
 import {useNavigate} from 'react-router-dom'
 import { Card, CardContent, Divider, TextField, Typography, Box, MenuItem, Button, Stack } from "@mui/material";
 
@@ -84,11 +85,36 @@ function ImportAccount() {
     });
   };
   return (
-    <div className="centered-container">
+    <div className="centered-item">
+      {/* <input
+        type="file"
+        ref={inputFile}
+        onChange={(e) => {
+          _onchange(e);
+        }}
+      />
+      <form>
+        <input
+          placeholder="private key"
+          onChange={(e) => {
+            setPrivateKey(e.target.value);
+          }}
+        />
+        <div>
+          <button onClick={submit}>Import</button>
+          <button onClick={() => navigate("/")}>Cancel</button>
+        </div>
+      </form>
+      <br /> */}
+      {/* <pre>{file}</pre> */}
+      {/* { file ? <img src={_src} alt='img' id = "imgShow"/> : null} */}
+      <div style = {{width: '400px'}}>
+        <Header/>
+      </div>
       <Card sx={{ width: 275 }}>
         <CardContent>
           <Typography variant="h5" component="div">
-            ImportAccount
+            Import Account
           </Typography>
           <Divider />
           <Typography variant="p" component="div">
