@@ -6,6 +6,7 @@ import * as React from 'react';
 import { useRef, useState } from "react";
 import Wallet from "ethereumjs-wallet";
 import { useListAccount } from "../serviceData/listAccount";
+import Header from "./AppHeader";
 import {useNavigate} from 'react-router-dom'
 import { Card, CardContent, Divider, TextField, Typography, Box, MenuItem, Button } from "@mui/material";
 
@@ -82,7 +83,7 @@ function ImportAccount() {
     setWay(event.target.value);
   };
   return (
-    <div className="centered-container">
+    <div className="centered-item">
       {/* <input
         type="file"
         ref={inputFile}
@@ -105,10 +106,13 @@ function ImportAccount() {
       <br /> */}
       {/* <pre>{file}</pre> */}
       {/* { file ? <img src={_src} alt='img' id = "imgShow"/> : null} */}
+      <div style = {{width: '400px'}}>
+        <Header/>
+      </div>
       <Card sx={{ width: 275 }}>
         <CardContent>
           <Typography variant="h5" component="div">
-            ImportAccount
+            Import Account
           </Typography>
           <Divider />
           <Typography variant="p" component="div">
@@ -162,7 +166,7 @@ function ImportAccount() {
             <TextField id="outlined-basic" label="Password" variant="outlined" />
           </div>
           <div className="double-item-10px-bot">
-            <Button variant="outlined">Cancel</Button>
+            <Button variant="outlined" onClick={() => {navigate("/");}}>Cancel</Button>
             <Button variant="contained">Confirm</Button>
           </div>
           

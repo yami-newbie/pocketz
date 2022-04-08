@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import SendMainAlt from './SendMainAlt'
 import { useNavigate } from 'react-router';
 import SendHeader from './SendHeader';
+import Header from './AppHeader';
 
 export default function SendMain() {
   const listAcc = useListAccount();
@@ -39,14 +40,20 @@ export default function SendMain() {
     <div className="centered-container">
       {!show ? (
         <div>
-          <SendHeader />
+          <div style = {{width: '400px'}}>
+            <Header/>
+          </div>
+          <Card >
+            <SendHeader />
+          </Card>
+          
 
           <div className="search-container">
             <TextField
               id="outlined-search"
               onChange={(e) =>{setSortName(e.target.value)}}
               type="search"
-              sx={{ width: "95%", bgcolor: "gray" }}
+              sx={{ width: "95%", marginTop: '10px'}}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -60,12 +67,12 @@ export default function SendMain() {
             <Card
               sx={{
                 width: "100%",
-                maxWidth: "360px",
+                maxWidth: "400px",
                 bgcolor: "background.paper",
                 height: "60vh",
               }}
             >
-              <List sx={{ width: "360px" }}>
+              <List sx={{ width: "400px" }}>
                 {valueSort.map((acc) => {
                   return (
                     <div>

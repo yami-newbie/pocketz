@@ -10,7 +10,7 @@ export default function SendHeader() {
         <Typography component="h6">
             Send
         </Typography>
-      <div onClick={() => { navigate("/")}}>Cancel</div>
+      <Link onClick={() => { navigate("/")}}>Cancel</Link>
     </div>
     
   )

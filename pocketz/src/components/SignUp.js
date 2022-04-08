@@ -3,6 +3,7 @@ import { Card, CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { useWallet } from "../serviceData/walletAccount";
 import { useNavigate } from "react-router";
+import Header from "./AppHeader";
 
 function SignUp() {
   let navigate = useNavigate();
@@ -46,6 +47,9 @@ function SignUp() {
     //   <Button variant="contained">Sign up</Button>
     // </form>
     <div className = "centered">
+      <div style = {{width: '400px'}}>
+            <Header/>
+      </div>
       <Card sx={{ maxWidth: 275 }}>
         <CardContent>
           <TextField

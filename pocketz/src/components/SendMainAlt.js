@@ -3,12 +3,20 @@ import React from 'react'
 import { useListAccount } from '../serviceData/listAccount'
 import ClearIcon from '@mui/icons-material/Clear';
 import { useNavigate } from 'react-router';
+import { useState } from 'react';
+import SendConfirm from './SendConfirm'
 
 export default function SendMainAlt({Account, onExit}) {
   const listAcc = useListAccount();
   const acc = listAcc.getSelectedAccount();
   let navigate = useNavigate();
   const [money, setMoney] = React.useState('');
+  const [show, setShow] = useState(false);
+  const [accountSelect, setAccountSelect] = useState();
+  const onSelectAccount = () => {
+    setShow(true);
+  }
+  
   const handleChange = (event) => {
     setMoney(event.target.value);
   };
@@ -16,23 +24,21 @@ export default function SendMainAlt({Account, onExit}) {
     return String(address).substring(0,10);
   }
   return (
-    <div className="centered-container" sx={{ width: "360px" }}>
-      <Card sx={{ width: "360px" }}>
+    <div className="centered-container" style={{ width: "400px" }}>
+      {!show?(<Card sx={{ width: "400px" }}>
         <div>
           <div className="kbietdattengi">
             <div className="margin-left">
               <Typography variant="body1" gutterBottom>
-                {acc.username}
+                {Account.username}
               </Typography>
               <Typography variant="caption" display="block" gutterBottom>
-                {buildAddress(acc.account.address)}
+                {Account.account.address}
               </Typography>
             </div>
             <div className="margin-right">
               <IconButton
-                onClick={() => {
-                  navigate("/");
-                }}
+                onClick={onExit}
               >
                 <ClearIcon />
               </IconButton>
@@ -87,21 +93,30 @@ export default function SendMainAlt({Account, onExit}) {
         >
           <Stack sx={{ width: "90%" }} direction="row" spacing={2}>
             <Button
-              onClick={onExit}
+              
+              onClick={() => {
+                navigate("/");
+              }}
               sx={{ width: "50%", borderRadius: "100px" }}
               variant="outlined"
             >
-              Huỷ
+              Cancel
             </Button>
             <Button
               sx={{ width: "50%", borderRadius: "100px" }}
               variant="contained"
+              onClick={() => {
+                setAccountSelect(Account);
+                onSelectAccount();
+                //navigate("./mainalt");
+              }}
             >
-              Tiếp tục
+              Continue
             </Button>
           </Stack>
         </div>
-      </Card>
+      </Card>): <SendConfirm Account = {accountSelect}/>}
+      
     </div>
   );
 }

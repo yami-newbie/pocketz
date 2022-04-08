@@ -5,11 +5,13 @@ import AccDetail from './AccDetail';
 import { useListAccount } from '../serviceData/listAccount';
 import { useState } from 'react';
 import Header from './AppHeader';
+import { useNavigate } from 'react-router';
 
-export default function SendConfirm() {
+export default function SendConfirm({Account}) {
     const listAcc = useListAccount();
     const acc = listAcc.getSelectedAccount();
     const {popup, setPopup} = useState(false);
+    let navigate = useNavigate();
     return (
     <div className = 'centered-item'>
         <div style = {{width: '400px'}}>
@@ -21,14 +23,14 @@ export default function SendConfirm() {
             <Divider/>
             <div className = 'double-item'>
                 <Typography variant="body2" gutterBottom>
-                    {listAcc.username}
+                    {acc.username}
                 </Typography>
                 <ArrowForwardIcon/>
                 <Button variant='text'
                     onclick = {() => setPopup(true)}
-                    sx = {{marginRight: '40px'}}
+                    
                 >
-                    {acc.username}
+                    {Account.username}
                 </Button>
             </div>
             <Divider/>
@@ -51,8 +53,8 @@ export default function SendConfirm() {
             </div>
             <Divider/>
             <div className = 'double-item'>
-                <Button variant="outlined">Cancel</Button>
-                <Button variant="contained" sx ={{marginRight: '40px'}}>Confirm</Button>
+                <Button variant="outlined" onClick={() => {navigate("/");}}>Cancel</Button>
+                <Button variant="contained">Confirm</Button>
             </div>
         </Card>
         <AccDetail trigger = {popup}>

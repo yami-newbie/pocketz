@@ -7,6 +7,10 @@ import {
   IconButton,
   Button,
   Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useWeb3Service } from "../serviceData/accountETH";
@@ -119,7 +123,7 @@ export default function MainLayout({ Account }) {
                   >
                     <ArrowDownwardIcon />
                   </Avatar>
-                  <div>Mua</div>
+                  <div>Buy</div>
                 </div>
                 <div className="items-button">
                   <Avatar
@@ -130,7 +134,7 @@ export default function MainLayout({ Account }) {
                   >
                     <SendIcon />
                   </Avatar>
-                  <div>Gửi</div>
+                  <div>Send</div>
                 </div>
                 <div className="items-button">
                   <Avatar
@@ -140,7 +144,7 @@ export default function MainLayout({ Account }) {
                   >
                     <SwapHorizIcon />
                   </Avatar>
-                  <div>Hoán đổi</div>
+                  <div>Change</div>
                 </div>
               </div>
             </div>
@@ -161,7 +165,15 @@ export default function MainLayout({ Account }) {
                   <Tab label="Hoạt động" value="2" />
                 </TabList>
               </Box>
-              <TabPanel value="1">Item One</TabPanel>
+              <TabPanel value="1">
+                <List>
+                    <ListItem disablePadding>
+                      <ListItemButton>
+                        <ListItemText primary= "0 ETH" />
+                      </ListItemButton>
+                    </ListItem>
+                </List>
+              </TabPanel>
               <TabPanel value="2">Item Two</TabPanel>
             </TabContext>
           </Box>

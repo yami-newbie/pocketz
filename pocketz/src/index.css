@@ -278,8 +278,7 @@ code {
   align-items: center;
   flex-direction: column;
   width: 100%;
-  max-width: 360px;
-  background-color: lightgrey;
+  max-width: 400px;
 }
 
 .popup
