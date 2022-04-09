@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { createContext, useContext } from "react";
 import Web3 from "web3";
 import useLocalStorage from "../hooks/useLocalStorage";
@@ -81,6 +81,7 @@ function AccountETH() {
   };
 
   const sendTx = async ({ toAddress, value, gasLimit, account }) => {
+    console.log(account.address);
     const myAddress = account.address; //TODO: replace this address with your own public address
 
     const nonce = await getWeb3().eth.getTransactionCount(myAddress, "latest");
@@ -88,7 +89,7 @@ function AccountETH() {
     const transaction = {
       to: toAddress, // faucet address to return eth
       value: ethers.utils.parseUnits(value, "ether"),
-      gasLimit: ethers.utils.hexlify(gasLimitDefault),
+      gasLimit: ethers.utils.hexlify(gasLimit < gasLimitDefault? gasLimitDefault : gasLimit),
       nonce: nonce,
       // optional data field to send message or execute smart contract
     };
@@ -212,6 +213,20 @@ function AccountETH() {
     return balance.toString();
   };
 
+  const getGasPrice = async () => {
+    var price = await getWeb3().eth.getGasPrice(); //Will give value in.
+    price = web3.utils.fromWei(String(price));
+    return price;
+  }
+
+  const calGasPrice = async (maxGas) => {
+    var price = await getWeb3().eth.getGasPrice(); //Will give value in.
+    price = BigNumber.from(String(price)).mul(BigNumber.from(String(maxGas)));
+    price = web3.utils.fromWei(String(price));
+    return price.toString();
+  }
+
+
   return {
     providers,
     create,
@@ -225,5 +240,7 @@ function AccountETH() {
     getDefaultAccount,
     sendTx,
     checkBlock,
+    getGasPrice,
+    calGasPrice,
   };
 }

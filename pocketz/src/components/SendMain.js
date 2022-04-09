@@ -12,23 +12,23 @@ import Header from './AppHeader';
 
 export default function SendMain() {
   const listAcc = useListAccount();
-  const [sortName, setSortName] = useState("");
+  const [address, setAddress] = useState("");
   const [valueSort, setValueSort] = useState(listAcc.accounts);
   const [show, setShow] = useState(false);
   const [accountSelect, setAccountSelect] = useState();
   
   useEffect(() => {
-    if (sortName !== "") {
+    if (address !== "") {
       let list = [];
       listAcc.accounts.map((acc) => {
-        if (acc.username.toLowerCase().includes(sortName.toLowerCase()))
+        if (acc.username.toLowerCase().includes(address.toLowerCase()))
           list = [...list, acc];
       });
       setValueSort(list);
     } else {
       setValueSort(listAcc.accounts);
     }
-  }, [sortName, listAcc]);
+  }, [address, listAcc]);
   const onSelectAccount = () => {
     setShow(true);
   }
@@ -51,7 +51,7 @@ export default function SendMain() {
           <div className="search-container">
             <TextField
               id="outlined-search"
-              onChange={(e) =>{setSortName(e.target.value)}}
+              onChange={(e) =>{setAddress(e.target.value)}}
               type="search"
               sx={{ width: "95%", marginTop: '10px', bgcolor: 'white'}}
               InputProps={{

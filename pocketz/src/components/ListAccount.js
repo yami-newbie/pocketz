@@ -13,7 +13,7 @@ function ListAccount({ onClickItems: handleCloseUserMenu }) {
   const wallet = useWallet();
   const listAcc = useListAccount();
   const [sortName, setSortName] = useState("");
-  const [valueSort, setValueSort] = useState(listAcc.accounts);
+  const [valueSort, setValueSort] = useState(listAcc?.accounts);
 
   useEffect(() => {
     if (sortName !== "") {
