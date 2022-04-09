@@ -12,7 +12,7 @@ function SignUp() {
   const [confirmpassword, setConfirmPassword] = useState("");
 
   useEffect(() => {
-    if(wallet.wallet.isLogin){
+    if(wallet.wallet?.isLogin){
       return navigate("/")
     }
   }, [wallet])
@@ -47,9 +47,6 @@ function SignUp() {
     //   <Button variant="contained">Sign up</Button>
     // </form>
     <div className = "centered">
-      <div style = {{width: '400px'}}>
-            <Header/>
-      </div>
       <Card sx={{ maxWidth: 275 }}>
         <CardContent>
           <TextField

@@ -15,6 +15,9 @@ function ListAccountItem({ Account, onClick: handleCloseUserMenu }) {
       setBalance(val);
     };
     init();
+    return () => {
+      setBalance(0);
+    }
   }, []);
 
   return (

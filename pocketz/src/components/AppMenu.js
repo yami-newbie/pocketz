@@ -12,10 +12,20 @@ import AddIcon from "@mui/icons-material/Add";
 import SettingsIcon from "@mui/icons-material/Settings";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { useWallet } from "../serviceData/walletAccount";
+import { useEffect } from "react";
 
 function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
   let navigate = useNavigate();
   const auth = useWallet();
+  useEffect(() => {
+    const load = () => {
+      if(!auth.wallet.isLogin){
+        navigate("/login");
+        console.log("nahnah");
+      }
+    }
+    load();
+  }, [auth])
 
   return (
     <div className="text-account-info">

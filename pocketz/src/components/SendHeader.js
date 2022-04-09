@@ -6,12 +6,16 @@ import { useNavigate } from 'react-router'
 export default function SendHeader() {
   let navigate = useNavigate();
   return (
-    <div className = 'double-item'>
-        <Typography component="h6">
-            Send
-        </Typography>
-      <Link onClick={() => { navigate("/")}}>Cancel</Link>
+    <div className="double-item">
+      <Typography component="h6">Send</Typography>
+      <Link
+        sx={{ cursor: "context-menu" }}
+        onClick={() => {
+          navigate("/");
+        }}
+      >
+        Cancel
+      </Link>
     </div>
-    
-  )
+  );
 }

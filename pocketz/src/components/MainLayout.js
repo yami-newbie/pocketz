@@ -24,6 +24,7 @@ import SendIcon from "@mui/icons-material/Send";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { useNavigate } from "react-router";
+import { useWallet } from "../serviceData/walletAccount";
 
 export default function MainLayout({ Account }) {
   const [value, setValue] = useState("1");
@@ -33,13 +34,17 @@ export default function MainLayout({ Account }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
   let selectedAccount = listAccount.getSelectedAccount();
   let navigate = useNavigate();
+  const wallet = useWallet();
 
   useEffect(() => {
+    if(wallet.wallet === {}){
+      navigate("/register");
+    }
     return web3.checkBlock({ address: selectedAccount?.account.address });
-  });
+  },[]);
 
   const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
+    setAnchorElUser(false);
   };
 
   const handleOpenUserMenu = (event) => {
@@ -60,6 +65,9 @@ export default function MainLayout({ Account }) {
       setBalance(bal);
     };
     load();
+    return () => {
+      setBalance(0);
+    }
   }, [Account, web3.providers]);
 
   const fixBalance = (_balance) => {

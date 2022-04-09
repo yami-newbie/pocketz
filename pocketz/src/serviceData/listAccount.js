@@ -30,7 +30,7 @@ const getAvatar = () => {
 
 function ListAccountData() {
   const wallet = useWallet();
-  const [accounts, setAccounts] = useState(wallet.wallet.accounts);
+  const [accounts, setAccounts] = useState(wallet.wallet?.accounts);
   const [key, setKey] = useLocalStorage("key", 0);
   const [count, setCount] = useLocalStorage("count", 0);
   const web3 = useWeb3Service();

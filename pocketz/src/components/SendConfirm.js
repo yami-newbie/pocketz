@@ -12,6 +12,7 @@ export default function SendConfirm({Account}) {
     const acc = listAcc.getSelectedAccount();
     const {popup, setPopup} = useState(false);
     let navigate = useNavigate();
+
     return (
     <div className = 'centered-item'>
         <div style = {{width: '400px'}}>
@@ -27,8 +28,7 @@ export default function SendConfirm({Account}) {
                 </Typography>
                 <ArrowForwardIcon/>
                 <Button variant='text'
-                    onclick = {() => setPopup(true)}
-                    
+                    onClick = {() => setPopup(true)}
                 >
                     {Account.username}
                 </Button>

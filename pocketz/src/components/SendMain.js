@@ -16,7 +16,7 @@ export default function SendMain() {
   const [valueSort, setValueSort] = useState(listAcc.accounts);
   const [show, setShow] = useState(false);
   const [accountSelect, setAccountSelect] = useState();
-
+  
   useEffect(() => {
     if (sortName !== "") {
       let list = [];
