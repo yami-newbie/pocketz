@@ -8,7 +8,7 @@ import Wallet from "ethereumjs-wallet";
 import { useListAccount } from "../serviceData/listAccount";
 import Header from "./AppHeader";
 import {useNavigate} from 'react-router-dom'
-import { Card, CardContent, Divider, TextField, Typography, Box, MenuItem, Button } from "@mui/material";
+import { Card, CardContent, Divider, TextField, Typography, Box, MenuItem, Button, Stack } from "@mui/material";
 
 function ImportAccount() {
   const [file, setFile] = useState(null);
@@ -16,6 +16,8 @@ function ImportAccount() {
   const inputFile = useRef(null);
   const listAcc = useListAccount();
   let navigate = useNavigate();
+  const [way, setWay] = useState('key');
+  const [warning, setWarning] = useState(null);
 
   const _onchange = (e) => {
     var _file = e.target.files[0];
@@ -29,28 +31,17 @@ function ImportAccount() {
   };
   const submit = () => {
     try {
+      if(way === 'key'){
+        addWithPrivateKey(privateKey);
+      }
       
-      const prefixed = addHexPrefix(privateKey); // toBuffer(privateKey)
-      const buffer = toBuffer(prefixed);
-      const value = isValidPrivate(buffer);
-      if(!value) return false;
-      const wallet = Wallet.fromPrivateKey(buffer);
-      console.log(wallet.getPublicKeyString());
-
-      listAcc.importAccount({
-        username: "",
-        address: wallet.getAddressString(),
-        privateKey: wallet.getPrivateKeyString(),
-      });
       
       navigate("/");
 
     } catch (e) {
+      setWarning(e.message);
       console.log(e);
     }
-
-    //a0ddbc4b9e9adb93c38d9b9ae24cf1edfa9b53a085e6e3b9bdc40b96cb1d7a4e
-    //0x4cD83052334c8bAE503FE6C2584532D33ed7015a
   }
   const addHexPrefix = (str) => {
     if (typeof str !== "string" || str.match(/^-?0x/u)) {
@@ -77,10 +68,21 @@ function ImportAccount() {
       label: 'JSON',
     }
   ]
-  const [way, setWay] = React.useState('key');
-
   const handleChange = (event) => {
     setWay(event.target.value);
+  };
+  const addWithPrivateKey = (privateKey) => {
+    const prefixed = addHexPrefix(privateKey); // toBuffer(privateKey)
+    const buffer = toBuffer(prefixed);
+    const value = isValidPrivate(buffer);
+    if (!value) return false;
+    const wallet = Wallet.fromPrivateKey(buffer);
+
+    listAcc.importAccount({
+      username: "",
+      address: wallet.getAddressString(),
+      privateKey: wallet.getPrivateKeyString(),
+    });
   };
   return (
     <div className="centered-item">
@@ -120,7 +122,7 @@ function ImportAccount() {
           </Typography>
 
           <TextField
-            sx = {{width: '240px'}}
+            sx={{ width: "240px" }}
             id="outline-selected-type"
             size="small"
             select
@@ -151,25 +153,47 @@ function ImportAccount() {
               </div>
               <div className="centered-item-10px-top">
                 <TextField
+                  type="password"
                   id="outlined-basic"
                   label="Private key"
                   variant="outlined"
                   onChange={(e) => {
-                    setPrivateKey(e.target.value)
+                    setPrivateKey(e.target.value);
                   }}
                 />
               </div>
             </div>
-            
           )}
-          <div className="centered-item-10px-topbot">
-            <TextField id="outlined-basic" label="Password" variant="outlined" />
-          </div>
-          <div className="double-item-10px-bot">
-            <Button variant="outlined" onClick={() => {navigate("/");}}>Cancel</Button>
-            <Button variant="contained">Confirm</Button>
-          </div>
-          
+          <Stack
+            sx={{ justifyContent: "space-around", mt: "20px" }}
+            direction="row"
+          >
+            <Button
+              sx={{
+                borderRadius: "100px",
+              }}
+              onClick={() => {
+                navigate("/");
+              }}
+              variant="outlined"
+            >
+              Cancel
+            </Button>
+            <Button
+              sx={{
+                borderRadius: "100px",
+              }}
+              onClick={submit}
+              variant="contained"
+            >
+              Confirm
+            </Button>
+          </Stack>
+          {warning ? (
+            <div className="warning-content">
+              <div className="warning-text">{warning}</div>
+            </div>
+          ) : null}
         </CardContent>
       </Card>
     </div>

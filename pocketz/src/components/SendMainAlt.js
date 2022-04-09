@@ -26,6 +26,7 @@ export default function SendMainAlt({Account, onExit}) {
   const buildAddress = (address) => {
     return String(address).substring(0,10);
   }
+  
   return (
     <div className="centered-container" style={{ width: "400px" }}>
       {!show?(<Card sx={{ width: "400px" }}>
