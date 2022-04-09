@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import { useState } from 'react';
 import SendConfirm from './SendConfirm'
 import { useWeb3Service } from '../serviceData/accountETH';
+import Header from './AppHeader';
 
 export default function SendMainAlt({Account, onExit}) {
   const listAcc = useListAccount();
@@ -16,8 +17,12 @@ export default function SendMainAlt({Account, onExit}) {
   const [show, setShow] = useState(false);
   const [balance, setBalance] = useState(0);
   const [accountSelect, setAccountSelect] = useState(null);
+  const [amount, setAmount]=useState('0');
   const onSelectAccount = () => {
     setShow(true);
+  }
+  const exit = () => {
+    setShow(false);
   }
   
   const handleChange = (event) => {
@@ -41,97 +46,105 @@ export default function SendMainAlt({Account, onExit}) {
   
   return (
     <div className="centered-container" style={{ width: "400px" }}>
-      {!show ? (
-        <Card sx={{ width: "400px" }}>
-          <div>
-            <div className="kbietdattengi">
+      {!show?(
+        <div className='centered-item'>
+          <div style = {{width: '400px'}}>
+            <Header/>
+          </div>
+          <Card sx={{ width: "400px" }}>
+            <div>
+              <div className="kbietdattengi">
+                <div className="margin-left">
+                  <Typography variant="body1" gutterBottom>
+                    {Account.username}
+                  </Typography>
+                  <Typography variant="caption" display="block" gutterBottom>
+                    {Account.account.address}
+                  </Typography>
+                </div>
+                <div className="margin-right">
+                  <IconButton
+                    onClick={onExit}
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                </div>
+              </div>
+            </div>
+            <div className="item">
               <div className="margin-left">
                 <Typography variant="body1" gutterBottom>
-                  {Account.username}
+                  Asset:
                 </Typography>
-                <Typography variant="caption" display="block" gutterBottom>
-                  {Account.account.address}
-                </Typography>
-              </div>
-              <div className="margin-right">
-                <IconButton onClick={onExit}>
-                  <ClearIcon />
-                </IconButton>
-              </div>
-            </div>
-          </div>
-          <div className="item">
-            <div className="margin-left">
-              <Typography variant="body1" gutterBottom>
-                Asset:
-              </Typography>
-              <div>
-                <Select
-                  onChange={handleChange}
-                  displayEmpty
-                  sx={{ width: "120px" }}
-                  defaultValue={1}
-                >
-                  <MenuItem value={1}>ETH</MenuItem>
-                </Select>
-                <Typography
-                  variant="caption"
-                  gutterBottom
-                  sx={{ padding: "10px" }}
-                >
-                  Balance: {balance} ETH
-                </Typography>
+                <div>
+                  <Select
+                    onChange={handleChange}
+                    displayEmpty
+                    sx={{ width: "120px" }}
+                    defaultValue={1}
+                  >
+                    <MenuItem value={1}>ETH</MenuItem>
+                  </Select>
+                  <Typography
+                    variant="caption"
+                    gutterBottom
+                    sx={{ padding: "10px" }}
+                  >
+                    Balance: {balance} ETH
+                  </Typography>
+                </div>
               </div>
             </div>
-          </div>
-          <div className="item">
-            <div className="margin-left">
-              <Typography variant="body1" gutterBottom>
-                Amount:
-              </Typography>
-              <TextField
-                variant="outlined"
-                defaultValue="0"
-                sx={{ width: "95%" }}
-              />
+            <div className="item">
+              <div className="margin-left">
+                <Typography variant="body1" gutterBottom>
+                  Amount:
+                </Typography>
+                <TextField
+                  variant="outlined"
+                  defaultValue="0"
+                  sx={{ width: "95%" }}
+                  onChange={(e)=>{setAmount(e.target.value)}}
+                />
+              </div>
             </div>
-          </div>
 
-          <div
-            style={{
-              margin: "10px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Stack sx={{ width: "90%" }} direction="row" spacing={2}>
-              <Button
-                onClick={() => {
-                  navigate("/");
-                }}
-                sx={{ width: "50%", borderRadius: "100px" }}
-                variant="outlined"
-              >
-                Cancel
-              </Button>
-              <Button
-                sx={{ width: "50%", borderRadius: "100px" }}
-                variant="contained"
-                onClick={() => {
-                  setAccountSelect(Account);
-                  onSelectAccount();
-                  //navigate("./mainalt");
-                }}
-              >
-                Continue
-              </Button>
-            </Stack>
-          </div>
-        </Card>
-      ) : (
-        <SendConfirm Account={accountSelect} />
-      )}
+            <div
+              style={{
+                margin: "10px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Stack sx={{ width: "90%" }} direction="row" spacing={2}>
+                <Button
+                  
+                  onClick={() => {
+                    navigate("/");
+                  }}
+                  sx={{ width: "50%", borderRadius: "100px" }}
+                  variant="outlined"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  sx={{ width: "50%", borderRadius: "100px" }}
+                  variant="contained"
+                  onClick={() => {
+                    setAccountSelect(Account);
+                    onSelectAccount();
+                    //navigate("./mainalt");
+                  }}
+                >
+                  Continue
+                </Button>
+              </Stack>
+            </div>
+          </Card>
+        </div>
+      ): <SendConfirm Account = {accountSelect} setShow = {exit} amount = {amount}/>}
+      
     </div>
   );
 }

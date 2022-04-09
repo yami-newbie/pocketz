@@ -20,7 +20,6 @@ function App() {
         <Routes>
           <Route path="/sendtx" element={<SendTransactionPage />}></Route>
           <Route path="/sendtx/detail" element={<SendMainAltPage />}></Route>
-          {/* <Route path="/sendtx/detail/confirm" element={<SendConfirm/>}></Route> */}
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/register" element={<RegisterPage />}></Route>

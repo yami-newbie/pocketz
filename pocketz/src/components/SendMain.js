@@ -53,7 +53,7 @@ export default function SendMain() {
               id="outlined-search"
               onChange={(e) =>{setSortName(e.target.value)}}
               type="search"
-              sx={{ width: "95%", marginTop: '10px'}}
+              sx={{ width: "95%", marginTop: '10px', bgcolor: 'white'}}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">

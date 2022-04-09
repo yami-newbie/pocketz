@@ -61,7 +61,7 @@ function ImportAccount() {
   const ways = [
     {
       value: 'key',
-      label: 'private key',
+      label: 'Private key',
     },
     {
       value: 'json',
@@ -111,33 +111,37 @@ function ImportAccount() {
       <div style = {{width: '400px'}}>
         <Header/>
       </div>
-      <Card sx={{ width: 275 }}>
+      <Card sx={{ width: '350px' }}>
         <CardContent>
           <Typography variant="h5" component="div">
             Import Account
           </Typography>
           <Divider />
-          <Typography variant="p" component="div">
-            Type:
-          </Typography>
+          <Stack sx={{ justifyContent: "space-around", mt: "20px" }}
+            direction="row">
+            <Typography variant="body2" gutterBottom component="div" sx={{marginTop: '10px'}}>
+              Type:
+            </Typography>
 
-          <TextField
-            sx={{ width: "240px" }}
-            id="outline-selected-type"
-            size="small"
-            select
-            value={way}
-            onChange={handleChange}
-          >
-            {ways.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
+            <TextField
+              sx={{ width: "240px" }}
+              id="outline-selected-type"
+              size="small"
+              select
+              value={way}
+              onChange={handleChange}
+            >
+              {ways.map((option) => (
+                <MenuItem key={option.value} value={option.value}>
+                  {option.label}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Stack>
+          
           {way === ways[1].value ? (
             <input
-              className="centered-item-10px-topbot"
+              style={{marginTop: '20px', marginLeft: '20px'}}
               type="file"
               ref={inputFile}
               onChange={(e) => {
@@ -146,16 +150,15 @@ function ImportAccount() {
             />
           ) : (
             <div>
-              <div className="centered-item-10px-top">
+              <div style = {{marginLeft: '10px', marginTop: '20px', marginBottom: '10px'}}>
                 <Typography variant="p" component="div">
-                  Paste your private key here:
+                  Enter your private key here:
                 </Typography>
               </div>
               <div className="centered-item-10px-top">
                 <TextField
                   type="password"
                   id="outlined-basic"
-                  label="Private key"
                   variant="outlined"
                   onChange={(e) => {
                     setPrivateKey(e.target.value);
@@ -165,13 +168,11 @@ function ImportAccount() {
             </div>
           )}
           <Stack
-            sx={{ justifyContent: "space-around", mt: "20px" }}
+            sx={{ justifyContent: "space-around", mt: "30px" }}
             direction="row"
           >
             <Button
-              sx={{
-                borderRadius: "100px",
-              }}
+              sx={{ width: "40%", borderRadius: "100px" }}
               onClick={() => {
                 navigate("/");
               }}
@@ -180,9 +181,7 @@ function ImportAccount() {
               Cancel
             </Button>
             <Button
-              sx={{
-                borderRadius: "100px",
-              }}
+              sx={{ width: "40%", borderRadius: "100px" }}
               onClick={submit}
               variant="contained"
             >
