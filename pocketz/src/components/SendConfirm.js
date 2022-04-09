@@ -7,7 +7,7 @@ import { useState } from 'react';
 import Header from './AppHeader';
 import { useNavigate } from 'react-router';
 
-export default function SendConfirm({Account, setShow}) {
+export default function SendConfirm({Account, setShow, amount}) {
     const listAcc = useListAccount();
     const acc = listAcc.getSelectedAccount();
     const [popup, setPopup] = useState(false);
@@ -35,7 +35,7 @@ export default function SendConfirm({Account, setShow}) {
             <Divider/>
             <div className='send-content'>
                 <Typography variant="h6" gutterBottom>
-                    0 ETH
+                    {amount} ETH
                 </Typography>
             </div>
             <Divider/>
@@ -47,7 +47,7 @@ export default function SendConfirm({Account, setShow}) {
             <Divider/>
             <div className='send-content'>
                 <Typography variant='h6' gutterBottom>
-                    Total: 0
+                    Total: {amount}
                 </Typography>
             </div>
             <Divider/>

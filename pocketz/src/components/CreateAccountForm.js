@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Button from '@mui/material/Button'
-import { CardContent } from "@mui/material";
+import { CardContent, Stack, Typography } from "@mui/material";
 import { OutlinedInput } from "@mui/material";
 import { Card } from "@mui/material";
 import { useListAccount } from "../serviceData/listAccount";
 import { useNavigate } from "react-router";
+import Header from './AppHeader'
 
 function CreateAccountForm() {
     const [username, setUsername] = useState("");
@@ -28,20 +29,31 @@ function CreateAccountForm() {
           setUsername("");
     };
     return (
-      <div className="centered-container">
-        <Card sx={{ maxWidth: 275 }}>
+      <div className="centered-item">
+        <div style = {{width: '400px'}}>
+          <Header/>
+        </div>
+        <Card sx={{ width: '350px' }}>
           <CardContent>
+            <div>
+              <Typography variant="body1" gutterBottom>
+                Username
+              </Typography>
+            </div>
             <div className="centered-item-10px-topbot">
               <OutlinedInput onChange={(e) => {setUsername(e.target.value)}} placeholder="Username"/>
             </div>
-            <div className="double-item-10px-bot">
-              <Button onClick={() => navigate("/")} variant="outlined">Cancel</Button>
+            
+            <Stack sx={{ justifyContent: "space-around", mt: "30px" }}
+            direction="row">
+              <Button onClick={() => navigate("/")} variant="outlined" sx={{ width: "40%", borderRadius: "100px" }}>Cancel</Button>
               <Button 
                 variant="contained"
+                sx={{ width: "40%", borderRadius: "100px" }}
                 onClick={createAccount}>
                   Create
               </Button>
-            </div>
+            </Stack>
           </CardContent>
         </Card>
       </div>

@@ -13,6 +13,7 @@ export default function SendMainAlt({Account, onExit}) {
   const [money, setMoney] = React.useState('');
   const [show, setShow] = useState(false);
   const [accountSelect, setAccountSelect] = useState();
+  const [amount, setAmount]=useState('0');
   const onSelectAccount = () => {
     setShow(true);
   }
@@ -83,6 +84,7 @@ export default function SendMainAlt({Account, onExit}) {
               variant="outlined"
               defaultValue="0"
               sx={{ width: "95%" }}
+              onChange={(e)=>{setAmount(e.target.value)}}
             />
           </div>
         </div>
@@ -119,7 +121,7 @@ export default function SendMainAlt({Account, onExit}) {
             </Button>
           </Stack>
         </div>
-      </Card>): <SendConfirm Account = {accountSelect} setShow = {exit}/>}
+      </Card>): <SendConfirm Account = {accountSelect} setShow = {exit} amount = {amount}/>}
       
     </div>
   );

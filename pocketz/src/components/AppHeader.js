@@ -60,6 +60,7 @@ function Header() {
                 marginLeft: "20px",
                 marginRight: "20px",
                 textAlign: "center",
+                bgcolor:'white'
               }}
               value={provider}
               onChange={handleChange}
