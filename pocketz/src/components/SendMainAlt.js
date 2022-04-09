@@ -16,6 +16,9 @@ export default function SendMainAlt({Account, onExit}) {
   const onSelectAccount = () => {
     setShow(true);
   }
+  const exit = () => {
+    setShow(false);
+  }
   
   const handleChange = (event) => {
     setMoney(event.target.value);
@@ -115,7 +118,7 @@ export default function SendMainAlt({Account, onExit}) {
             </Button>
           </Stack>
         </div>
-      </Card>): <SendConfirm Account = {accountSelect}/>}
+      </Card>): <SendConfirm Account = {accountSelect} setShow = {exit}/>}
       
     </div>
   );

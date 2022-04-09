@@ -7,19 +7,18 @@ import { useState } from 'react';
 import Header from './AppHeader';
 import { useNavigate } from 'react-router';
 
-export default function SendConfirm({Account}) {
+export default function SendConfirm({Account, setShow}) {
     const listAcc = useListAccount();
     const acc = listAcc.getSelectedAccount();
-    const {popup, setPopup} = useState(false);
+    const [popup, setPopup] = useState(false);
     let navigate = useNavigate();
     return (
     <div className = 'centered-item'>
-        <div style = {{width: '400px'}}>
-            <Header/>
-        </div>
         
         <Card sx= {{width: '400px'}}>
-            <Button size="small">Back</Button>
+            <Button size="small"
+                onClick = {setShow}
+            >Back</Button>
             <Divider/>
             <div className = 'double-item'>
                 <Typography variant="body2" gutterBottom>
@@ -27,7 +26,7 @@ export default function SendConfirm({Account}) {
                 </Typography>
                 <ArrowForwardIcon/>
                 <Button variant='text'
-                    onclick = {() => setPopup(true)}
+                    onClick = {() => setPopup(true)}
                     
                 >
                     {Account.username}
