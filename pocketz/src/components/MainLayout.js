@@ -62,17 +62,18 @@ export default function MainLayout({ Account }) {
 
   useEffect(() => {
     const load = async () => {
-      const bal = Account ? await web3.getBalance(Account.account.address) : 0;
+      const bal = listAccount.getBalance(Account.account.address);
+      console.log("nah", bal);
       setBalance(bal);
     };
     load();
     return () => {
       setBalance(0);
     }
-  }, [Account, web3.providers]);
+  }, [listAccount.balances.current, web3.providers]);
 
   const fixBalance = (_balance) => {
-    return _balance.toString().substr(0, 6);
+    return _balance?.toString().substr(0, 6);
   };
 
   return (

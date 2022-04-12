@@ -1,16 +1,16 @@
 import { Avatar } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
-import { useWeb3Service } from "../serviceData/accountETH";
 import { useEffect, useState } from "react";
+import { useListAccount } from "../serviceData/listAccount";
 
 
 function ListAccountItem({ Account, onClick: handleCloseUserMenu }) {
-  const web3Service = useWeb3Service();
   const [balance, setBalance] = useState(0);
+  const listAccount = useListAccount();
 
   useEffect(() => {
     const init = async () => {
-      const balance = await web3Service.getBalance(Account.account.address);
+      const balance = listAccount.getBalance(Account.account.address);
       const val = String(balance).substr(0, 8);
       setBalance(val);
     };
@@ -18,7 +18,7 @@ function ListAccountItem({ Account, onClick: handleCloseUserMenu }) {
     return () => {
       setBalance(0);
     }
-  }, []);
+  }, [listAccount.balances.current]);
 
   return (
     <div className="avatar-icon-button" onClick={handleCloseUserMenu}>
