@@ -43,7 +43,7 @@ function ListAccount({ onClickItems: handleCloseUserMenu }) {
         sx={{
           mr: 1,
           overflow: "auto",
-          maxHeight: 100,
+          maxHeight: 200,
           width: "100%",
         }}
       >

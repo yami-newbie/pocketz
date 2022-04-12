@@ -1,7 +1,8 @@
 import { BigNumber, ethers } from "ethers";
-import { createContext, useContext } from "react";
-import Web3 from "web3";
+import { createContext, useContext, useEffect, useRef } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
+
+var Web3 = require("web3");
 
 export const defaultProvider = [
   {
@@ -68,7 +69,7 @@ export default function ProviderWeb3Service({ children }) {
 }
 
 function AccountETH() {
-  let web3 = null;
+  const web3 = useRef();
 
   const [providers, setProviders] = useLocalStorage(
     "providers",
@@ -95,12 +96,12 @@ function AccountETH() {
     };
     // console.log(gasLimit ? gasLimit : gasLimitDefault);
 
-    const signedTx = await web3.eth.accounts.signTransaction(
+    const signedTx = await web3.current.eth.accounts.signTransaction(
       transaction,
       account.privateKey
     );
 
-    web3.eth.sendSignedTransaction(
+    web3.current.eth.sendSignedTransaction(
       signedTx.rawTransaction,
       function (error, hash) {
         if (!error) {
@@ -129,8 +130,8 @@ function AccountETH() {
     console.log(
     "nah"
     )
-    getWeb3().eth
-      .getPastLogs({
+    getWeb3()
+      .eth.getPastLogs({
         fromBlock: "0x0",
         address: address,
       })
@@ -203,35 +204,45 @@ function AccountETH() {
   };
 
   const getWeb3 = () => {
-    web3 = new Web3(getSelectedProvider().providerUrl);
-    return web3;
+    web3.current = web3.current ? web3.current : new Web3(getSelectedProvider().providerUrl);
+    return web3.current;
   };
 
   const getBalance = async (address) => {
     var balance = await getWeb3().eth.getBalance(address); //Will give value in.
-    balance = web3.utils.fromWei(String(balance));
+    balance = getWeb3().utils.fromWei(String(balance));
     return balance.toString();
   };
 
   const getGasPrice = async () => {
     var price = await getWeb3().eth.getGasPrice(); //Will give value in.
-    price = web3.utils.fromWei(String(price));
+    price = getWeb3().utils.fromWei(String(price));
     return price;
   }
 
   const calGasPrice = async (maxGas) => {
     var price = await getWeb3().eth.getGasPrice(); //Will give value in.
     price = BigNumber.from(String(price)).mul(BigNumber.from(String(maxGas)));
-    price = web3.utils.fromWei(String(price));
+    price = getWeb3().utils.fromWei(String(price));
     return price.toString();
-  }
+  };
 
+  useEffect(() => {
+    console.log("init web3provider");
+    web3.current = new Web3(getSelectedProvider().providerUrl);
+  }, [])
+
+  useEffect(() => {
+    console.log("change web3provider");
+    web3.current.currentProvider.disconnect();
+    web3.current = new Web3(getSelectedProvider().providerUrl);
+  }, [providers])
 
   return {
     providers,
+    web3,
     create,
     getBalance,
-    getWeb3,
     addProvider,
     getLinkCheckAccountInEtherscan,
     switchProvider,

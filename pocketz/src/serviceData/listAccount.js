@@ -13,6 +13,12 @@ const listAvatar = [
   "/images/92900006_p0.jpg",
 ];
 
+const LoadState = {
+  free: -1,
+  pending: 0,
+  done: 1,
+}
+
 export const useListAccount = () => {
   return useContext(listAccount);
 };
@@ -35,7 +41,7 @@ function ListAccountData() {
   const [count, setCount] = useLocalStorage("count", 0);
   const web3 = useWeb3Service();
   const [time, setTime] = useState(Date.now());
-  var loadDone = useRef(-1);
+  var loadDone = useRef(0);
 
   const importAccount = ({ username, address, privateKey }) => {
     setKey(key + 1);
@@ -169,19 +175,21 @@ function ListAccountData() {
           address: item.address,
           balance: balance,
           state: item.state,
+          count: item.count,
         };
       }
     });
     if (count !== balances.length) balances.current = list;
     else
-      balances.current = ([
+      balances.current = [
         ...balances,
         {
           address: address,
           balance: balance,
-          state: -1,
+          state: LoadState.free,
+          count: 0,
         },
-      ]);
+      ];
   };
 
   const setLoadState = (address, state) => {
@@ -193,13 +201,53 @@ function ListAccountData() {
           address: item.address,
           balance: item.balance,
           state: state,
+          count: item.count,
         };
       }
     });
   }
 
+  const setFreeState = (address) => {
+    setLoadState(address, LoadState.free);
+  }
+
+  const setPendingState = (address) => {
+    setLoadState(address, LoadState.pending);
+  };
+
+  const setDoneState = (address) => {
+    setLoadState(address, LoadState.done);
+    setDoneLoad(address);
+  };
+
+  const setDoneLoad = (address) => {
+    balances.current = balances.current.map((item) => {
+      if (item.address !== address) {
+        return item;
+      }
+      else {
+        return {
+          address: item.address,
+          balance: item.balance,
+          state: item.state,
+          count: item.count + 1,
+        };
+      }
+    });
+  }
+
+  const getMinLoadDone = () => {
+    let min = balances.current[0]? balances.current[0].count : 0;
+    balances.current.map((item) => {
+      if(min > item.count) {
+        min = item.count;
+      }
+    })
+    return min;
+  }
+
   const getBalance = (address) => {
-    let balance;
+    let balance = 0;
     balances.current.map((item) => {
       if (item.address === address) {
         balance = item.balance;
@@ -209,7 +257,7 @@ function ListAccountData() {
   };
 
   const getLoadState = (address) => {
-    let state;
+    let state = LoadState.free;
     balances.current.map((item) => {
       if (item.address === address) {
         state = item.state;
@@ -218,21 +266,80 @@ function ListAccountData() {
     return state;
   };
 
+  const getLoadDone = (address) => {
+    let count = getMinLoadDone();
+    balances.current.map((item) => {
+      if (item.address === address) {
+        count = item.count ? item.count : getMinLoadDone();
+      }
+    });
+    return count;
+  }
+
+  const setAllFreeState = () => {
+    balances.current = balances.current.map((item) => {
+      return {
+        address: item.address,
+        balance: item.balance,
+        state: LoadState.free,
+        count: item.count,
+      };
+    });
+  }
+
+  const ReloadBalances = () => {
+    accounts.map(async (acc) => {
+      const address = acc.account.address;
+      switch (getLoadState(address)) {
+        case 1: {
+          setFreeState(address);
+          break;
+        }
+        case -1: {
+          // if(!isCanReload(address))
+          //   break;
+          console.log("load");
+          setPendingState(address, 0);
+          await web3.getBalance(address).then((balance) => {
+            setBalance(address, fixBalance(balance));
+            console.log("done");
+            loadDone.current = loadDone.current + 1;
+            setDoneState(address);
+          });
+          break;
+        }
+        default:
+          break;
+      }
+    });
+  }
+
+  const fixBalance = (_balance) => {
+    return _balance?.toString().substr(0, 6);
+  };
+
+  const setBalancesData = () => {
+    balances.current = accounts.map((acc) => {
+      const address = acc.account.address;
+
+      return {
+        address: address,
+        balance: getBalance(address),
+        state: getLoadState(address),
+        count: getLoadDone(address),
+      };
+    });
+  };
+
   useEffect(() => {
     const init = () => {
       getSelectedAccount();
-      balances.current = (accounts.map((acc) => {
-        return {
-          address: acc.account.address,
-          balance: 0,
-          state: -1,
-        }
-      }))
+      setBalancesData();
       console.log("init", accounts);
       return accounts ? null : createAccount("");
     };
     init();
-    const interval = setInterval(() => setTime(Date.now()), 4000);
+    const interval = setInterval(() => setTime(Date.now()), 2000);
 
     const unsubscribe = () => {
       if (accounts) {
@@ -247,36 +354,28 @@ function ListAccountData() {
     };
   }, []);
 
-  
   useEffect(() => {
     const load = () => {
       wallet.setAccounts(accounts);
+      setBalancesData();
     };
     load();
   }, [accounts]);
 
   useEffect(() => {
+    setAllFreeState();
+  }, [web3.providers])
+
+  useEffect(() => {
     const loadBalance = () => {
-      console.log(balances.current);
-      accounts.map(async (acc) => {
-        const address = acc.account.address;
-        if (getLoadState(address) === 1) {
-          setLoadState(address, -1);
-        }
-        if (getLoadState(address) === -1) {
-          console.log("load");
-          setLoadState(address, 0);
-          await web3.getBalance(address).then((balance) => {
-            setBalance(address, fixBalance(balance));
-            console.log("done");
-            setLoadState(address, 1);
-          });
-        }
-      });      
+      try {
+        ReloadBalances();
+      }
+      catch (e) {
+        console.log(e);
+      }
     };
-    const fixBalance = (_balance) => {
-      return _balance.toString().substr(0, 6);
-    };
+
     loadBalance();
   }, [time]);
 

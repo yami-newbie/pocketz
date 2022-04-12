@@ -40,7 +40,6 @@ export default function MainLayout({ Account }) {
     if(wallet.wallet === {}){
       navigate("/register");
     }
-    web3.getWeb3().eth.getGasPrice().then(console.log)
     return web3.checkBlock({ address: selectedAccount?.account.address });
   },[]);
 
