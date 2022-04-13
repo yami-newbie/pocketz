@@ -5,7 +5,7 @@ const buildApi = (provider) => {
   else return "https://api-" + provider.name + ".etherscan.io/api";
 }
 
-const GetTxListApi = ({ provider, address, startBlock, currentBlock: endBlock }) => {
+const GetTxListApi = ({ provider, address, startBlock, endBlock, page = 1, offset = 10 }) => {
   return (
     buildApi(provider) +
     "?module=account" +
@@ -16,8 +16,10 @@ const GetTxListApi = ({ provider, address, startBlock, currentBlock: endBlock })
     startBlock +
     "&endblock=" +
     endBlock +
-    "&page=1" +
-    "&offset=10" +
+    "&page=" +
+    page +
+    "&offset=" +
+    offset +
     "&sort=asc" +
     "&apikey=" +
     apiKey

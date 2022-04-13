@@ -59,7 +59,7 @@ function ListAccountData() {
         address: address,
         privateKey: privateKey,
       },
-      loadState: 0,
+      pendingHash: null,
     };
     if (accounts) {
       // console.log("accounts", accounts);
@@ -99,6 +99,7 @@ function ListAccountData() {
             username: username,
             account: account.account,
             selected: account.selected,
+            pendingHash: account.pendingHash,
           };
         }
       })
@@ -107,7 +108,7 @@ function ListAccountData() {
 
   //#endregion
 
-  //#region change Account
+  //#region set Account
   const _NotSelectAccount = (_accounts) => {
     let list = [];
     _accounts.forEach((element) => {
@@ -160,12 +161,31 @@ function ListAccountData() {
       avatarSrc: account.avatarSrc ? account.avatarSrc : getAvatar(),
       username: account.username,
       selected: value,
-      account: {
-        address: account.account.address,
-        privateKey: account.account.privateKey,
-      },
+      account: account.account,
+      pendingHash: account.pendingHash,
     };
   };
+
+  const setPendingHash = (pendingHash) => {
+    const account = getSelectedAccount();
+    setAccounts(
+      accounts.map((acc) => {
+        if(acc.account.address === account.account.address) {
+          return {
+            key: acc.key,
+            avatarSrc: acc.avatarSrc,
+            username: acc.username,
+            selected: acc.selected,
+            account: acc.account,
+            pendingHash: pendingHash,
+          };
+        }
+        else {
+          return acc;
+        }
+      })
+    )
+  }
   //#endregion
 
   //#region reload balance
@@ -343,6 +363,11 @@ function ListAccountData() {
     });
   }
 
+  const fetchPendingTxList = async () => {
+    const account = getSelectedAccount();
+    await web3.getPendingTransactions(account.account.address);
+  }
+
   const getTxList = () => {
     return txList.current;
   }
@@ -358,7 +383,7 @@ function ListAccountData() {
       return accounts ? null : createAccount("");
     };
     init();
-    const interval = setInterval(() => setTime(Date.now()), 5000);
+    const interval = setInterval(() => setTime(Date.now()), 15000);
 
     const unsubscribe = () => {
       if (accounts) {
@@ -390,13 +415,17 @@ function ListAccountData() {
       try {
         ReloadBalances();
         fetchTxlist();
+        fetchPendingTxList();
       } catch (e) {
         console.log(e);
       }
     };
-
-    //reload();
+    reload();
   }, [time]);
+
+  useEffect(() => {
+    setPendingHash(web3.pendingHash.current);
+  }, [web3.pendingHash.current]);
 
   return {
     accounts,

@@ -72,6 +72,7 @@ export default function ProviderWeb3Service({ children }) {
 
 function AccountETH() {
   const web3 = useRef();
+  const pendingHash = useRef();
 
   const [providers, setProviders] = useLocalStorage(
     "providers",
@@ -107,10 +108,12 @@ function AccountETH() {
       signedTx.rawTransaction,
       function (error, hash) {
         if (!error) {
+          pendingHash.current = hash;
           console.log(
             "🎉 The hash of your transaction is: ",
             hash,
-            "\n Check Alchemy's Mempool to view the status of your transaction!"
+            "\n Check Alchemy's Mempool to view the status of your transaction!\n",
+            "https://ropsten.etherscan.io/tx/" + hash
           );
         } else {
           console.log(
@@ -138,6 +141,22 @@ function AccountETH() {
       .then((res) => {
         return (res.data.result);
       });
+  };
+
+  const getPendingTransactions = async (address) => {
+    const _web3 = getWeb3();
+
+    if (pendingHash.current){
+      console.log("work?");
+      await _web3.eth.getTransaction(pendingHash.current).then(console.log);
+    }
+    //_web3.eth
+    // .subscribe("pendingTransactions", function (error, result) {
+    //   if (!error) console.log(result);
+    // })
+    // .on("data", function (transaction) {
+    //   console.log(transaction);
+    // });
   };
 
   const setDefaultAccount = (address) => {
@@ -224,9 +243,7 @@ function AccountETH() {
   const calGasPrice = async (maxGas) => {
     var price = await getWeb3().eth.getGasPrice(); //Will give value in.
     price = BigNumber.from(String(price)).mul(BigNumber.from(String(maxGas)));
-    console.log(price);
     price = getWeb3().utils.fromWei(String(price));
-    console.log(price);
     return price.toString();
   };
 
@@ -244,6 +261,7 @@ function AccountETH() {
   return {
     providers,
     web3,
+    pendingHash,
     create,
     getBalance,
     addProvider,
@@ -256,5 +274,6 @@ function AccountETH() {
     getGasPrice,
     calGasPrice,
     getTransactionLogAccount,
+    getPendingTransactions,
   };
 }
