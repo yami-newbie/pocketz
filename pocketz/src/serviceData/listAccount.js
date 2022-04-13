@@ -17,7 +17,7 @@ const LoadState = {
   free: -1,
   pending: 0,
   done: 1,
-}
+};
 
 export const useListAccount = () => {
   return useContext(listAccount);
@@ -42,7 +42,9 @@ function ListAccountData() {
   const web3 = useWeb3Service();
   const [time, setTime] = useState(Date.now());
   var loadDone = useRef(0);
+  var txList = useRef();
 
+  //#region import, create, remove Account
   const importAccount = ({ username, address, privateKey }) => {
     setKey(key + 1);
     if (username === "") {
@@ -66,7 +68,46 @@ function ListAccountData() {
       setAccounts([newAcc]);
     }
   };
+  const removeAccount = (account) => {
+    let list = [];
+    accounts.map((_account) => {
+      if (_account.address !== account.address) {
+        list = [...list, _account];
+      }
+    });
+    if (list.length === accounts.length) throw Error("Tai khoan khong ton tai");
+    setAccounts(list);
+  };
 
+  const createAccount = async (username) => {
+    const acc = await web3.create();
+    importAccount({
+      username: username ? username : "",
+      address: acc.address,
+      privateKey: acc.privateKey,
+    });
+  };
+  const changeUsername = (account, username) => {
+    setAccounts(
+      accounts.map((_account) => {
+        if (_account !== account) {
+          return _account;
+        } else {
+          return {
+            key: account.key,
+            avatarSrc: account.avatarSrc,
+            username: username,
+            account: account.account,
+            selected: account.selected,
+          };
+        }
+      })
+    );
+  };
+
+  //#endregion
+
+  //#region change Account
   const _NotSelectAccount = (_accounts) => {
     let list = [];
     _accounts.forEach((element) => {
@@ -125,45 +166,9 @@ function ListAccountData() {
       },
     };
   };
+  //#endregion
 
-  const removeAccount = (account) => {
-    let list = [];
-    accounts.map((_account) => {
-      if (_account.address !== account.address) {
-        list = [...list, _account];
-      }
-    });
-    if (list.length === accounts.length) throw Error("Tai khoan khong ton tai");
-    setAccounts(list);
-  };
-
-  const createAccount = async (username) => {
-    const acc = await web3.create();
-    importAccount({
-      username: username ? username : "",
-      address: acc.address,
-      privateKey: acc.privateKey,
-    });
-  };
-
-  const changeUsername = (account, username) => {
-    setAccounts(
-      accounts.map((_account) => {
-        if (_account !== account) {
-          return _account;
-        } else {
-          return {
-            key: account.key,
-            avatarSrc: account.avatarSrc,
-            username: username,
-            account: account.account,
-            selected: account.selected,
-          };
-        }
-      })
-    );
-  };
-
+  //#region reload balance
   const setBalance = (address, balance) => {
     let count = 0;
     const list = balances.current.map((item) => {
@@ -205,11 +210,11 @@ function ListAccountData() {
         };
       }
     });
-  }
+  };
 
   const setFreeState = (address) => {
     setLoadState(address, LoadState.free);
-  }
+  };
 
   const setPendingState = (address) => {
     setLoadState(address, LoadState.pending);
@@ -224,8 +229,7 @@ function ListAccountData() {
     balances.current = balances.current.map((item) => {
       if (item.address !== address) {
         return item;
-      }
-      else {
+      } else {
         return {
           address: item.address,
           balance: item.balance,
@@ -234,17 +238,17 @@ function ListAccountData() {
         };
       }
     });
-  }
+  };
 
   const getMinLoadDone = () => {
-    let min = balances.current[0]? balances.current[0].count : 0;
+    let min = balances.current[0] ? balances.current[0].count : 0;
     balances.current.map((item) => {
-      if(min > item.count) {
+      if (min > item.count) {
         min = item.count;
       }
-    })
+    });
     return min;
-  }
+  };
 
   const getBalance = (address) => {
     let balance = 0;
@@ -274,7 +278,7 @@ function ListAccountData() {
       }
     });
     return count;
-  }
+  };
 
   const setAllFreeState = () => {
     balances.current = balances.current.map((item) => {
@@ -285,7 +289,7 @@ function ListAccountData() {
         count: item.count,
       };
     });
-  }
+  };
 
   const ReloadBalances = () => {
     accounts.map(async (acc) => {
@@ -298,11 +302,9 @@ function ListAccountData() {
         case -1: {
           // if(!isCanReload(address))
           //   break;
-          console.log("load");
           setPendingState(address, 0);
           await web3.getBalance(address).then((balance) => {
             setBalance(address, fixBalance(balance));
-            console.log("done");
             loadDone.current = loadDone.current + 1;
             setDoneState(address);
           });
@@ -312,7 +314,7 @@ function ListAccountData() {
           break;
       }
     });
-  }
+  };
 
   const fixBalance = (_balance) => {
     return _balance?.toString().substr(0, 6);
@@ -330,11 +332,28 @@ function ListAccountData() {
       };
     });
   };
+  //#endregion
+
+  //#region list tx
+
+  const fetchTxlist = async () => {
+    const account = getSelectedAccount();
+    await web3.getTransactionLogAccount(account.account.address).then((res) => {
+      txList.current = (res);
+    });
+  }
+
+  const getTxList = () => {
+    return txList.current;
+  }
+
+  //#endregion
 
   useEffect(() => {
     const init = () => {
       getSelectedAccount();
       setBalancesData();
+      fetchTxlist();
       console.log("init", accounts);
       return accounts ? null : createAccount("");
     };
@@ -364,23 +383,25 @@ function ListAccountData() {
 
   useEffect(() => {
     setAllFreeState();
-  }, [web3.providers])
+  }, [web3.providers]);
 
   useEffect(() => {
-    const loadBalance = () => {
+    const reload = () => {
       try {
         ReloadBalances();
-      }
-      catch (e) {
+        fetchTxlist();
+      } catch (e) {
         console.log(e);
       }
     };
 
-    loadBalance();
+    reload();
   }, [time]);
 
   return {
     accounts,
+    balances,
+    txList,
     importAccount,
     selectAccount,
     removeAccount,
@@ -388,6 +409,6 @@ function ListAccountData() {
     createAccount,
     changeUsername,
     getBalance,
-    balances,
+    getTxList,
   };
 }

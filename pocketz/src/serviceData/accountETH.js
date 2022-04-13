@@ -1,8 +1,10 @@
 import { BigNumber, ethers } from "ethers";
 import { createContext, useContext, useEffect, useRef } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
+import { GetTxListApi } from "./apiRequest";
 
 var Web3 = require("web3");
+const axios = require("axios");
 
 export const defaultProvider = [
   {
@@ -120,13 +122,28 @@ function AccountETH() {
     );
   };
 
-  const getTransactionLogCurrentAccount = () => {};
+  const getTransactionLogAccount = async (address) => {
+    const _web3 = getWeb3();
+    const currentBlock = _web3.eth.getBlockNumber();
+    //const block = await getWeb3().eth.getBlock(12188971).then(console.log);
+    return await axios
+      .get(
+        GetTxListApi({
+          address: address,
+          startBlock: 0,
+          endBlock: currentBlock,
+        })
+      )
+      .then((res) => {
+        return (res.data.result);
+      });
+  };
 
   const setDefaultAccount = (address) => {
     getWeb3().defaultAccount = address;
   };
 
-  const checkBlock = async ({ address: address }) => {
+  const checkBlock = async (address) => {
     console.log(
     "nah"
     )
@@ -253,5 +270,6 @@ function AccountETH() {
     checkBlock,
     getGasPrice,
     calGasPrice,
+    getTransactionLogAccount,
   };
 }

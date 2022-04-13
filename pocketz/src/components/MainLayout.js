@@ -29,19 +29,25 @@ import { useWallet } from "../serviceData/walletAccount";
 export default function MainLayout({ Account }) {
   const [value, setValue] = useState("1");
   const [balance, setBalance] = useState(0);
-  const web3 = useWeb3Service();
   const listAccount = useListAccount();
   const [anchorElUser, setAnchorElUser] = useState(null);
   let selectedAccount = listAccount.getSelectedAccount();
   let navigate = useNavigate();
   const wallet = useWallet();
+  const [txList, setTxList] = useState();
 
   useEffect(() => {
     if(wallet.wallet === {}){
       navigate("/register");
     }
-    return web3.checkBlock({ address: selectedAccount?.account.address });
   },[]);
+
+  useEffect(() => {
+    const loadTxList = async () => {
+      setTxList(JSON.stringify(listAccount.getTxList()));
+    };
+    loadTxList();
+  }, [listAccount.txList.current])
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(false);
@@ -62,14 +68,13 @@ export default function MainLayout({ Account }) {
   useEffect(() => {
     const load = async () => {
       const bal = listAccount.getBalance(Account.account.address);
-      console.log("nah", bal);
       setBalance(bal);
     };
     load();
     return () => {
       setBalance(0);
     }
-  }, [listAccount.balances.current, web3.providers]);
+  }, [listAccount.balances.current]);
 
   const fixBalance = (_balance) => {
     return _balance?.toString().substr(0, 6);
@@ -186,7 +191,7 @@ export default function MainLayout({ Account }) {
                     </ListItem>
                 </List>
               </TabPanel>
-              <TabPanel value="2">Item Two</TabPanel>
+              <TabPanel value="2">{txList}</TabPanel>
             </TabContext>
           </Box>
         </CardContent>
