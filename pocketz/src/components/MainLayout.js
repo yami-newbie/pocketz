@@ -35,11 +35,17 @@ export default function MainLayout({ Account }) {
   let navigate = useNavigate();
   const wallet = useWallet();
   const [txList, setTxList] = useState();
+  const web3Service = useWeb3Service();
+  const [gasprice, setPrice] = useState();
 
   useEffect(() => {
     if(wallet.wallet === {}){
       navigate("/register");
     }
+    const load = async () => {
+      setPrice(await web3Service.calGasPrice(21000));
+    }
+    load();
   },[]);
 
   useEffect(() => {
@@ -82,11 +88,11 @@ export default function MainLayout({ Account }) {
 
   return (
     <div className="centered-item">
-      <div style = {{width: '400px'}}>
-        <Header/>
+      <div style={{ width: "400px" }}>
+        <Header />
       </div>
-
-      <Card sx={{ width: '400px' }}>
+      {gasprice}
+      <Card sx={{ width: "400px" }}>
         <div className="grid-account-info">
           <div />
           <div className="address-account">
@@ -184,11 +190,11 @@ export default function MainLayout({ Account }) {
               </Box>
               <TabPanel value="1">
                 <List>
-                    <ListItem disablePadding>
-                      <ListItemButton>
-                        <ListItemText primary= "0 ETH" />
-                      </ListItemButton>
-                    </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemText primary="0 ETH" />
+                    </ListItemButton>
+                  </ListItem>
                 </List>
               </TabPanel>
               <TabPanel value="2">{txList}</TabPanel>

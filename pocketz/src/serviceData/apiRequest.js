@@ -1,8 +1,13 @@
 const apiKey = "124C79QIE5Z9S6BEYCRNVKKYSWYY1I5S2M";
 
-const GetTxListApi = ({ address, startBlock, currentBlock: endBlock }) => {
+const buildApi = (provider) => {
+  if (provider.name === "mainnet") return "https://api.etherscan.io/api";
+  else return "https://api-" + provider.name + ".etherscan.io/api";
+}
+
+const GetTxListApi = ({ provider, address, startBlock, currentBlock: endBlock }) => {
   return (
-    "https://api-ropsten.etherscan.io/api" +
+    buildApi(provider) +
     "?module=account" +
     "&action=txlist" +
     "&address=" +

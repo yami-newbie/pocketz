@@ -358,7 +358,7 @@ function ListAccountData() {
       return accounts ? null : createAccount("");
     };
     init();
-    const interval = setInterval(() => setTime(Date.now()), 2000);
+    const interval = setInterval(() => setTime(Date.now()), 5000);
 
     const unsubscribe = () => {
       if (accounts) {
@@ -395,7 +395,7 @@ function ListAccountData() {
       }
     };
 
-    reload();
+    //reload();
   }, [time]);
 
   return {

@@ -17,9 +17,8 @@ export default function SendConfirm({Account, setShow, amount}) {
     let navigate = useNavigate();
 
     useEffect(() => {
-        const load = () => {
-            console.log(web3.calGasPrice(maxPriorityFeePerGas));
-            setGasPrice(web3.getGasPrice());
+        const load = async () => {
+            setGasPrice(await web3.calGasPrice(maxPriorityFeePerGas));
         }
         load();
     }, [])
@@ -49,13 +48,13 @@ export default function SendConfirm({Account, setShow, amount}) {
           <Divider />
           <div className="send-content">
             <Typography variant="h6" gutterBottom>
-              Gas estimate: 
+              Gas estimate: {gasPrice}
             </Typography>
           </div>
           <Divider />
           <div className="send-content">
             <Typography variant="h6" gutterBottom>
-              Total: {amount}
+              Total: {Number(amount) + Number(gasPrice)}
             </Typography>
           </div>
           <Divider />

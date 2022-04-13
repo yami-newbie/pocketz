@@ -129,6 +129,7 @@ function AccountETH() {
     return await axios
       .get(
         GetTxListApi({
+          provider: getSelectedProvider(),
           address: address,
           startBlock: 0,
           endBlock: currentBlock,
@@ -141,23 +142,6 @@ function AccountETH() {
 
   const setDefaultAccount = (address) => {
     getWeb3().defaultAccount = address;
-  };
-
-  const checkBlock = async (address) => {
-    console.log(
-    "nah"
-    )
-    getWeb3()
-      .eth.getPastLogs({
-        fromBlock: "0x0",
-        address: address,
-      })
-      .then((res) => {
-        res.forEach((rec) => {
-          console.log(rec.blockNumber, rec.transactionHash, rec.topics);
-        });
-      })
-      .catch((err) => console.log("getPastLogs failed", err));
   };
 
   const getLinkCheckAccountInEtherscan = () => {
@@ -240,7 +224,9 @@ function AccountETH() {
   const calGasPrice = async (maxGas) => {
     var price = await getWeb3().eth.getGasPrice(); //Will give value in.
     price = BigNumber.from(String(price)).mul(BigNumber.from(String(maxGas)));
+    console.log(price);
     price = getWeb3().utils.fromWei(String(price));
+    console.log(price);
     return price.toString();
   };
 
@@ -267,7 +253,6 @@ function AccountETH() {
     setDefaultAccount,
     getDefaultAccount,
     sendTx,
-    checkBlock,
     getGasPrice,
     calGasPrice,
     getTransactionLogAccount,
