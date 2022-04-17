@@ -54,7 +54,7 @@ function ListAccountData() {
       key: key,
       avatarSrc: getAvatar(),
       username: username !== "" ? username : "Account " + count,
-      selected: true,
+      selected: false,
       account: {
         address: address,
         privateKey: privateKey,
@@ -63,20 +63,18 @@ function ListAccountData() {
     };
     if (accounts) {
       // console.log("accounts", accounts);
-      setAccounts([..._NotSelectAccount(accounts), newAcc]);
+      selectAccount(key);
     } else {
       setAccounts([newAcc]);
     }
   };
   const removeAccount = (account) => {
-    let list = [];
-    accounts.map((_account) => {
-      if (_account.address !== account.address) {
-        list = [...list, _account];
-      }
-    });
-    if (list.length === accounts.length) throw Error("Tai khoan khong ton tai");
-    setAccounts(list);
+    var array = [...accounts]; // make a separate copy of the array
+    var index = array.indexOf(account);
+    if (index !== -1) {
+      array.splice(index, 1);
+      setAccounts(array);
+    }
   };
 
   const createAccount = async (username) => {
@@ -87,105 +85,47 @@ function ListAccountData() {
       privateKey: acc.privateKey,
     });
   };
+
   const changeUsername = (account, username) => {
     setAccounts(
-      accounts.map((_account) => {
-        if (_account !== account) {
-          return _account;
-        } else {
-          return {
-            key: account.key,
-            avatarSrc: account.avatarSrc,
-            username: username,
-            account: account.account,
-            selected: account.selected,
-            pendingHash: account.pendingHash,
-          };
-        }
-      })
+      accounts.map((_account) =>
+        _account === account ? { ...account, username: username } : account
+      )
     );
   };
 
   //#endregion
 
   //#region set Account
-  const _NotSelectAccount = (_accounts) => {
-    let list = [];
-    _accounts.forEach((element) => {
-      list = [
-        ...list,
-        setSelectedValue({
-          account: element,
-          value: false,
-        }),
-      ];
-    });
-    return list;
-  };
 
   const selectAccount = (key) => {
-    let list = [];
-    accounts.map((account) => {
-      if (account.key !== key) {
-        list = [
-          ...list,
-          setSelectedValue({
-            account: account,
-            value: false,
-          }),
-        ];
-      } else {
-        list = [
-          ...list,
-          setSelectedValue({
-            account: account,
-            value: true,
-          }),
-        ];
-      }
-    });
-    setAccounts(list);
+    setAccounts(
+      accounts.map((account) =>
+        account.key === key
+          ? { ...account, selected: true }
+          : { ...account, selected: false }
+      )
+    );
   };
 
   const getSelectedAccount = () => {
     let _account = false;
-    accounts?.map((account) => {
-      if (account.selected) _account = account;
-    });
+    accounts?.map((account) =>
+      account.selected ? (_account = account) : false
+    );
     return _account;
   };
 
-  const setSelectedValue = ({ account, value }) => {
-    return {
-      key: account.key,
-      avatarSrc: account.avatarSrc ? account.avatarSrc : getAvatar(),
-      username: account.username,
-      selected: value,
-      account: account.account,
-      pendingHash: account.pendingHash,
-    };
-  };
-
   const setPendingHash = (pendingHash) => {
-    const account = getSelectedAccount();
+    const address = getSelectedAccount()?.account.address;
     setAccounts(
-      accounts.map((acc) => {
-        if(acc.account.address === account.account.address) {
-          return {
-            key: acc.key,
-            avatarSrc: acc.avatarSrc,
-            username: acc.username,
-            selected: acc.selected,
-            account: acc.account,
-            pendingHash: pendingHash,
-          };
-        }
-        else {
-          return acc;
-        }
-      })
-    )
-  }
+      accounts.map((account) =>
+        account.account.address === address
+          ? { ...account, pendingHash: pendingHash }
+          : account
+      )
+    );
+  };
   //#endregion
 
   //#region reload balance
@@ -197,10 +137,8 @@ function ListAccountData() {
         return item;
       } else {
         return {
-          address: item.address,
+          ...item,
           balance: balance,
-          state: item.state,
-          count: item.count,
         };
       }
     });
@@ -218,18 +156,9 @@ function ListAccountData() {
   };
 
   const setLoadState = (address, state) => {
-    balances.current = balances.current.map((item) => {
-      if (item.address !== address) {
-        return item;
-      } else {
-        return {
-          address: item.address,
-          balance: item.balance,
-          state: state,
-          count: item.count,
-        };
-      }
-    });
+    balances.current = balances.current.map(
+      (item) => (item.address !== address ? item : { ...item, state: state })
+    );
   };
 
   const setFreeState = (address) => {
@@ -246,69 +175,48 @@ function ListAccountData() {
   };
 
   const setDoneLoad = (address) => {
-    balances.current = balances.current.map((item) => {
-      if (item.address !== address) {
-        return item;
-      } else {
-        return {
-          address: item.address,
-          balance: item.balance,
-          state: item.state,
-          count: item.count + 1,
-        };
-      }
-    });
+    balances.current = balances.current.map((item) =>
+      item.address !== address ? item : { ...item, count: item.count + 1 }
+    );
   };
 
   const getMinLoadDone = () => {
     let min = balances.current[0] ? balances.current[0].count : 0;
-    balances.current.map((item) => {
-      if (min > item.count) {
-        min = item.count;
-      }
-    });
+    balances.current.map((item) => min = item.count < min ? item.count : min);
     return min;
   };
 
   const getBalance = (address) => {
     let balance = 0;
-    balances.current.map((item) => {
-      if (item.address === address) {
-        balance = item.balance;
-      }
-    });
+    balances.current.map((item) => balance = item.address === address ? item.balance : balance);
+    //  if (item.address === address) {
+    //    balance = item.balance;
+    //  }
     return balance;
   };
 
   const getLoadState = (address) => {
     let state = LoadState.free;
-    balances.current.map((item) => {
-      if (item.address === address) {
-        state = item.state;
-      }
-    });
+    balances.current.map((item) => state = item.address === address ? item.state : state);
     return state;
   };
 
   const getLoadDone = (address) => {
     let count = getMinLoadDone();
-    balances.current.map((item) => {
-      if (item.address === address) {
-        count = item.count ? item.count : getMinLoadDone();
-      }
-    });
+    balances.current.map(
+      (item) =>
+        (count =
+          item.address === address
+            ? item.count
+              ? item.count
+              : getMinLoadDone()
+            : count)
+    );
     return count;
   };
 
   const setAllFreeState = () => {
-    balances.current = balances.current.map((item) => {
-      return {
-        address: item.address,
-        balance: item.balance,
-        state: LoadState.free,
-        count: item.count,
-      };
-    });
+    balances.current = balances.current.map((item) => ({...item, state: LoadState.free}) );
   };
 
   const ReloadBalances = () => {
@@ -359,18 +267,18 @@ function ListAccountData() {
   const fetchTxlist = async () => {
     const account = getSelectedAccount();
     await web3.getTransactionLogAccount(account.account.address).then((res) => {
-      txList.current = (res);
+      txList.current = res;
     });
-  }
+  };
 
   const fetchPendingTxList = async () => {
     const account = getSelectedAccount();
     await web3.getPendingTransactions(account.account.address);
-  }
+  };
 
   const getTxList = () => {
     return txList.current;
-  }
+  };
 
   //#endregion
 
@@ -383,7 +291,7 @@ function ListAccountData() {
       return accounts ? null : createAccount("");
     };
     init();
-    const interval = setInterval(() => setTime(Date.now()), 15000);
+    const interval = setInterval(() => setTime(Date.now()), 5000);
 
     const unsubscribe = () => {
       if (accounts) {

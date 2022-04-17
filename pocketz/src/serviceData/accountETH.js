@@ -177,9 +177,9 @@ function AccountETH() {
 
   const getSelectedProvider = () => {
     let _selected = null;
-    providers.map((provider) => {
-      if (provider.selected) _selected = provider;
-    });
+    providers.map(
+      (provider) => (_selected = provider.selected ? provider : _selected)
+    );
 
     return _selected;
   };
@@ -197,30 +197,12 @@ function AccountETH() {
   };
 
   const switchProvider = (providerUrl) => {
-    let newProvider = providers.map((provider) => {
-      if (provider.providerUrl === providerUrl) {
-        return setSelectProvider({
-          provider: provider,
-          isSelect: true,
-        });
-      } else {
-        return setSelectProvider({
-          provider: provider,
-          isSelect: false,
-        });
-      }
-    });
-    setProviders(newProvider);
-    //console.log("it work");
-  };
-
-  const setSelectProvider = ({ provider: _provider, isSelect: value }) => {
-    return {
-      key: _provider.key,
-      providerUrl: _provider.providerUrl,
-      name: _provider.name,
-      selected: value,
-    };
+    setProviders(
+      providers.map((provider) => ({
+        ...provider,
+        selected: provider.providerUrl === providerUrl,
+      }))
+    );
   };
 
   const getWeb3 = () => {
@@ -256,7 +238,7 @@ function AccountETH() {
     console.log("change web3provider");
     web3.current.currentProvider.disconnect();
     web3.current = new Web3(getSelectedProvider().providerUrl);
-  }, [providers])
+  }, [getSelectedProvider])
 
   return {
     providers,

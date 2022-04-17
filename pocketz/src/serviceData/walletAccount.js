@@ -36,10 +36,9 @@ function WalletAccountData(){
     
     const signout = () => {
       return setWallet({
-        password: wallet.password,
+        ...wallet,
         isLogin: false,
         mnemonic: getMnemonic(),
-        accounts: wallet.accounts,
       });
     };
 
@@ -58,8 +57,7 @@ function WalletAccountData(){
 
     const setAccounts = (accounts) => {
       setWallet({
-        password: wallet.password,
-        isLogin: wallet.isLogin,
+        ...wallet,
         mnemonic: getMnemonic(),
         accounts: accounts,
       });
