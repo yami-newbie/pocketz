@@ -24,6 +24,7 @@ import SendIcon from "@mui/icons-material/Send";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { useNavigate } from "react-router";
+import Activity from "./Activity";
 
 export default function MainLayout({ Account }) {
   const [value, setValue] = useState("1");
@@ -33,6 +34,15 @@ export default function MainLayout({ Account }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
   let selectedAccount = listAccount.getSelectedAccount();
   let navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
   useEffect(() => {
     return web3.checkBlock({ address: selectedAccount?.account.address });
@@ -170,19 +180,34 @@ export default function MainLayout({ Account }) {
               </Box>
               <TabPanel value="1">
                 <List>
-                    <ListItem disablePadding>
-                      <ListItemButton>
-                        <ListItemText primary= "0 ETH" />
-                      </ListItemButton>
-                    </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton>
+                      <ListItemText primary= "0 ETH" />
+                    </ListItemButton>
+                  </ListItem>
                 </List>
               </TabPanel>
-              <TabPanel value="2">Item Two</TabPanel>
+              <TabPanel value="2">
+                <List>
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      onClick = {handleClickOpen}
+                    >
+                      <ListItemText primary= "Test" />
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+              </TabPanel>
             </TabContext>
           </Box>
         </CardContent>
         <footer></footer>
       </Card>
+      <Activity
+      open={open}
+      onClose={handleClose}>
+        
+      </Activity>
     </div>
   );
 }

@@ -49,6 +49,7 @@ function AccountDetails({Account}) {
       }
       loadData();
     }, [Account])
+    
 
     return (
       <div className="account-details">

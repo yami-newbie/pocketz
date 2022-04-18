@@ -10,8 +10,17 @@ import { useNavigate } from 'react-router';
 export default function SendConfirm({Account, setShow, amount}) {
     const listAcc = useListAccount();
     const acc = listAcc.getSelectedAccount();
-    const [popup, setPopup] = useState(false);
+    const [open, setOpen] = useState(false);
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+    setOpen(false);
+    };
     let navigate = useNavigate();
+    const getAddressStr = (address) => {
+        return address.substr(0, 5) + "..." + address.substr(address.length - 4, 4);
+      };
     return (
     <div className = 'centered-item'>
         
@@ -26,7 +35,7 @@ export default function SendConfirm({Account, setShow, amount}) {
                 </Typography>
                 <ArrowForwardIcon/>
                 <Button variant='text'
-                    onClick = {() => setPopup(true)}
+                    onClick = {handleClickOpen}
                     
                 >
                     {Account.username}
@@ -55,14 +64,12 @@ export default function SendConfirm({Account, setShow, amount}) {
                 <Button variant="outlined" onClick={() => {navigate("/");}}>Cancel</Button>
                 <Button variant="contained">Confirm</Button>
             </div>
+            
         </Card>
-        <AccDetail trigger = {popup}>
-            {/* <Typography>
-                {acc.username}
-            </Typography>
-            <Typography>
-                {acc.address}
-            </Typography> */}
+        <AccDetail
+            open={open}
+            onClose={handleClose}
+            account={Account}>
         </AccDetail>
     </div>
   )
