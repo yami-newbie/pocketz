@@ -46,44 +46,49 @@ function ListAccountData() {
 
   //#region import, create, remove Account
   const importAccount = ({ username, address, privateKey }) => {
-    setKey(key + 1);
-    if (username === "") {
-      setCount(count + 1);
-    }
-    const newAcc = {
-      key: key,
-      avatarSrc: getAvatar(),
-      username: username !== "" ? username : "Account " + count,
-      selected: false,
-      account: {
-        address: address,
-        privateKey: privateKey,
-      },
-      pendingHash: null,
-    };
-    if (accounts) {
-      // console.log("accounts", accounts);
-      selectAccount(key);
-    } else {
-      setAccounts([newAcc]);
+    try {
+      setKey(key + 1);
+      if (username === "") {
+        setCount(count + 1);
+      }
+      const newAcc = {
+        key: key,
+        avatarSrc: getAvatar(),
+        username: username !== "" ? username : "Account " + count,
+        selected: true,
+        account: {
+          address: address,
+          privateKey: privateKey,
+        },
+        pendingHash: null,
+      };
+      setAccounts([...accounts.map((acc) => ({ ...acc, selected: false })), newAcc]);
+    } catch (err) {
+      console.log(err);
     }
   };
   const removeAccount = (account) => {
-    var array = [...accounts]; // make a separate copy of the array
-    var index = array.indexOf(account);
-    if (index !== -1) {
-      array.splice(index, 1);
-      setAccounts(array);
-    }
+    var newList = [];
+    accounts.map((acc) =>
+      acc !== account ? (newList = [...newList, acc]) : null
+    );
+    //setAccounts(newList)
   };
 
   const createAccount = async (username) => {
-    const acc = await web3.create();
-    importAccount({
-      username: username ? username : "",
-      address: acc.address,
-      privateKey: acc.privateKey,
-    });
+    try {
+      await web3.create().then((acc) => {
+        if(acc) {
+          importAccount({
+            username: username ? username : "",
+            address: acc.address,
+            privateKey: acc.privateKey,
+          });
+        }
+      });
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const changeUsername = (account, username) => {
@@ -109,11 +114,31 @@ function ListAccountData() {
   };
 
   const getSelectedAccount = () => {
-    let _account = false;
+    const defaultAccount = {
+      key: -1,
+      avatarSrc: getAvatar(),
+      username: "Account",
+      selected: true,
+      account: {
+        address: "",
+        privateKey: "",
+      },
+      pendingHash: null,
+    };
+    let _account = defaultAccount;
+
     accounts?.map((account) =>
-      account.selected ? (_account = account) : false
+      account.selected ? (_account = account) : _account
     );
-    return _account;
+
+    if(_account === defaultAccount) {
+      selectAccount(accounts[0]?.key);
+      return null;
+    }
+    else {
+      return _account;
+    }
+
   };
 
   const setPendingHash = (pendingHash) => {
@@ -156,8 +181,8 @@ function ListAccountData() {
   };
 
   const setLoadState = (address, state) => {
-    balances.current = balances.current.map(
-      (item) => (item.address !== address ? item : { ...item, state: state })
+    balances.current = balances.current.map((item) =>
+      item.address !== address ? item : { ...item, state: state }
     );
   };
 
@@ -182,13 +207,15 @@ function ListAccountData() {
 
   const getMinLoadDone = () => {
     let min = balances.current[0] ? balances.current[0].count : 0;
-    balances.current.map((item) => min = item.count < min ? item.count : min);
+    balances.current.map((item) => (min = item.count < min ? item.count : min));
     return min;
   };
 
   const getBalance = (address) => {
     let balance = 0;
-    balances.current.map((item) => balance = item.address === address ? item.balance : balance);
+    balances.current.map(
+      (item) => (balance = item.address === address ? item.balance : balance)
+    );
     //  if (item.address === address) {
     //    balance = item.balance;
     //  }
@@ -197,7 +224,9 @@ function ListAccountData() {
 
   const getLoadState = (address) => {
     let state = LoadState.free;
-    balances.current.map((item) => state = item.address === address ? item.state : state);
+    balances.current.map(
+      (item) => (state = item.address === address ? item.state : state)
+    );
     return state;
   };
 
@@ -216,7 +245,10 @@ function ListAccountData() {
   };
 
   const setAllFreeState = () => {
-    balances.current = balances.current.map((item) => ({...item, state: LoadState.free}) );
+    balances.current = balances.current.map((item) => ({
+      ...item,
+      state: LoadState.free,
+    }));
   };
 
   const ReloadBalances = () => {
@@ -291,7 +323,7 @@ function ListAccountData() {
       return accounts ? null : createAccount("");
     };
     init();
-    const interval = setInterval(() => setTime(Date.now()), 5000);
+    const interval = setInterval(() => setTime(Date.now()), 3000);
 
     const unsubscribe = () => {
       if (accounts) {
@@ -304,6 +336,7 @@ function ListAccountData() {
       unsubscribe();
       clearInterval(interval);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -312,6 +345,7 @@ function ListAccountData() {
       setBalancesData();
     };
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accounts]);
 
   useEffect(() => {
@@ -329,10 +363,12 @@ function ListAccountData() {
       }
     };
     reload();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [time]);
 
   useEffect(() => {
     setPendingHash(web3.pendingHash.current);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [web3.pendingHash.current]);
 
   return {

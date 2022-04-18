@@ -9,7 +9,7 @@ import { useListAccount } from "../serviceData/listAccount";
 import { useEffect, useState } from "react";
 import { Search } from "./customs/Search";
 
-function ListAccount({ onClickItems: handleCloseUserMenu }) {
+function ListAccount({ onClickItems }) {
   const wallet = useWallet();
   const listAcc = useListAccount();
   const [sortName, setSortName] = useState("");
@@ -26,7 +26,7 @@ function ListAccount({ onClickItems: handleCloseUserMenu }) {
     } else {
       setValueSort(listAcc.accounts);
     }
-  }, [sortName, listAcc]);
+  }, [sortName, listAcc.accounts]);
 
   return (
     <div>
@@ -59,12 +59,12 @@ function ListAccount({ onClickItems: handleCloseUserMenu }) {
                     mr: 1,
                   }}
                   key={doc.key}
-                  onClick={() => listAcc.selectAccount(doc.key)}
+                  onClick={() => {
+                    listAcc.selectAccount(doc.key);
+                    onClickItems();
+                  }}
                 >
-                  <ListAccountItem
-                    Account={doc}
-                    onClick={handleCloseUserMenu}
-                  />
+                  <ListAccountItem Account={doc} />
                 </ListItemButton>
               );
             })

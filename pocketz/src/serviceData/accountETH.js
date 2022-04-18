@@ -1,5 +1,5 @@
 import { BigNumber, ethers } from "ethers";
-import { createContext, useContext, useEffect, useRef } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { GetTxListApi } from "./apiRequest";
 
@@ -79,9 +79,8 @@ function AccountETH() {
     defaultProvider
   );
 
-  const create = () => {
-    const account = getWeb3().eth.accounts.create();
-    return account;
+  const create = async () => {
+    return await getWeb3().eth.accounts.create();
   };
 
   const sendTx = async ({ toAddress, value, gasLimit, account }) => {
@@ -175,14 +174,13 @@ function AccountETH() {
     return getWeb3().defaultAccount;
   };
 
-  const getSelectedProvider = () => {
+  const getSelectedProvider = useCallback(() => {
     let _selected = null;
     providers.map(
       (provider) => (_selected = provider.selected ? provider : _selected)
     );
-
     return _selected;
-  };
+  })
 
   const addProvider = ({ provider: _providerUrl, name: _name }) => {
     setProviders([
@@ -206,7 +204,12 @@ function AccountETH() {
   };
 
   const getWeb3 = () => {
-    web3.current = web3.current ? web3.current : new Web3(getSelectedProvider().providerUrl);
+    if(web3.current){
+      return web3.current
+    }
+    else{
+      connectWS(getSelectedProvider().providerUrl);
+    }
     return web3.current;
   };
 
@@ -229,15 +232,20 @@ function AccountETH() {
     return price.toString();
   };
 
+  const connectWS = (providerUrl) => {
+    const _web3 = new Web3(providerUrl);
+    web3.current = _web3;
+  };
+
   useEffect(() => {
     console.log("init web3provider");
-    web3.current = new Web3(getSelectedProvider().providerUrl);
+    connectWS(getSelectedProvider().providerUrl);
   }, [])
 
   useEffect(() => {
     console.log("change web3provider");
     web3.current.currentProvider.disconnect();
-    web3.current = new Web3(getSelectedProvider().providerUrl);
+    connectWS(getSelectedProvider().providerUrl);
   }, [getSelectedProvider])
 
   return {

@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { ethers } from "ethers";
+import useEncryptStorage from "../hooks/useEncryptStorage";
 
 const UserContext = createContext();
 
@@ -13,10 +14,9 @@ export function ProvideAuth({ children }) {
   return <UserContext.Provider value={auth}>{children}</UserContext.Provider>;
 };
 
-
 function WalletAccountData(){
 
-    const [wallet, setWallet] = useLocalStorage("wallet", {});
+    const [wallet, setWallet] = useEncryptStorage("wallet", {});
 
     const signin = (password) => {
         if(password === wallet.password){
@@ -58,7 +58,6 @@ function WalletAccountData(){
     const setAccounts = (accounts) => {
       setWallet({
         ...wallet,
-        mnemonic: getMnemonic(),
         accounts: accounts,
       });
     }

@@ -38,24 +38,6 @@ export default function MainLayout({ Account }) {
   const web3Service = useWeb3Service();
   const [gasprice, setPrice] = useState();
 
-  useEffect(() => {
-    if(wallet.wallet === {}){
-      navigate("/register");
-    }
-    const load = async () => {
-      setPrice(await web3Service.calGasPrice(21000));
-    }
-    load();
-  },[]);
-
-  useEffect(() => {
-    const loadTxList = async () => {
-      ///setTxList(JSON.stringify(listAccount.getTxList()));
-      //console.log(listAccount.getTxList());
-      
-    };
-    loadTxList();
-  }, [listAccount.txList.current])
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(false);
@@ -73,6 +55,20 @@ export default function MainLayout({ Account }) {
     setValue(newValue);
   };  
 
+  const fixBalance = (_balance) => {
+    return _balance?.toString().substr(0, 6);
+  };
+
+  useEffect(() => {
+    if (wallet.wallet === {}) {
+      navigate("/register");
+    }
+    const load = async () => {
+      setPrice(await web3Service.calGasPrice(21000));
+    };
+    load();
+  }, []);
+
   useEffect(() => {
     const load = async () => {
       const bal = listAccount.getBalance(Account.account.address);
@@ -81,12 +77,16 @@ export default function MainLayout({ Account }) {
     load();
     return () => {
       setBalance(0);
-    }
+    };
   }, [listAccount.balances.current]);
 
-  const fixBalance = (_balance) => {
-    return _balance?.toString().substr(0, 6);
-  };
+  useEffect(() => {
+    const loadTxList = async () => {
+      ///setTxList(JSON.stringify(listAccount.getTxList()));
+      console.log(listAccount.getTxList());
+    };
+    loadTxList();
+  }, [listAccount.txList.current]);
 
   return (
     <div className="centered-item">

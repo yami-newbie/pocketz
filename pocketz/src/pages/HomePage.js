@@ -4,7 +4,6 @@ import MainLayout from "../components/MainLayout";
 import { useListAccount } from "../serviceData/listAccount";
 import { useEffect, useState } from "react";
 import { useWeb3Service } from "../serviceData/accountETH";
-import AccountDetails from "../components/AccountDetails/AccountDetails";
 
 function HomePage() {
     let navigate = useNavigate();
@@ -31,10 +30,7 @@ function HomePage() {
 
     return (
       <div>
-        <div>
-          {/* <AccountDetails Account={account} /> */}
-          <MainLayout Account={account} />
-        </div>
+        <MainLayout Account={account} />
       </div>
     );
 }

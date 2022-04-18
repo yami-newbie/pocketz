@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useListAccount } from "../serviceData/listAccount";
 
 
-function ListAccountItem({ Account, onClick: handleCloseUserMenu }) {
+function ListAccountItem({ Account, onClick: handleCloseUserMenu = null }) {
   const [balance, setBalance] = useState(0);
   const listAccount = useListAccount();
 
