@@ -36,7 +36,6 @@ export default function SendConfirm({Account, setShow, amount}) {
                 <ArrowForwardIcon/>
                 <Button variant='text'
                     onClick = {handleClickOpen}
-                    
                 >
                     {Account.username}
                 </Button>

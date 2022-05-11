@@ -10,7 +10,8 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemText
+  ListItemText,
+  ListItemIcon
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useWeb3Service } from "../serviceData/accountETH";
@@ -25,6 +26,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { useNavigate } from "react-router";
 import Activity from "./Activity";
+import MiniActivity from "./MiniActivity";
 
 export default function MainLayout({ Account }) {
   const [value, setValue] = useState("1");
@@ -193,10 +195,11 @@ export default function MainLayout({ Account }) {
                     <ListItemButton
                       onClick = {handleClickOpen}
                     >
-                      <ListItemText primary= "Test" />
+                      <MiniActivity/>
                     </ListItemButton>
                   </ListItem>
                 </List>
+                <Divider/>
               </TabPanel>
             </TabContext>
           </Box>
