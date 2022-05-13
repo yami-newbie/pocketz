@@ -13,6 +13,7 @@ export const defaultProvider = [
       "wss://ropsten.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: true,
     name: "ropsten",
+    chainId: 3,
   },
   {
     key: 2,
@@ -20,12 +21,14 @@ export const defaultProvider = [
       "wss://mainnet.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: false,
     name: "mainnet",
+    chainId: 1,
   },
   {
     key: 3,
     providerUrl: "wss://kovan.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: false,
     name: "kovan",
+    chainId: 42,
   },
   {
     key: 4,
@@ -33,6 +36,7 @@ export const defaultProvider = [
       "wss://rinkeby.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: false,
     name: "rinkeby",
+    chainId: 4,
   },
   {
     key: 5,
@@ -40,6 +44,7 @@ export const defaultProvider = [
       "wss://goerli.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: false,
     name: "goerli",
+    chainId: 1,
   },
   {
     key: 6,
@@ -47,6 +52,7 @@ export const defaultProvider = [
       "wss://palm-mainnet.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: false,
     name: "palm-mainnet",
+    chainId: 1,
   },
   {
     key: 7,
@@ -54,6 +60,7 @@ export const defaultProvider = [
       "wss://palm-testnet.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
     selected: false,
     name: "palm-testnet",
+    chainId: 1,
   },
 ];
 
@@ -82,6 +89,8 @@ function AccountETH() {
   const create = async () => {
     return await getWeb3().eth.accounts.create();
   };
+
+  //#region tx
 
   const sendTx = async ({ toAddress, value, gasLimit, account }) => {
     console.log(account.address);
@@ -158,6 +167,8 @@ function AccountETH() {
     // });
   };
 
+  //#endregion
+
   const setDefaultAccount = (address) => {
     getWeb3().defaultAccount = address;
   };
@@ -169,7 +180,7 @@ function AccountETH() {
     else 
       return "https://" + provider.name + ".etherscan.io/address/";
   }
-
+  
   const getDefaultAccount = () => {
     return getWeb3().defaultAccount;
   };
@@ -234,6 +245,7 @@ function AccountETH() {
 
   const connectWS = (providerUrl) => {
     const _web3 = new Web3(providerUrl);
+    _web3.currentProvider.on("error", (e) => console.error("WS Error", e));
     web3.current = _web3;
   };
 
@@ -254,7 +266,6 @@ function AccountETH() {
     pendingHash,
     create,
     getBalance,
-    addProvider,
     getLinkCheckAccountInEtherscan,
     switchProvider,
     getSelectedProvider,

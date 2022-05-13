@@ -11,7 +11,6 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
-  ListItemIcon
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useWeb3Service } from "../serviceData/accountETH";
@@ -28,19 +27,22 @@ import { useNavigate } from "react-router";
 import { useWallet } from "../serviceData/walletAccount";
 import Activity from "./Activity";
 import MiniActivity from "./MiniActivity";
+import { getInfoProvider, getInfoProviderByRPC } from "../serviceData/providers";
 
 export default function MainLayout({ Account }) {
   const [value, setValue] = useState("1");
+  const [username, setUsername] = useState("");
+  const [address, setAddress] = useState("");
   const [balance, setBalance] = useState(0);
   const listAccount = useListAccount();
   const [anchorElUser, setAnchorElUser] = useState(null);
-  let selectedAccount = listAccount.getSelectedAccount();
-  let navigate = useNavigate();
   const wallet = useWallet();
   const [txList, setTxList] = useState();
   const web3Service = useWeb3Service();
   const [gasprice, setPrice] = useState();
   const [open, setOpen] = useState(false);
+  //let selectedAccount = listAccount.getSelectedAccount();
+  let navigate = useNavigate();
   
   const handleClickOpen = () => {
     setOpen(true);
@@ -48,8 +50,6 @@ export default function MainLayout({ Account }) {
   const handleClose = () => {
     setOpen(false);
   };
-
-
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(false);
@@ -77,20 +77,26 @@ export default function MainLayout({ Account }) {
     }
     const load = async () => {
       setPrice(await web3Service.calGasPrice(21000));
+      getInfoProvider(56).then(console.log);
+      getInfoProviderByRPC("https://prenet.diode.io:8443/");
     };
     load();
   }, []);
 
   useEffect(() => {
     const load = async () => {
-      const bal = listAccount.getBalance(Account.account.address);
-      setBalance(bal);
+      if (Account && Account.account.address) {
+        const bal = listAccount.getBalance(Account.account.address);
+        setAddress(Account.account.address);
+        setUsername(Account.username)
+        setBalance(bal);
+      }
     };
     load();
     return () => {
       setBalance(0);
     };
-  }, [listAccount.balances.current]);
+  }, [listAccount.balances.current, Account]);
 
   useEffect(() => {
     const loadTxList = async () => {
@@ -110,11 +116,11 @@ export default function MainLayout({ Account }) {
         <div className="grid-account-info">
           <div />
           <div className="address-account">
-            <CopyToClipboard text={selectedAccount?.account.address}>
+            <CopyToClipboard text={address}>
               <Button variant="text">
                 <div>
-                  <div>{selectedAccount?.username}</div>
-                  <div>{getAddressStr(selectedAccount?.account.address)}</div>
+                  <div>{username}</div>
+                  <div>{getAddressStr(address)}</div>
                 </div>
               </Button>
             </CopyToClipboard>
@@ -211,7 +217,7 @@ export default function MainLayout({ Account }) {
                   </ListItem>
                 </List>
               </TabPanel>
-              <TabPanel value="2">{txList}</TabPanel>
+              {/* <TabPanel value="2">{txList}</TabPanel> */}
               <TabPanel value="2">
                 <List>
                   <ListItem disablePadding>

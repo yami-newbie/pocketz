@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Button,
   FormControl,
   MenuItem,
   Select,
@@ -57,10 +58,11 @@ function Header() {
             <Select
               sx={{
                 borderRadius: "32px",
+                height: "44px",
                 marginLeft: "20px",
                 marginRight: "20px",
                 textAlign: "center",
-                bgcolor:'white'
+                bgcolor: "white",
               }}
               value={provider}
               onChange={handleChange}

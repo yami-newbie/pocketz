@@ -10,7 +10,7 @@ function HomePage() {
     const wallet = useWallet();
     const listAccount = useListAccount();
     const web3 = useWeb3Service();
-    const [account, setAccount] = useState(listAccount.getSelectedAccount());
+    const [account, setAccount] = useState(null);
 
     useEffect(() => {
       const load = async () => {
@@ -20,6 +20,12 @@ function HomePage() {
       }
       load();
     }, [wallet])
+
+    useEffect(() => {
+      if(listAccount.getSelectedAccount()){
+        setAccount(listAccount.getSelectedAccount());
+      }
+    }, [listAccount])
 
     useEffect(() => {
       const changeAcc = () => {

@@ -5,6 +5,11 @@ import {
   MenuItem,
   Typography,
   Menu,
+  Dialog,
+  Box,
+  DialogTitle,
+  DialogContent,
+  Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router";
 import ListAccount from "./ListAccount";
@@ -12,9 +17,12 @@ import AddIcon from "@mui/icons-material/Add";
 import SettingsIcon from "@mui/icons-material/Settings";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { useWallet } from "../serviceData/walletAccount";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import AddNetworkForm from "./AddNetworkForm";
 
 function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
+  const [openForm, setOpenForm] = useState(false);
   let navigate = useNavigate();
   const auth = useWallet();
   useEffect(() => {
@@ -77,6 +85,16 @@ function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
             </ListItemIcon>
             <Typography variant="inherit">Nhập tài khoản</Typography>
           </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setOpenForm(true);
+            }}
+          >
+            <ListItemIcon>
+              <AccountTreeIcon fontSize="medium" />
+            </ListItemIcon>
+            <Typography variant="inherit">Thêm mạng</Typography>
+          </MenuItem>
           <MenuItem>
             <ListItemIcon>
               <SettingsIcon fontSize="medium" />
@@ -85,6 +103,27 @@ function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
           </MenuItem>
         </MenuList>
       </Menu>
+      <Dialog
+        open={openForm}
+        onClose={() => {
+          setOpenForm(false);
+        }}
+        PaperProps={{ style: { borderRadius: "1rem" } }}
+      >
+        <DialogTitle>
+          <Typography variant="h5" component="div">
+            Thêm mạng
+          </Typography>
+          <Divider />
+        </DialogTitle>
+        <DialogContent>
+          <AddNetworkForm
+            onClose={() => {
+              setOpenForm(false);
+            }}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

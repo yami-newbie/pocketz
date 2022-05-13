@@ -27,9 +27,9 @@ function useEncryptStorage(key, initialValue) {
         return initialValue;
       }
       else {
-        console.log("ok i'm here");
+        // console.log("ok i'm here");
         const item = window.localStorage.getItem(key);
-        console.log(item);
+        // console.log(item);
         return item ? JSON.parse(item) : initialValue;
       }
     }
@@ -57,7 +57,7 @@ function useEncryptStorage(key, initialValue) {
     }
   };
   const setPassKey = (value) => {
-    console.log("set pass", value);
+    // console.log("set pass", value);
     if(!password)
       setPassword(value);
   }

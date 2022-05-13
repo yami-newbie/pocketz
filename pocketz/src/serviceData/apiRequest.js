@@ -27,6 +27,4 @@ const GetTxListApi = ({ provider, address, startBlock, endBlock, page = 1, offse
 };
 
 
-export {
-    GetTxListApi,
-}
+export { GetTxListApi };
