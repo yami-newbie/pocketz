@@ -10,7 +10,8 @@ import {
   List,
   ListItem,
   ListItemButton,
-  ListItemText
+  ListItemText,
+  ListItemIcon
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useWeb3Service } from "../serviceData/accountETH";
@@ -25,6 +26,8 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { useNavigate } from "react-router";
 import { useWallet } from "../serviceData/walletAccount";
+import Activity from "./Activity";
+import MiniActivity from "./MiniActivity";
 
 export default function MainLayout({ Account }) {
   const [value, setValue] = useState("1");
@@ -37,6 +40,15 @@ export default function MainLayout({ Account }) {
   const [txList, setTxList] = useState();
   const web3Service = useWeb3Service();
   const [gasprice, setPrice] = useState();
+  const [open, setOpen] = useState(false);
+  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
 
   const handleCloseUserMenu = () => {
@@ -200,11 +212,28 @@ export default function MainLayout({ Account }) {
                 </List>
               </TabPanel>
               <TabPanel value="2">{txList}</TabPanel>
+              <TabPanel value="2">
+                <List>
+                  <ListItem disablePadding>
+                    <ListItemButton
+                      onClick = {handleClickOpen}
+                    >
+                      <MiniActivity/>
+                    </ListItemButton>
+                  </ListItem>
+                </List>
+                <Divider/>
+              </TabPanel>
             </TabContext>
           </Box>
         </CardContent>
         <footer></footer>
       </Card>
+      <Activity
+      open={open}
+      onClose={handleClose}>
+        
+      </Activity>
     </div>
   );
 }
