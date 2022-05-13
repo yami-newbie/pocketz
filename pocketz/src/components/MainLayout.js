@@ -83,7 +83,7 @@ export default function MainLayout({ Account }) {
   useEffect(() => {
     const loadTxList = async () => {
       ///setTxList(JSON.stringify(listAccount.getTxList()));
-      console.log(listAccount.getTxList());
+      //console.log(listAccount.getTxList());
     };
     loadTxList();
   }, [listAccount.txList.current]);

@@ -4,6 +4,8 @@ var CryptoJS = require("crypto-js");
 const PASSWORD_KEY = "test pass";
 
 function useEncryptStorage(key, initialValue) {
+  const [password, setPassword] = useState("123456");
+
   const [storedValue, setStoredValue] = useState(() => {
     if (typeof window === "undefined") {
       return initialValue;
@@ -11,7 +13,10 @@ function useEncryptStorage(key, initialValue) {
     try {
       // Get from local storage by key
       const item = window.localStorage.getItem(key);
-      var bytes = CryptoJS.AES.decrypt(item, PASSWORD_KEY);
+      var bytes = CryptoJS.AES.decrypt(
+        item,
+        password ? password : PASSWORD_KEY
+      );
       var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
       // Parse stored json or if none return initialValue
       return item ? decryptedData : initialValue;
@@ -24,6 +29,7 @@ function useEncryptStorage(key, initialValue) {
       else {
         console.log("ok i'm here");
         const item = window.localStorage.getItem(key);
+        console.log(item);
         return item ? JSON.parse(item) : initialValue;
       }
     }
@@ -37,7 +43,7 @@ function useEncryptStorage(key, initialValue) {
         value instanceof Function ? value(storedValue) : value;
       const data = CryptoJS.AES.encrypt(
         JSON.stringify(valueToStore).toString(),
-        PASSWORD_KEY
+        password ? password : PASSWORD_KEY
       );
       // Save state
       setStoredValue(valueToStore);
@@ -50,7 +56,12 @@ function useEncryptStorage(key, initialValue) {
       console.log(error);
     }
   };
-  return [storedValue, setValue];
+  const setPassKey = (value) => {
+    console.log("set pass", value);
+    if(!password)
+      setPassword(value);
+  }
+  return [storedValue, setValue, setPassKey];
 }
 
 export default useEncryptStorage

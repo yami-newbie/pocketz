@@ -16,39 +16,60 @@ export function ProvideAuth({ children }) {
 
 function WalletAccountData(){
 
-    const [wallet, setWallet] = useEncryptStorage("wallet", {});
+    const [wallet, setWallet, setPassword] = useEncryptStorage("wallet", {});
 
     const signin = (password) => {
-        if(password === wallet.password){
-            setWallet({
-              password: wallet.password,
-              isLogin: true,
-              mnemonic: getMnemonic(),
-              accounts: wallet.accounts,
-            });
-            return true; 
-        }
-        else {
-            // eslint-disable-next-line no-throw-literal
-            throw "password not true";
-        }
+      try {
+        setPassword(password);
+        setWallet({
+          ...wallet,
+          isLogin: true,
+        });
+        return true;
+      } catch (error) {
+        console.log(error)
+      }
+        // if (password === wallet.password) {
+        //   setWallet({
+        //     ...wallet,
+        //     isLogin: true,
+        //   });
+        //   return true;
+        // } else {
+        //   // eslint-disable-next-line no-throw-literal
+        //   throw "password not true";
+        // }
     }
     
     const signout = () => {
-      return setWallet({
-        ...wallet,
-        isLogin: false,
-        mnemonic: getMnemonic(),
-      });
+      try {
+        setPassword(wallet.password);
+        setWallet({
+          ...wallet,
+          isLogin: false,
+        });
+        setPassword();
+      } catch (error) {
+        console.log(error)
+      }
     };
 
     const signup = async (password) => {
-      setWallet({
-        password: password,
-        isLogin: true,
-        mnemonic: wallet.mnemonic? wallet.mnemonic : await ethers.utils.entropyToMnemonic(ethers.utils.randomBytes(16)),
-        accounts: wallet.accounts? wallet.accounts : [],
-      });
+      try {
+        setPassword(password);
+        setWallet({
+          password: password,
+          isLogin: true,
+          mnemonic: wallet.mnemonic
+            ? wallet.mnemonic
+            : await ethers.utils.entropyToMnemonic(
+                ethers.utils.randomBytes(16)
+              ),
+          accounts: wallet.accounts ? wallet.accounts : [],
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     const getMnemonic = () => {
@@ -56,22 +77,20 @@ function WalletAccountData(){
     }
 
     const setAccounts = (accounts) => {
-      setWallet({
-        ...wallet,
-        accounts: accounts,
-      });
+      try {
+        setPassword(wallet.password);
+        setWallet({
+          ...wallet,
+          accounts: accounts,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     useEffect(() => {
-      const unsubscribe = () => {
-        if (wallet) {
-          setWallet(wallet);
-        } else {
-          setWallet(false);
-        }
-      };
-      return () => unsubscribe();
-    }, []);
+      
+    }, [])
 
     return {
       wallet,
