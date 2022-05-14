@@ -16,7 +16,7 @@ function ListAccount({ onClickItems }) {
   const [valueSort, setValueSort] = useState(listAcc?.accounts);
 
   useEffect(() => {
-    if (sortName !== "") {
+    if (sortName !== "" && listAcc) {
       let list = [];
       listAcc.accounts.map((acc) => {
         if (acc.username.toLowerCase().includes(sortName.toLowerCase()))
@@ -26,7 +26,7 @@ function ListAccount({ onClickItems }) {
     } else {
       setValueSort(listAcc.accounts);
     }
-  }, [sortName, listAcc.accounts]);
+  }, [sortName, listAcc]);
 
   return (
     <div>
@@ -49,7 +49,7 @@ function ListAccount({ onClickItems }) {
       >
         {/* <ImportAccount/>
         <CreateAccountForm /> */}
-        {wallet.wallet.isLogin && listAcc.accounts ? (
+        {wallet.wallet.isLogin && typeof(listAcc.accounts) !== "undefined" ? (
           valueSort.length ? (
             valueSort.map((doc) => {
               return (

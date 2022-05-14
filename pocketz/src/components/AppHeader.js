@@ -27,7 +27,7 @@ function Header() {
   const handleChange = (event) => {
     const _provider = event.target.value;
     setProvider(_provider);
-    web3Service.switchProvider(_provider.providerUrl);
+    web3Service.switchProvider(_provider.rpc);
   };
 
   const handleCloseUserMenu = () => {

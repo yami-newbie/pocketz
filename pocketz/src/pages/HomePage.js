@@ -22,14 +22,16 @@ function HomePage() {
     }, [wallet])
 
     useEffect(() => {
-      if(listAccount.getSelectedAccount()){
+      if(listAccount && listAccount.getSelectedAccount()){
+        listAccount.getTxList();
         setAccount(listAccount.getSelectedAccount());
       }
     }, [listAccount])
 
     useEffect(() => {
       const changeAcc = () => {
-        setAccount(listAccount.getSelectedAccount());
+        if(listAccount)
+          setAccount(listAccount.getSelectedAccount());
       }
       changeAcc();
     }, [listAccount])

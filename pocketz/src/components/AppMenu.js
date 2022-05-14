@@ -20,11 +20,14 @@ import { useWallet } from "../serviceData/walletAccount";
 import { useEffect, useState } from "react";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import AddNetworkForm from "./AddNetworkForm";
+import { useWeb3Service } from "../serviceData/accountETH";
 
 function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
   const [openForm, setOpenForm] = useState(false);
   let navigate = useNavigate();
   const auth = useWallet();
+  const web3Service = useWeb3Service();
+
   useEffect(() => {
     const load = () => {
       if(!auth.wallet.isLogin){
@@ -121,6 +124,7 @@ function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
             onClose={() => {
               setOpenForm(false);
             }}
+            onAdd={web3Service.addProvider}
           />
         </DialogContent>
       </Dialog>

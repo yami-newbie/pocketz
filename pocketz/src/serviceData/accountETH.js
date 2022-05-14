@@ -2,65 +2,87 @@ import { BigNumber, ethers } from "ethers";
 import { createContext, useCallback, useContext, useEffect, useRef } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { GetTxListApi } from "./apiRequest";
-
+import { INFURA_API_KEY } from './providers'
 var Web3 = require("web3");
 const axios = require("axios");
 
 export const defaultProvider = [
   {
     key: 1,
-    providerUrl:
-      "wss://ropsten.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
+    // rpc: `wss://ropsten.infura.io/ws/v3/${INFURA_API_KEY}`,
+    rpc: `wss://ropsten.infura.io/ws/v3/${INFURA_API_KEY}`,
     selected: true,
+    faucets: "https://faucet.ropsten.be?${ADDRESS}",
+    symbol: "ETH",
     name: "ropsten",
     chainId: 3,
+    blockExplorerURL: "https://ropsten.etherscan.io",
   },
   {
     key: 2,
-    providerUrl:
-      "wss://mainnet.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
+    // rpc: `wss://mainnet.infura.io/ws/v3/${INFURA_API_KEY}`,
+    rpc: `wss://mainnet.infura.io/ws/v3/${INFURA_API_KEY}`,
     selected: false,
+    symbol: "ETH",
+    faucets: "",
     name: "mainnet",
     chainId: 1,
+    blockExplorerURL: "https://etherscan.io",
   },
   {
     key: 3,
-    providerUrl: "wss://kovan.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
+    // rpc: `wss://kovan.infura.io/ws/v3/${INFURA_API_KEY}`,
+    rpc: `wss://kovan.infura.io/ws/v3/${INFURA_API_KEY}`,
     selected: false,
+    faucets: "http://fauceth.komputing.org?chain=42&address=${ADDRESS}",
+    symbol: "ETH",
     name: "kovan",
     chainId: 42,
+    blockExplorerURL: "https://kovan.etherscan.io",
   },
   {
     key: 4,
-    providerUrl:
-      "wss://rinkeby.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
+    // rpc: `wss://rinkeby.infura.io/ws/v3/${INFURA_API_KEY}`,
+    rpc: `wss://rinkeby.infura.io/ws/v3/${INFURA_API_KEY}`,
     selected: false,
+    symbol: "ETH",
+    faucets: "http://fauceth.komputing.org?chain=4&address=${ADDRESS}",
     name: "rinkeby",
     chainId: 4,
+    blockExplorerURL: "https://rinkeby.etherscan.io",
   },
   {
     key: 5,
-    providerUrl:
-      "wss://goerli.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
+    // rpc: `wss://goerli.infura.io/ws/v3/${INFURA_API_KEY}`,
+    rpc: `wss://goerli.infura.io/ws/v3/${INFURA_API_KEY}`,
     selected: false,
+    symbol: "ETH",
+    faucets: "http://fauceth.komputing.org?chain=5&address=${ADDRESS}",
     name: "goerli",
-    chainId: 1,
+    chainId: 5,
+    blockExplorerURL: "https://goerli.etherscan.io",
   },
   {
     key: 6,
-    providerUrl:
-      "wss://palm-mainnet.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
+    // rpc: `wss://palm-mainnet.infura.io/ws/v3/${INFURA_API_KEY}`,
+    rpc: `wss://palm-mainnet.infura.io/ws/v3/${INFURA_API_KEY}`,
     selected: false,
+    faucets: "",
+    symbol: "ETH",
     name: "palm-mainnet",
-    chainId: 1,
+    chainId: 11297108109,
+    blockExplorerURL: "https://explorer.palm.io",
   },
   {
     key: 7,
-    providerUrl:
-      "wss://palm-testnet.infura.io/ws/v3/81e128eacb6e432c8ab08ff0d9c62647",
+    // rpc: `wss://palm-testnet.infura.io/ws/v3/${INFURA_API_KEY}`,
+    rpc: `wss://palm-testnet.infura.io/ws/v3/${INFURA_API_KEY}`,
     selected: false,
+    faucets: "",
+    symbol: "ETH",
     name: "palm-testnet",
-    chainId: 1,
+    chainId: 11297108099,
+    blockExplorerURL: "https://explorer.palm-uat.xyz",
   },
 ];
 
@@ -94,6 +116,7 @@ function AccountETH() {
 
   const sendTx = async ({ toAddress, value, gasLimit, account }) => {
     console.log(account.address);
+    const provider = getSelectedProvider();
     const myAddress = account.address; //TODO: replace this address with your own public address
 
     const nonce = await getWeb3().eth.getTransactionCount(myAddress, "latest");
@@ -121,7 +144,7 @@ function AccountETH() {
             "🎉 The hash of your transaction is: ",
             hash,
             "\n Check Alchemy's Mempool to view the status of your transaction!\n",
-            "https://ropsten.etherscan.io/tx/" + hash
+            `${provider.blockExplorerURL}/tx/` + hash
           );
         } else {
           console.log(
@@ -134,21 +157,34 @@ function AccountETH() {
   };
 
   const getTransactionLogAccount = async (address) => {
-    const _web3 = getWeb3();
-    const currentBlock = _web3.eth.getBlockNumber();
-    //const block = await getWeb3().eth.getBlock(12188971).then(console.log);
-    return await axios
-      .get(
-        GetTxListApi({
-          provider: getSelectedProvider(),
-          address: address,
-          startBlock: 0,
-          endBlock: currentBlock,
-        })
-      )
-      .then((res) => {
-        return (res.data.result);
-      });
+    const currentProvider = getSelectedProvider();
+
+    if (
+      defaultProvider.filter(
+        (provider) => provider.chainId === currentProvider.chainId
+      ).length > 0
+    ) {
+      const _web3 = getWeb3();
+      const currentBlock = _web3.eth.getBlockNumber();
+      //const block = await getWeb3().eth.getBlock(12188971).then(console.log);
+      return await axios
+        .get(
+          GetTxListApi({
+            provider: getSelectedProvider(),
+            address: address,
+            startBlock: 0,
+            endBlock: currentBlock,
+          })
+        )
+        .then((res) => {
+          return res.data.result;
+        });
+    }
+    else {
+
+    }
+
+    
   };
 
   const getPendingTransactions = async (address) => {
@@ -175,10 +211,8 @@ function AccountETH() {
 
   const getLinkCheckAccountInEtherscan = () => {
     const provider = getSelectedProvider();
-    if(provider.name === "mainnet")
-      return "https://etherscan.io/address/";
-    else 
-      return "https://" + provider.name + ".etherscan.io/address/";
+    console.log(provider);
+    return `${provider.blockExplorerURL}/address/`;
   }
   
   const getDefaultAccount = () => {
@@ -193,23 +227,35 @@ function AccountETH() {
     return _selected;
   })
 
-  const addProvider = ({ provider: _providerUrl, name: _name }) => {
+  const addProvider = ({
+    name,
+    rpc,
+    chainId,
+    faucets,
+    symbol,
+    blockExplorerURL,
+  }) => {
     setProviders([
       ...providers,
       {
         key: providers.length + 1,
-        providerUrl: _providerUrl,
-        name: _name,
+        name: name,
         selected: false,
+        rpc: rpc,
+        symbol: symbol,
+        chainId: chainId,
+        faucets: faucets,
+        blockExplorerURL: blockExplorerURL,
       },
     ]);
   };
 
-  const switchProvider = (providerUrl) => {
+  const switchProvider = (rpc) => {
+    console.log(rpc);
     setProviders(
       providers.map((provider) => ({
         ...provider,
-        selected: provider.providerUrl === providerUrl,
+        selected: provider.rpc === rpc,
       }))
     );
   };
@@ -219,7 +265,7 @@ function AccountETH() {
       return web3.current
     }
     else{
-      connectWS(getSelectedProvider().providerUrl);
+      connectWS(getSelectedProvider().rpc);
     }
     return web3.current;
   };
@@ -243,21 +289,20 @@ function AccountETH() {
     return price.toString();
   };
 
-  const connectWS = (providerUrl) => {
-    const _web3 = new Web3(providerUrl);
-    _web3.currentProvider.on("error", (e) => console.error("WS Error", e));
+  const connectWS = (rpc) => {
+    const _web3 = new Web3(rpc);
     web3.current = _web3;
   };
 
   useEffect(() => {
-    console.log("init web3provider");
-    connectWS(getSelectedProvider().providerUrl);
+    console.log("init web3provider", getSelectedProvider());
+    connectWS(getSelectedProvider()?.rpc);
   }, [])
 
   useEffect(() => {
-    console.log("change web3provider");
+    console.log("change web3provider", getSelectedProvider());
     web3.current.currentProvider.disconnect();
-    connectWS(getSelectedProvider().providerUrl);
+    connectWS(getSelectedProvider()?.rpc);
   }, [getSelectedProvider])
 
   return {
@@ -276,5 +321,6 @@ function AccountETH() {
     calGasPrice,
     getTransactionLogAccount,
     getPendingTransactions,
+    addProvider,
   };
 }

@@ -77,7 +77,7 @@ export default function MainLayout({ Account }) {
     }
     const load = async () => {
       setPrice(await web3Service.calGasPrice(21000));
-      getInfoProvider(56).then(console.log);
+      getInfoProvider(97).then(console.log);
       getInfoProviderByRPC("https://prenet.diode.io:8443/");
     };
     load();
