@@ -304,7 +304,6 @@ function ListAccountData() {
       getSelectedAccount();
       setBalancesData();
       fetchTxlist();
-      console.log("init", accounts);
       return accounts ? null : createAccount("");
     };
     init();

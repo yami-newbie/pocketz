@@ -142,7 +142,7 @@ export default function SendMainAlt({ Account, onExit }) {
                   onClick={() => {
                     setAccountSelect(Account);
                     onSelectAccount();
-                    //navigate("./mainalt");
+                    // navigate("./mainalt");
                   }}
                 >
                   Continue

@@ -40,7 +40,8 @@ function SendTransaction() {
             <div className="double-item-10px-bot">
               <Button variant="outlined">Cancel</Button>
               <Button variant="contained" onClick={() => {
-                //console.log(account.getSelectedAccount())
+                // console.log(account.getSelectedAccount())
+                console.log("send send")
                 web3.sendTx({
                   account: account,
                   toAddress: address,

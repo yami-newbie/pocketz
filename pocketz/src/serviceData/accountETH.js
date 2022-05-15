@@ -105,7 +105,7 @@ function AccountETH() {
   const pendingHash = useRef();
   const [wallet, setWallet, setPassword] = useEncryptStorage("wallet", {});
 
-  const [providers, setProviders] = useState(defaultProvider)
+  const [providers, setProviders] = useState(wallet.providers ? wallet.providers : defaultProvider)
   // useLocalStorage(
   //   "providers",
   //   defaultProvider
@@ -193,9 +193,14 @@ function AccountETH() {
   const getPendingTransactions = async (address) => {
     const _web3 = getWeb3();
 
-    if (pendingHash.current){
+    if (pendingHash.current !== null){
       console.log("work?");
-      await _web3.eth.getTransaction(pendingHash.current).then(console.log);
+      await _web3.eth.getTransaction(pendingHash.current).then(res => {
+        console.log(pendingHash.current);
+        if(res.blockNumber) {
+          pendingHash.current = null;
+        }
+      });
     }
     //_web3.eth
     // .subscribe("pendingTransactions", function (error, result) {
@@ -223,11 +228,13 @@ function AccountETH() {
   };
 
   const getSelectedProvider = useCallback(() => {
-    let _selected = null;
-    providers.map(
-      (provider) => (_selected = provider.selected ? provider : _selected)
-    );
-    return _selected;
+    if(providers){
+      let _selected = null;
+      providers.map(
+        (provider) => (_selected = provider.selected ? provider : _selected)
+      );
+      return _selected;
+    }
   })
 
   const addProvider = ({
@@ -298,12 +305,18 @@ function AccountETH() {
   };
 
   useEffect(() => {
-    console.log("init web3provider");
     connectWS(getSelectedProvider()?.rpc);
-  }, [])
+  },[])
+  //   if (wallet.providers) {
+  //     setProviders(wallet.providers);
+  //   } else {
+  //     setProviders(defaultProvider);
+  //   }
+  // }, [wallet.providers]);
 
   useEffect(() => {
     try {
+      console.log(wallet)
       setWallet({
         ...wallet,
         providers: providers
@@ -315,7 +328,6 @@ function AccountETH() {
   }, [providers])
 
   useEffect(() => {
-    console.log("change web3provider");
     web3.current.currentProvider.disconnect();
     connectWS(getSelectedProvider()?.rpc);
   }, [getSelectedProvider])

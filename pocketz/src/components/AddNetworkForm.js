@@ -31,19 +31,14 @@ function AddNetworkForm({ onClose, onAdd }) {
         faucets: info[0].faucets ? info[0].faucets[0] : "",
         blockExplorerURL: blockExplorerURL,
       });
+      onClose();
     })
   };
 
   useEffect(() => {
-    console.log(
-      `${!errBlockExplorer} || ${!errChainId} || ${
-        name.length > 0
-      } || ${checkUrl} || ${errRpc}`
-    );
     const value = !errBlockExplorer && !errChainId && name.length > 0 && checkUrl && symbol.length > 0 && chainId.length > 0;
-    console.log("value", value);
     setDisableButton(!value);
-  }, [errBlockExplorer, errChainId, errName, name.length, checkUrl, symbol.length])
+  }, [errBlockExplorer, errChainId, errName, name.length, checkUrl, symbol.length, chainId.length])
 
   useEffect(() => {
     try {
@@ -79,7 +74,7 @@ function AddNetworkForm({ onClose, onAdd }) {
     if(chainId.length > 0){
       getInfoProvider(chainId).then((info) => {
         var res = 0;
-        console.log("info", info)
+        // console.log("info", info)
         try {
           if (info.network) {
             res = (info[0].chain);
