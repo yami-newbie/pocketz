@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect } from "react";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { ethers } from "ethers";
 import useEncryptStorage from "../hooks/useEncryptStorage";
+import { useWeb3Service } from "./accountETH";
 
 const UserContext = createContext();
 
@@ -15,8 +16,10 @@ export function ProvideAuth({ children }) {
 };
 
 function WalletAccountData(){
-
-    const [wallet, setWallet, setPassword] = useEncryptStorage("wallet", {});
+  const web3Service = useWeb3Service();
+  const setWallet = web3Service.setWallet;
+  const setPassword = web3Service.setPassword;
+  const wallet = web3Service.wallet;
 
     const signin = (password) => {
       try {

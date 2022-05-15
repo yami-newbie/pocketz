@@ -1,5 +1,6 @@
 import { BigNumber, ethers } from "ethers";
-import { createContext, useCallback, useContext, useEffect, useRef } from "react";
+import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import useEncryptStorage from "../hooks/useEncryptStorage";
 import useLocalStorage from "../hooks/useLocalStorage";
 import { GetTxListApi } from "./apiRequest";
 import { INFURA_API_KEY } from './providers'
@@ -102,11 +103,13 @@ export default function ProviderWeb3Service({ children }) {
 function AccountETH() {
   const web3 = useRef();
   const pendingHash = useRef();
+  const [wallet, setWallet, setPassword] = useEncryptStorage("wallet", {});
 
-  const [providers, setProviders] = useLocalStorage(
-    "providers",
-    defaultProvider
-  );
+  const [providers, setProviders] = useState(defaultProvider)
+  // useLocalStorage(
+  //   "providers",
+  //   defaultProvider
+  // );
 
   const create = async () => {
     return await getWeb3().eth.accounts.create();
@@ -300,6 +303,18 @@ function AccountETH() {
   }, [])
 
   useEffect(() => {
+    try {
+      setWallet({
+        ...wallet,
+        providers: providers
+      })
+    }
+    catch (err){
+      console.log(err)
+    }
+  }, [providers])
+
+  useEffect(() => {
     console.log("change web3provider", getSelectedProvider());
     web3.current.currentProvider.disconnect();
     connectWS(getSelectedProvider()?.rpc);
@@ -309,6 +324,9 @@ function AccountETH() {
     providers,
     web3,
     pendingHash,
+    setWallet,
+    setPassword,
+    wallet,
     create,
     getBalance,
     getLinkCheckAccountInEtherscan,
