@@ -51,16 +51,16 @@ function ListAccount({ onClickItems }) {
         <CreateAccountForm /> */}
         {wallet.wallet.isLogin && typeof(listAcc.accounts) !== "undefined" ? (
           valueSort.length ? (
-            valueSort.map((doc) => {
+            valueSort.map((doc, index) => {
               return (
                 <ListItemButton
                   sx={{
                     ml: 1,
                     mr: 1,
                   }}
-                  key={doc.key}
+                  key={index}
                   onClick={() => {
-                    listAcc.selectAccount(doc.key);
+                    listAcc.selectAccount(doc.account.address);
                     onClickItems();
                   }}
                 >

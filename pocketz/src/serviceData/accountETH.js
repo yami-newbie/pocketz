@@ -298,7 +298,7 @@ function AccountETH() {
   };
 
   useEffect(() => {
-    console.log("init web3provider", getSelectedProvider());
+    console.log("init web3provider");
     connectWS(getSelectedProvider()?.rpc);
   }, [])
 
@@ -315,7 +315,7 @@ function AccountETH() {
   }, [providers])
 
   useEffect(() => {
-    console.log("change web3provider", getSelectedProvider());
+    console.log("change web3provider");
     web3.current.currentProvider.disconnect();
     connectWS(getSelectedProvider()?.rpc);
   }, [getSelectedProvider])

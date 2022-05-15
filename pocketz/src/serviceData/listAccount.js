@@ -72,7 +72,8 @@ function ListAccountData() {
     accounts.map((acc) =>
       acc !== account ? (newList = [...newList, acc]) : null
     );
-    //setAccounts(newList)
+    console.log(newList);
+    setAccounts(newList)
   };
 
   const createAccount = async (username) => {
@@ -103,10 +104,10 @@ function ListAccountData() {
 
   //#region set Account
 
-  const selectAccount = (key) => {
+  const selectAccount = (address) => {
     setAccounts(
       accounts.map((account) =>
-        account.key === key
+        account.account.address === address
           ? { ...account, selected: true }
           : { ...account, selected: false }
       )
@@ -114,31 +115,15 @@ function ListAccountData() {
   };
 
   const getSelectedAccount = () => {
-    const defaultAccount = {
-      key: -1,
-      avatarSrc: getAvatar(),
-      username: "Account",
-      selected: true,
-      account: {
-        address: "",
-        privateKey: "",
-      },
-      pendingHash: null,
-    };
-    let _account = defaultAccount;
+    const res = accounts.filter(account => account.selected);
 
-    accounts?.map((account) =>
-      account.selected ? (_account = account) : _account
-    );
-
-    if(_account === defaultAccount) {
-      selectAccount(accounts[0]?.key);
-      return null;
+    if(res.length > 0) {
+      return res[0];
     }
     else {
-      return _account;
+      selectAccount(accounts[0].account.address);
+      return accounts[0];
     }
-
   };
 
   const setPendingHash = (pendingHash) => {

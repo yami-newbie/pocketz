@@ -23,6 +23,7 @@ function AccountMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
 
     useEffect(() => {
       if (isConfirm){
+        console.log(listAccount.getSelectedAccount());
         listAccount.removeAccount(listAccount.getSelectedAccount());
       }
     // eslint-disable-next-line react-hooks/exhaustive-deps
