@@ -19,8 +19,15 @@ export default function SendConfirm({ Account, setShow, amount }) {
   const web3 = useWeb3Service();
   const [maxPriorityFeePerGas, setMaxPriorityFeePerGas] = useState(21000);
   const [gasPrice, setGasPrice] = useState();
+  const [provider, setProvider] = useState();
   const acc = listAcc.getSelectedAccount();
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    if(web3 && web3.getSelectedProvider()){
+      setProvider(web3.getSelectedProvider());
+    }
+  }, [web3])
 
   useEffect(() => {
     const load = async () => {
@@ -60,7 +67,7 @@ export default function SendConfirm({ Account, setShow, amount }) {
         <Divider />
         <div className="send-content">
           <Typography variant="h6" gutterBottom>
-            {amount} ETH
+            {amount} {provider.symbol}
           </Typography>
         </div>
         <Divider />

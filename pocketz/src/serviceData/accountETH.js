@@ -193,7 +193,7 @@ function AccountETH() {
   const getPendingTransactions = async (address) => {
     const _web3 = getWeb3();
 
-    if (pendingHash.current !== null){
+    if (pendingHash.current && pendingHash.current !== null){
       console.log("work?");
       await _web3.eth.getTransaction(pendingHash.current).then(res => {
         console.log(pendingHash.current);

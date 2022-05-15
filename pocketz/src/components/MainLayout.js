@@ -41,6 +41,8 @@ export default function MainLayout({ Account }) {
   const web3Service = useWeb3Service();
   const [gasprice, setPrice] = useState();
   const [open, setOpen] = useState(false);
+  const [provider, setProvider] = useState();
+
   //let selectedAccount = listAccount.getSelectedAccount();
   let navigate = useNavigate();
   
@@ -82,6 +84,10 @@ export default function MainLayout({ Account }) {
     };
     load();
   }, []);
+
+  useEffect(() => {
+    setProvider(web3Service.getSelectedProvider());
+  }, [web3Service])
 
   useEffect(() => {
     const load = async () => {
@@ -149,7 +155,7 @@ export default function MainLayout({ Account }) {
                 </div>
                 <div className="balance-text-info">
                   <div>{fixBalance(balance)}</div>
-                  <div>{"ETH"}</div>
+                  <div>{provider?.symbol ? provider.symbol : null}</div>
                 </div>
               </div>
             </div>
@@ -221,25 +227,19 @@ export default function MainLayout({ Account }) {
               <TabPanel value="2">
                 <List>
                   <ListItem disablePadding>
-                    <ListItemButton
-                      onClick = {handleClickOpen}
-                    >
-                      <MiniActivity/>
+                    <ListItemButton onClick={handleClickOpen}>
+                      <MiniActivity />
                     </ListItemButton>
                   </ListItem>
                 </List>
-                <Divider/>
+                <Divider />
               </TabPanel>
             </TabContext>
           </Box>
         </CardContent>
         <footer></footer>
       </Card>
-      <Activity
-      open={open}
-      onClose={handleClose}>
-        
-      </Activity>
+      <Activity open={open} onClose={handleClose}></Activity>
     </div>
   );
 }

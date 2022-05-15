@@ -21,12 +21,21 @@ import Header from "./AppHeader";
 export default function SendMainAlt({ Account, onExit }) {
   const listAcc = useListAccount();
   const acc = listAcc.getSelectedAccount();
+  const web3 = useWeb3Service();
   let navigate = useNavigate();
   const [money, setMoney] = useState("");
   const [show, setShow] = useState(false);
   const [balance, setBalance] = useState(0);
   const [accountSelect, setAccountSelect] = useState(null);
+  const [provider, setProvider] = useState();
   const [amount, setAmount] = useState("0");
+
+  useEffect(() => {
+    if (web3 && web3.getSelectedProvider()) {
+      setProvider(web3.getSelectedProvider());
+    }
+  }, [web3]);
+
   const onSelectAccount = () => {
     setShow(true);
   };
@@ -90,14 +99,14 @@ export default function SendMainAlt({ Account, onExit }) {
                     sx={{ width: "120px" }}
                     defaultValue={1}
                   >
-                    <MenuItem value={1}>ETH</MenuItem>
+                    <MenuItem value={1}>{provider.symbol}</MenuItem>
                   </Select>
                   <Typography
                     variant="caption"
                     gutterBottom
                     sx={{ padding: "10px" }}
                   >
-                    Balance: {balance} ETH
+                    Balance: {balance} {provider.symbol}
                   </Typography>
                 </div>
               </div>
