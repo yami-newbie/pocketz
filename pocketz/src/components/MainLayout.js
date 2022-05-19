@@ -32,22 +32,25 @@ import { getInfoProvider, getInfoProviderByRPC } from "../serviceData/providers"
 export default function MainLayout({ Account }) {
   const [value, setValue] = useState("1");
   const [username, setUsername] = useState("");
+  const [account, setAccount] = useState();
   const [address, setAddress] = useState("");
   const [balance, setBalance] = useState(0);
   const listAccount = useListAccount();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const wallet = useWallet();
-  const [txList, setTxList] = useState();
+  const [txList, setTxList] = useState([]);
   const web3Service = useWeb3Service();
   const [gasprice, setPrice] = useState();
   const [open, setOpen] = useState(false);
   const [provider, setProvider] = useState();
+  const [selectedTx, setSelectedTx] = useState();
 
   //let selectedAccount = listAccount.getSelectedAccount();
   let navigate = useNavigate();
   
-  const handleClickOpen = () => {
+  const handleClickOpen = (tx) => {
     setOpen(true);
+    setSelectedTx(tx);
   };
   const handleClose = () => {
     setOpen(false);
@@ -72,6 +75,16 @@ export default function MainLayout({ Account }) {
   const fixBalance = (_balance) => {
     return _balance?.toString().substr(0, 6);
   };
+
+  const listActivity = txList?.map((tx) =>
+  <div>
+    <ListItem disablePadding>
+      <ListItemButton onClick={()=>handleClickOpen(tx)}>
+        <MiniActivity tx = {tx}/>
+      </ListItemButton>
+    </ListItem>
+    <Divider/>
+  </div>)
 
   useEffect(() => {
     if (wallet.wallet === {}) {
@@ -111,6 +124,13 @@ export default function MainLayout({ Account }) {
     };
     loadTxList();
   }, [listAccount.txList.current]);
+
+  useEffect(() => {
+    if (listAccount.getSelectedAccount()!==null){
+      setTxList(listAccount.getTxList());
+      setAccount(listAccount.getSelectedAccount())
+    }
+  }, [listAccount]);
 
   return (
     <div className="centered-item">
@@ -218,7 +238,7 @@ export default function MainLayout({ Account }) {
                 <List>
                   <ListItem disablePadding>
                     <ListItemButton>
-                      <ListItemText primary="0 ETH" />
+                      <ListItemText primary= {fixBalance(balance)} />
                     </ListItemButton>
                   </ListItem>
                 </List>
@@ -226,20 +246,15 @@ export default function MainLayout({ Account }) {
               {/* <TabPanel value="2">{txList}</TabPanel> */}
               <TabPanel value="2">
                 <List>
-                  <ListItem disablePadding>
-                    <ListItemButton onClick={handleClickOpen}>
-                      <MiniActivity />
-                    </ListItemButton>
-                  </ListItem>
+                  {listActivity?.reverse()}
                 </List>
-                <Divider />
               </TabPanel>
             </TabContext>
           </Box>
         </CardContent>
         <footer></footer>
       </Card>
-      <Activity open={open} onClose={handleClose}></Activity>
+      <Activity open={open} onClose={handleClose} tx = {selectedTx}></Activity>
     </div>
   );
 }
