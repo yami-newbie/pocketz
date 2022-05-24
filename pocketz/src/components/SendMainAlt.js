@@ -99,14 +99,14 @@ export default function SendMainAlt({ Account, onExit }) {
                     sx={{ width: "120px" }}
                     defaultValue={1}
                   >
-                    <MenuItem value={1}>{provider.symbol}</MenuItem>
+                    <MenuItem value={1}>{provider?.symbol}</MenuItem>
                   </Select>
                   <Typography
                     variant="caption"
                     gutterBottom
                     sx={{ padding: "10px" }}
                   >
-                    Balance: {balance} {provider.symbol}
+                    Balance: {balance} {provider?.symbol}
                   </Typography>
                 </div>
               </div>

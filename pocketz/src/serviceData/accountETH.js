@@ -124,10 +124,14 @@ function AccountETH() {
 
     const nonce = await getWeb3().eth.getTransactionCount(myAddress, "latest");
 
+    var block = await web3.current.eth.getBlock("latest");
+    console.log("gasLimit: " + block.gasLimit);
+
     const transaction = {
       to: toAddress, // faucet address to return eth
       value: ethers.utils.parseUnits(value, "ether"),
-      gasLimit: ethers.utils.hexlify(gasLimit < gasLimitDefault? gasLimitDefault : gasLimit),
+      // gasLimit: block.gasLimit,
+      // gasLimit: ethers.utils.hexlify(gasLimit < gasLimitDefault? gasLimitDefault : gasLimit),
       nonce: nonce,
       // optional data field to send message or execute smart contract
     };

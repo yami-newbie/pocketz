@@ -67,19 +67,19 @@ export default function SendConfirm({ Account, setShow, amount }) {
         <Divider />
         <div className="send-content">
           <Typography variant="h6" gutterBottom>
-            {amount} {provider.symbol}
+            Số tiền: {amount} {provider?.symbol}
           </Typography>
         </div>
         <Divider />
         <div className="send-content">
           <Typography variant="h6" gutterBottom>
-            Gas estimate: {gasPrice}
+            Phí Gas(tạm tính): {gasPrice}
           </Typography>
         </div>
         <Divider />
         <div className="send-content">
           <Typography variant="h6" gutterBottom>
-            Total: {Number(amount) + Number(gasPrice)}
+            Tổng: {Number(amount) + Number(gasPrice)}
           </Typography>
         </div>
         <Divider />

@@ -76,8 +76,8 @@ export default function MainLayout({ Account }) {
     return _balance?.toString().substr(0, 6);
   };
 
-  const listActivity = txList?.map((tx) =>
-  <div>
+  const listActivity = txList?.map((tx, index) =>
+  <div key={index}>
     <ListItem disablePadding>
       <ListItemButton onClick={()=>handleClickOpen(tx)}>
         <MiniActivity tx = {tx}/>
@@ -137,7 +137,6 @@ export default function MainLayout({ Account }) {
       <div style={{ width: "400px" }}>
         <Header />
       </div>
-      {gasprice}
       <Card sx={{ width: "400px" }}>
         <div className="grid-account-info">
           <div />
@@ -246,7 +245,7 @@ export default function MainLayout({ Account }) {
               {/* <TabPanel value="2">{txList}</TabPanel> */}
               <TabPanel value="2">
                 <List>
-                  {listActivity?.reverse()}
+                  {listActivity}
                 </List>
               </TabPanel>
             </TabContext>

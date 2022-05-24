@@ -1,160 +1,181 @@
-import { Dialog, Divider, Link, Typography } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close';
-import React from 'react'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import { useListAccount } from '../serviceData/listAccount';
+import { Dialog, Divider, Link, Typography } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
+import React, { useEffect, useState } from "react";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import Web3 from "web3";
+import { useWeb3Service } from "../serviceData/accountETH";
+import CopyToClipboard from "react-copy-to-clipboard";
 
 function Activity(props) {
-    const { onClose, open, tx } = props;
-    const handleClose = () => {
-        onClose();
-    };
-    const listAcc = useListAccount();
-    const acc = listAcc.getSelectedAccount();
-    const status = '0',
-    blockHash = '',
-    blockNumber = '',
-    confirmations = "",
-    contactAddress = "",
-    cumulativeGasUsed = "",
-    from = "0x0168E6caf2D7F16325B4cAD20f5b26890C694715",
-    gas = "",
-    gasPrice = "",
-    gasUsed = "",
-    hash = "0xa987c4a4249a62d3ecf14fbdec75b76ce07d1762fe3ff63e0d6ded79f0fb017c",
-    input = "0x",
-    isError = "",
-    nonce = "0",
-    timeStamp = "",
-    to = "0xA2f567F6cCEEEFb9af083533b727D63C56BB967C",
-    transactionIndex = "",
-    txreceipt_status = "",
-    value = ""
-    const getAddressStr = (address) => {
-      if (address)
-        return address.substr(0, 5) + "..." + address.substr(address.length - 4, 4);
-    };
-    let total = parseInt(tx?.value)+parseInt(tx?.gasPrice*21000);
+  const { onClose, open, tx } = props;
+  const [transaction, setTransaction] = useState();
+  const handleClose = () => {
+    onClose();
+  };
+  const web3Service = useWeb3Service();
+
+  const getLink = (hash) => {
+    const provider = web3Service.getSelectedProvider();
+    if (provider) {
+      return `${provider.blockExplorerURL}/tx/${hash}`;
+    }
+  };
+
+  const getAddressStr = (address) => {
+    if (address)
+      return (
+        address.substr(0, 5) + "..." + address.substr(address.length - 4, 4)
+      );
+  };
+  let total = parseInt(tx?.value) + parseInt(tx?.gasPrice * tx?.gasUsed);
+
+  const formatWei = (value) => {
+    if (value) return new Web3().utils.fromWei(String(value)).toString();
+  };
+  useEffect(() => {
+    if (open) {
+      web3Service.web3.current.eth.getTransaction(tx.hash).then((res) => {
+        setTransaction(res);
+      });
+    }
+  }, [open]);
+
   return (
     <Dialog onClose={handleClose} open={open}>
-      <div className='activity'>
-        <div className='head'>
+      <div className="activity">
+        <div className="head">
           <Typography variant="button" display="block" gutterBottom>
             Send
           </Typography>
-          <CloseIcon onClick={handleClose}/>
+          <CloseIcon onClick={handleClose} />
         </div>
-        <div className = 'head'>
+        <div className="head">
           <Typography variant="subtitle2" gutterBottom component="div">
-            Status
+            Trạng thái
           </Typography>
-          <Link href="#">Link</Link>
+          <Link
+            underline="none"
+            sx={{ cursor: "pointer", fontSize: "12px" }}
+            onClick={() => {
+              window.open(getLink(tx?.hash));
+            }}
+          >
+            Xem trong trình khám phá khối
+          </Link>
         </div>
-        <div className='head'>
+        <div className="head">
           <Typography variant="subtitle2" gutterBottom component="div">
-            Success
+            Đã xác nhận
           </Typography>
-          <Link href="#">Link</Link>
+          <CopyToClipboard text={tx?.hash}>
+            <Link underline="none" sx={{ cursor: "pointer", fontSize: "12px" }}>
+              Sao chép mã giao dịch
+            </Link>
+          </CopyToClipboard>
         </div>
-        <div className='head'>
+        <div className="head">
           <Typography variant="h6" gutterBottom component="div">
-            From
+            Từ
           </Typography>
           <Typography variant="h6" gutterBottom component="div">
-            To
+            Đến
           </Typography>
         </div>
-        <div className='head'>
-          <div style={{width: '40%'}}>
-            {getAddressStr(tx?.from)}
-          </div>
-          <ArrowForwardIcon/>
-          <div style={{width: '40%', display: 'flex', justifyContent: 'flex-end'}}>
+        <div className="head">
+          <div style={{ width: "40%" }}>{getAddressStr(tx?.from)}</div>
+          <ArrowForwardIcon />
+          <div
+            style={{
+              width: "40%",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
             {getAddressStr(tx?.to)}
           </div>
         </div>
         <div>
           <Typography variant="h6" gutterBottom component="div">
-            Transaction
+            Giao Dịch
           </Typography>
         </div>
-        <div className = 'head'>
+        <div className="head">
           <Typography variant="body2" gutterBottom>
-            Nonce:
+            Số chỉ dùng một lần:
           </Typography>
           <Typography variant="body2" gutterBottom>
             {tx?.nonce}
           </Typography>
         </div>
-        <Divider/>
-        <div className='head'>
+        <Divider />
+        <div className="head">
           <Typography variant="caption" display="block" gutterBottom>
-            Ammount
+            Số tiền
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
-            {tx?.value/1000000000000000000}
+            {formatWei(tx?.value)}
           </Typography>
         </div>
-        <div className='head'>
+        <div className="head">
           <Typography variant="caption" display="block" gutterBottom>
-            Gas limit
+            Giới Hạn Gas (Đơn Vị)
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
             {tx?.gas}
           </Typography>
         </div>
-        <div className='head'>
+        <div className="head">
           <Typography variant="caption" display="block" gutterBottom>
-            Gas used
+            Đã Dùng Gas (Đơn Vị)
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
             {tx?.gasUsed}
           </Typography>
         </div>
-        <div className='head'>
+        <div className="head">
           <Typography variant="caption" display="block" gutterBottom>
-            Gas fees (base):
+            Phí Cơ Bản (GWEI):
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
-            0
-          </Typography>
-        </div>
-        <div className='head'>
-          <Typography variant="caption" display="block" gutterBottom>
-            Gas fees (priority):
-          </Typography>
-          <Typography variant="caption" display="block" gutterBottom>
-            0
+            {formatWei(transaction.gasPrice - transaction.maxPriorityFeePerGas)}
           </Typography>
         </div>
-        <div className='head'>
+        <div className="head">
           <Typography variant="caption" display="block" gutterBottom>
-            Total gas:
+            Phí Ưu Tiên (GWEI):
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
-            {tx?.gasPrice/1000000000000000000*21000}
-          </Typography>
-        </div>
-        <div className='head'>
-          <Typography variant="caption" display="block" gutterBottom>
-            gasPrice:
-          </Typography>
-          <Typography variant="caption" display="block" gutterBottom>
-            {tx?.gasPrice/1000000000000000000}
+            {formatWei(transaction.maxPriorityFeePerGas)}
           </Typography>
         </div>
-        <Divider/>
-        <div className='head'>
+        <div className="head">
           <Typography variant="caption" display="block" gutterBottom>
-            Total:
+            Tổng Phí Gas:
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
-            {total/1000000000000000000}
+            {formatWei(tx?.gasPrice * tx?.gasUsed)}
+          </Typography>
+        </div>
+        <div className="head">
+          <Typography variant="caption" display="block" gutterBottom>
+            Phí Tối Đa Mỗi Gas:
+          </Typography>
+          <Typography variant="caption" display="block" gutterBottom>
+            {formatWei(transaction.maxFeePerGas)}
+          </Typography>
+        </div>
+        <Divider />
+        <div className="head">
+          <Typography variant="caption" display="block" gutterBottom>
+            Tổng:
+          </Typography>
+          <Typography variant="caption" display="block" gutterBottom>
+            {formatWei(total)}
           </Typography>
         </div>
       </div>
     </Dialog>
-  )
+  );
 }
 
-export default Activity
+export default Activity;
