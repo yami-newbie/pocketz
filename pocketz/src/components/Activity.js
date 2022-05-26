@@ -74,7 +74,7 @@ function Activity(props) {
           </CopyToClipboard>
         </div>
         <div className="head">
-          <Typography variant="h6" gutterBottom component="div">
+          <Typography variant="subtitle2" gutterBottom component="div">
             Từ
           </Typography>
           <Typography variant="h6" gutterBottom component="div">
@@ -137,7 +137,7 @@ function Activity(props) {
             Phí Cơ Bản (GWEI):
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
-            {formatWei(transaction.gasPrice - transaction.maxPriorityFeePerGas)}
+            {formatWei(transaction?.gasPrice - transaction?.maxPriorityFeePerGas)}
           </Typography>
         </div>
         <div className="head">
@@ -145,7 +145,7 @@ function Activity(props) {
             Phí Ưu Tiên (GWEI):
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
-            {formatWei(transaction.maxPriorityFeePerGas)}
+            {formatWei(transaction?.maxPriorityFeePerGas)}
           </Typography>
         </div>
         <div className="head">
@@ -161,7 +161,7 @@ function Activity(props) {
             Phí Tối Đa Mỗi Gas:
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
-            {formatWei(transaction.maxFeePerGas)}
+            {formatWei(transaction?.maxFeePerGas)}
           </Typography>
         </div>
         <Divider />

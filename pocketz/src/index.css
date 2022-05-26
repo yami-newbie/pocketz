@@ -323,8 +323,9 @@ code {
 .activity
 {
   width: 300px;
-  height: 400px;
+  height: 550px;
   padding: 20px 10px;
+  font-family: 'Times New Roman', Times, serif;
 }
 
 .activity .head
@@ -332,6 +333,7 @@ code {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-top: 10px;
 }
 
 .close-button
