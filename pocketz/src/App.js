@@ -23,7 +23,7 @@ function App() {
     <AppProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="" element={<HomePage />}></Route>
+          <Route path="/" element={<HomePage />}></Route>
           <Route path="/sendtx" element={<SendTransactionPage />}></Route>
           <Route path="/sendtx/detail" element={<SendMainAltPage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
