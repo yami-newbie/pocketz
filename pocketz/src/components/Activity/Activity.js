@@ -137,7 +137,9 @@ function Activity(props) {
             Phí Cơ Bản (GWEI):
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
-            {formatWei(transaction?.gasPrice - transaction?.maxPriorityFeePerGas)}
+            {formatWei(
+              transaction?.gasPrice - transaction?.maxPriorityFeePerGas
+            )}
           </Typography>
         </div>
         <div className="head">

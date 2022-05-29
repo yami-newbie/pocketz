@@ -11,7 +11,7 @@ function HomePage() {
     const listAccount = useListAccount();
     const web3 = useWeb3Service();
     const [account, setAccount] = useState(null);
-
+    console.log("nah nah")
     useEffect(() => {
       const load = async () => {
         if(!wallet.wallet.password) {

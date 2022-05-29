@@ -6,7 +6,6 @@ import {
   Typography,
   Menu,
   Dialog,
-  Box,
   DialogTitle,
   DialogContent,
   Divider,
@@ -30,13 +29,13 @@ function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
 
   useEffect(() => {
     const load = () => {
-      if(!auth.wallet.isLogin){
+      if (!auth.wallet.isLogin) {
         navigate("/login");
         console.log("nahnah");
       }
-    }
+    };
     load();
-  }, [auth])
+  }, [auth]);
 
   return (
     <div className="text-account-info">

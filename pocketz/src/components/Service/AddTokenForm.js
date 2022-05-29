@@ -1,12 +1,15 @@
-import React from 'react'
-import { Button, Card, TextField, Typography } from '@mui/material';
+import React from "react";
+import { Button, Card, TextField, Typography } from "@mui/material";
 function AddTokenForm() {
-    
   return (
     <div>
-      <Typography sx={{
+      <Typography
+        sx={{
           paddingLeft: "10px",
-      }}>Nhập Token</Typography>
+        }}
+      >
+        Nhập Token
+      </Typography>
       <div className="add-token-card">
         <Typography
           sx={{
@@ -55,7 +58,7 @@ function AddTokenForm() {
         <Button
           sx={{
             width: "90%",
-            borderRadius: "18px"
+            borderRadius: "18px",
           }}
           variant="contained"
         >
@@ -64,6 +67,6 @@ function AddTokenForm() {
       </div>
     </div>
   );
-}  
+}
 
 export default AddTokenForm;

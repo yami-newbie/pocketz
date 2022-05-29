@@ -1,12 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import { Avatar, Button, Card, CardContent, Dialog, Divider, IconButton, Stack, TextField, Typography } from '@mui/material';
+import {
+  Avatar,
+  Button,
+  Card,
+  CardContent,
+  Divider,
+  IconButton,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { warning } from '../../serviceData/constString';
-import { useWallet } from '../../serviceData/walletAccount';
-import CopyToClipboard from 'react-copy-to-clipboard';
+import { warning } from "../../serviceData/constString";
+import { useWallet } from "../../serviceData/walletAccount";
+import CopyToClipboard from "react-copy-to-clipboard";
 
-function AccountExportPrivateKey({Account, onClose, onBack}) {
+function AccountExportPrivateKey({ Account, onClose, onBack }) {
   const [show, setShow] = useState(false);
   const [tooltipText, setText] = useState("Copy to clipboard");
   const [password, setPassword] = useState("");
@@ -25,13 +35,12 @@ function AccountExportPrivateKey({Account, onClose, onBack}) {
     setText("Copied!");
   };
   const onConfirm = () => {
-    if(password === wallet.wallet.password){
+    if (password === wallet.wallet.password) {
       setConfirm(true);
-    }
-    else {
+    } else {
       setIsIncorrect(true);
     }
-  }
+  };
 
   return (
     <Card className="account-details">
@@ -181,4 +190,4 @@ function AccountExportPrivateKey({Account, onClose, onBack}) {
   );
 }
 
-export default AccountExportPrivateKey
+export default AccountExportPrivateKey;

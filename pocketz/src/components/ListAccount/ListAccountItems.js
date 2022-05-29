@@ -3,7 +3,6 @@ import DoneIcon from "@mui/icons-material/Done";
 import { useEffect, useState } from "react";
 import { useListAccount } from "../../serviceData/listAccount";
 
-
 function ListAccountItem({ Account, onClick: handleCloseUserMenu = null }) {
   const [balance, setBalance] = useState(0);
   const listAccount = useListAccount();
@@ -17,8 +16,8 @@ function ListAccountItem({ Account, onClick: handleCloseUserMenu = null }) {
     init();
     return () => {
       setBalance(0);
-    }
-  }, [listAccount.balances.current]);
+    };
+  }, [listAccount]);
 
   return (
     <div className="avatar-icon-button" onClick={handleCloseUserMenu}>

@@ -2,11 +2,9 @@ import { useState } from "react";
 import { CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { Card } from "@mui/material";
-import { Typography, Link, Box } from "@mui/material";
+import { Typography, Link } from "@mui/material";
 import { useWallet } from "../../serviceData/walletAccount";
 import { useNavigate } from "react-router-dom";
-import Header from "../AppHeader";
-
 
 function SignIn() {
   let navigate = useNavigate();
@@ -17,24 +15,23 @@ function SignIn() {
   const login = async () => {
     try {
       if (wallet.wallet.password !== "")
-        if(wallet.signin(password))
-          navigate("/");
+        if (wallet.signin(password)) navigate("/");
     } catch (e) {
-      if(e === "password not true"){
+      if (e === "password not true") {
         //console.log("sai mat khau")
       }
     }
   };
-  
+
   return (
     <div className="centered-container">
       {wallet.wallet.isLogin ? (
         <button onClick={() => wallet.signout()}>Sign Out</button>
       ) : (
         <div>
-          <Card sx={{ width: '400px'}} >
+          <Card sx={{ width: "400px" }}>
             <CardContent>
-              <div className = "centered-item-40vh">
+              <div className="centered-item-40vh">
                 <Typography variant="h4" component="div">
                   Welcome back
                 </Typography>
@@ -43,19 +40,19 @@ function SignIn() {
                   Welcome to pocketz
                 </Typography>
               </div>
-              
+
               <TextField
-                  id="fullWidth"
-                  label="Password"
-                  variant="standard"
-                  type="password"
-                  sx = {{ width: '400px', maxWidth: '100%' }}
-                  onChange={(e) => {
-                    setPassword(e.target.value);
-                  }}
-                />
-              
-              <div className="centered-item-10vh" >
+                id="fullWidth"
+                label="Password"
+                variant="standard"
+                type="password"
+                sx={{ width: "400px", maxWidth: "100%" }}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+
+              <div className="centered-item-10vh">
                 <Button onClick={login} variant="contained">
                   Unlock
                 </Button>
@@ -67,22 +64,8 @@ function SignIn() {
             </CardContent>
           </Card>
         </div>
-        
       )}
     </div>
-    // <form onSubmit={login}>
-    //   <TextField
-    //     id="standard-basic"
-    //     label="Password"
-    //     variant="standard"
-    //     type="password"
-    //     onChange={(e) => {
-    //       setPassword(e.target.value);
-    //     }}
-    //   /><br/><br/>
-    //   <Button variant="contained">Unlock</Button>
-    //   <Card variant="outlined">{card}</Card>
-    // </form>
   );
 }
 

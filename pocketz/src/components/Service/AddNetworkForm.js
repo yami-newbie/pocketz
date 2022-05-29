@@ -1,8 +1,8 @@
-import { Button, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useMemo, useState } from 'react'
-import Web3 from 'web3';
-import { useWeb3Service } from '../../serviceData/accountETH';
-import {checkProvider, getInfoProvider} from "../../serviceData/providers"
+import { Button, Stack, TextField, Typography } from "@mui/material";
+import React, { useEffect, useMemo, useState } from "react";
+import Web3 from "web3";
+import { useWeb3Service } from "../../serviceData/accountETH";
+import { checkProvider, getInfoProvider } from "../../serviceData/providers";
 function AddNetworkForm({ onClose, onAdd }) {
   const [name, setName] = useState("");
   const [errName, setErrName] = useState(false);
@@ -22,7 +22,7 @@ function AddNetworkForm({ onClose, onAdd }) {
   const web3Service = useWeb3Service();
 
   const Send = () => {
-    getInfoProvider(chainId).then(info => {
+    getInfoProvider(chainId).then((info) => {
       onAdd({
         name: name,
         rpc: urlRpc,
@@ -32,13 +32,27 @@ function AddNetworkForm({ onClose, onAdd }) {
         blockExplorerURL: blockExplorerURL,
       });
       onClose();
-    })
+    });
   };
 
   useEffect(() => {
-    const value = !errBlockExplorer && !errChainId && name.length > 0 && checkUrl && symbol.length > 0 && chainId.length > 0;
+    const value =
+      !errBlockExplorer &&
+      !errChainId &&
+      name.length > 0 &&
+      checkUrl &&
+      symbol.length > 0 &&
+      chainId.length > 0;
     setDisableButton(!value);
-  }, [errBlockExplorer, errChainId, errName, name.length, checkUrl, symbol.length, chainId.length])
+  }, [
+    errBlockExplorer,
+    errChainId,
+    errName,
+    name.length,
+    checkUrl,
+    symbol.length,
+    chainId.length,
+  ]);
 
   useEffect(() => {
     try {
@@ -65,21 +79,21 @@ function AddNetworkForm({ onClose, onAdd }) {
         }
       }
     } catch (err) {
-      console.log("vo day r")
+      console.log("vo day r");
       setErrRpc(true);
     }
   }, [urlRpc, web3]);
 
   useEffect(() => {
-    if(chainId.length > 0){
+    if (chainId.length > 0) {
       getInfoProvider(chainId).then((info) => {
         var res = 0;
         // console.log("info", info)
         try {
           if (info.network) {
-            res = (info[0].chain);
+            res = info[0].chain;
           } else {
-            res =(info[0].nativeCurrency.symbol);
+            res = info[0].nativeCurrency.symbol;
           }
           if (res !== 0) {
             if (symbol !== res && symbol.length > 0) {
@@ -92,19 +106,17 @@ function AddNetworkForm({ onClose, onAdd }) {
           } else {
             setHelperTextSymbol("");
           }
-        }
-        catch(err) {
+        } catch (err) {
           setHelperTextSymbol(
             "Ticker symbol verification data is currently unavailable, make sure that the symbol you have entered is correct. It will impact the conversion rates that you see for this network"
           );
         }
       });
-    }
-    else {
+    } else {
       setHelperTextSymbol("");
     }
-  }, [symbol, chainId, urlRpc, chainIdRes])
-  
+  }, [symbol, chainId, urlRpc, chainIdRes]);
+
   useEffect(() => {
     setErrName(name.length < 4);
     if (chainId.length > 0) {
@@ -160,7 +172,7 @@ function AddNetworkForm({ onClose, onAdd }) {
       setHelperTextChainErr();
       return;
     }
-  },[name, chainId, chainIdRes])
+  }, [name, chainId, chainIdRes]);
 
   return (
     <Stack spacing={3}>
@@ -256,7 +268,8 @@ function AddNetworkForm({ onClose, onAdd }) {
             onChange={(e) => {
               const url = e.target.value;
               setErrBlockExplorer(!checkProvider(url));
-              setBlockExplorerURL(url)}}
+              setBlockExplorerURL(url);
+            }}
             helperText={
               !errBlockExplorer
                 ? null
@@ -287,4 +300,4 @@ function AddNetworkForm({ onClose, onAdd }) {
   );
 }
 
-export default AddNetworkForm
+export default AddNetworkForm;

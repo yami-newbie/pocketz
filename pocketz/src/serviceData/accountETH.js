@@ -106,10 +106,6 @@ function AccountETH() {
   const [wallet, setWallet, setPassword] = useEncryptStorage("wallet", {});
 
   const [providers, setProviders] = useState(wallet.providers ? wallet.providers : defaultProvider)
-  // useLocalStorage(
-  //   "providers",
-  //   defaultProvider
-  // );
 
   const create = async () => {
     return await getWeb3().eth.accounts.create();
@@ -239,7 +235,7 @@ function AccountETH() {
       );
       return _selected;
     }
-  })
+  }, [providers])
 
   const addProvider = ({
     name,
@@ -265,7 +261,6 @@ function AccountETH() {
   };
 
   const switchProvider = (rpc) => {
-    console.log(rpc);
     setProviders(
       providers.map((provider) => ({
         ...provider,
@@ -311,16 +306,9 @@ function AccountETH() {
   useEffect(() => {
     connectWS(getSelectedProvider()?.rpc);
   },[])
-  //   if (wallet.providers) {
-  //     setProviders(wallet.providers);
-  //   } else {
-  //     setProviders(defaultProvider);
-  //   }
-  // }, [wallet.providers]);
 
   useEffect(() => {
     try {
-      console.log(wallet)
       setWallet({
         ...wallet,
         providers: providers

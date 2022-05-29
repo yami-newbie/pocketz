@@ -1,10 +1,4 @@
-import {
-  Avatar,
-  Button,
-  FormControl,
-  MenuItem,
-  Select,
-} from "@mui/material";
+import { Avatar, FormControl, MenuItem, Select } from "@mui/material";
 import { Box } from "@mui/system";
 import AppMenu from "./Menu/AppMenu";
 import React, { useEffect, useState } from "react";
@@ -20,9 +14,9 @@ function Header() {
   useEffect(() => {
     const loadProvider = () => {
       setProvider(web3Service.getSelectedProvider());
-    }
+    };
     loadProvider();
-  }, [web3Service])
+  }, [web3Service]);
 
   const handleChange = (event) => {
     const _provider = event.target.value;
@@ -82,7 +76,7 @@ function Header() {
         <div className="avatar-header">
           <Avatar
             onClick={handleOpenUserMenu}
-            src={auth.getSelectedAccount().avatarSrc}
+            src={auth.getSelectedAccount()?.avatarSrc}
           />
           <AppMenu state={anchorElUser} onClose={handleCloseUserMenu} />
         </div>

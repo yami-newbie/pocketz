@@ -3,17 +3,14 @@ import {
   Avatar,
   Button,
   Card,
-  Dialog,
   IconButton,
   Stack,
-  TextField,
 } from "@mui/material";
 import QRCode from "react-qr-code";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import EditIcon from "@mui/icons-material/Edit";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import CloseIcon from "@mui/icons-material/Close";
-import { useNavigate } from "react-router";
 import DoneIcon from "@mui/icons-material/Done";
 import { useListAccount } from "../../serviceData/listAccount";
 import { useWeb3Service } from "../../serviceData/accountETH";

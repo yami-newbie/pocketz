@@ -24,27 +24,6 @@ function SignUp() {
     }
   };
   return (
-    // <form onSubmit={signUp}>
-    //   <TextField 
-    //     id="standard-basic"
-    //     label="New password"
-    //     variant="standard" 
-    //     type="password"
-    //     onChange={(e) => {
-    //       setPassword(e.target.value);
-    //     }}
-    //   /><br/><br/>
-    //   <TextField 
-    //     id="standard-basic"
-    //     label="Confirm password"
-    //     variant="standard" 
-    //     type="password"
-    //     // onChange={(e) => {
-    //     //   setPassword(e.target.value);
-    //     // }}
-    //   /><br/><br/>
-    //   <Button variant="contained">Sign up</Button>
-    // </form>
     <div className = "centered">
       <Card sx={{ maxWidth: 275 }}>
         <CardContent>
@@ -52,7 +31,6 @@ function SignUp() {
             onChange = {(e) => {
               setPassword(e.target.value);
             }}
-            id="standard-basic"
             label="Password"
             variant="standard"
             type="password"/><br/><br/>
@@ -60,7 +38,6 @@ function SignUp() {
             onChange = {(e) => {
               setConfirmPassword(e.target.value);
             }}
-            id="standard-basic"
             label="Confirm password"
             variant="standard"
             type="password"/><br/><br/>

@@ -71,7 +71,6 @@ function SendTransaction() {
             </Button>
           </div>
         </CardContent>
-        {/* <button onClick={() => {web3.sendTx()}}> SendTx</button> */}
       </Card>
     </div>
   );
