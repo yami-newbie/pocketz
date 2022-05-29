@@ -62,7 +62,15 @@ function ListAccountData() {
         },
         pendingHash: null,
       };
-      setAccounts([...accounts.map((acc) => ({ ...acc, selected: false })), newAcc]);
+      if(accounts){
+        setAccounts([
+          ...accounts.map((acc) => ({ ...acc, selected: false })),
+          newAcc,
+        ]);
+      }
+      else {
+        setAccounts([newAcc]);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -73,13 +81,13 @@ function ListAccountData() {
       acc !== account ? (newList = [...newList, acc]) : null
     );
     console.log(newList);
-    setAccounts(newList)
+    setAccounts(newList);
   };
 
   const createAccount = async (username) => {
     try {
       await web3.create().then((acc) => {
-        if(acc) {
+        if (acc) {
           importAccount({
             username: username ? username : "",
             address: acc.address,
@@ -88,7 +96,7 @@ function ListAccountData() {
         }
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -115,12 +123,14 @@ function ListAccountData() {
   };
 
   const getSelectedAccount = () => {
-    const res = accounts.filter(account => account.selected);
+    if (!accounts) return;
 
-    if(res.length > 0) {
+    const res = accounts.filter((account) => account.selected);
+
+    if (res.length > 0) {
       return res[0];
-    }
-    else {
+    } else {
+      console.log("Accounts", accounts);
       selectAccount(accounts[0].account.address);
       return accounts[0];
     }
@@ -129,7 +139,7 @@ function ListAccountData() {
   const setPendingHash = (pendingHash) => {
     const address = getSelectedAccount()?.account.address;
     setAccounts(
-      accounts.map((account) =>
+      accounts?.map((account) =>
         account.account.address === address
           ? { ...account, pendingHash: pendingHash }
           : account
@@ -230,35 +240,38 @@ function ListAccountData() {
   };
 
   const setAllFreeState = () => {
-    balances.current = balances.current.map((item) => ({
-      ...item,
-      state: LoadState.free,
-    }));
+    if (balances.current) {
+      balances.current = balances.current?.map((item) => ({
+        ...item,
+        state: LoadState.free,
+      }));
+    }
   };
 
   const ReloadBalances = () => {
-    accounts.map(async (acc) => {
-      const address = acc.account.address;
-      switch (getLoadState(address)) {
-        case 1: {
-          setFreeState(address);
-          break;
+    if (accounts)
+      accounts.map(async (acc) => {
+        const address = acc.account.address;
+        switch (getLoadState(address)) {
+          case 1: {
+            setFreeState(address);
+            break;
+          }
+          case -1: {
+            // if(!isCanReload(address))
+            //   break;
+            setPendingState(address, 0);
+            await web3.getBalance(address).then((balance) => {
+              setBalance(address, fixBalance(balance));
+              loadDone.current = loadDone.current + 1;
+              setDoneState(address);
+            });
+            break;
+          }
+          default:
+            break;
         }
-        case -1: {
-          // if(!isCanReload(address))
-          //   break;
-          setPendingState(address, 0);
-          await web3.getBalance(address).then((balance) => {
-            setBalance(address, fixBalance(balance));
-            loadDone.current = loadDone.current + 1;
-            setDoneState(address);
-          });
-          break;
-        }
-        default:
-          break;
-      }
-    });
+      });
   };
 
   const fixBalance = (_balance) => {
@@ -266,16 +279,18 @@ function ListAccountData() {
   };
 
   const setBalancesData = () => {
-    balances.current = accounts.map((acc) => {
-      const address = acc.account.address;
-
-      return {
-        address: address,
-        balance: getBalance(address),
-        state: getLoadState(address),
-        count: getLoadDone(address),
-      };
-    });
+    if(accounts && accounts.length > 0){
+      balances.current = accounts?.map((acc) => {
+        const address = acc.account.address;
+        return {
+          address: address,
+          balance: getBalance(address),
+          state: getLoadState(address),
+          count: getLoadDone(address),
+        };
+      });
+    }
+    
   };
   //#endregion
 
@@ -283,14 +298,17 @@ function ListAccountData() {
 
   const fetchTxlist = async () => {
     const account = getSelectedAccount();
-    await web3.getTransactionLogAccount(account.account.address).then((res) => {
-      txList.current = res;
-    });
+    if (account)
+      await web3
+        .getTransactionLogAccount(account.account.address)
+        .then((res) => {
+          txList.current = res;
+        });
   };
 
   const fetchPendingTxList = async () => {
     const account = getSelectedAccount();
-    await web3.getPendingTransactions(account.account.address);
+    if (account) await web3.getPendingTransactions(account.account.address);
   };
 
   const getTxList = () => {
@@ -328,7 +346,8 @@ function ListAccountData() {
       wallet.setAccounts(accounts);
       setBalancesData();
     };
-    load();
+    if(accounts && accounts.length > 0)
+      load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accounts]);
 

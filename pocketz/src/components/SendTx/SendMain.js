@@ -1,14 +1,13 @@
-import React from 'react'
-import { TextField, List, ListItemText } from '@mui/material'
-import { ListItem, ListItemButton, Divider } from '@mui/material'
-import { useListAccount } from '../serviceData/listAccount'
+import React from "react";
+import { TextField, List, ListItemText } from "@mui/material";
+import { ListItem, ListItemButton, Divider } from "@mui/material";
+import { useListAccount } from "../../serviceData/listAccount";
 import { useEffect, useState } from "react";
-import { InputAdornment, Card } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import SendMainAlt from './SendMainAlt'
-import { useNavigate } from 'react-router';
-import SendHeader from './SendHeader';
-import Header from './AppHeader';
+import { InputAdornment, Card } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import SendMainAlt from "./SendMainAlt";
+import SendHeader from "./SendHeader";
+import Header from "../AppHeader";
 
 export default function SendMain() {
   const listAcc = useListAccount();
@@ -16,7 +15,7 @@ export default function SendMain() {
   const [valueSort, setValueSort] = useState(listAcc.accounts);
   const [show, setShow] = useState(false);
   const [accountSelect, setAccountSelect] = useState();
-  
+
   useEffect(() => {
     if (address !== "") {
       let list = [];
@@ -31,29 +30,30 @@ export default function SendMain() {
   }, [address, listAcc]);
   const onSelectAccount = () => {
     setShow(true);
-  }
+  };
   const onExit = () => {
     setShow(false);
-  }
+  };
 
   return (
     <div className="centered-container">
       {!show ? (
         <div>
-          <div style = {{width: '400px'}}>
-            <Header/>
+          <div style={{ width: "400px" }}>
+            <Header />
           </div>
-          <Card >
+          <Card>
             <SendHeader />
           </Card>
-          
 
           <div className="search-container">
             <TextField
               id="outlined-search"
-              onChange={(e) =>{setAddress(e.target.value)}}
+              onChange={(e) => {
+                setAddress(e.target.value);
+              }}
               type="search"
-              sx={{ width: "95%", marginTop: '10px', bgcolor: 'white'}}
+              sx={{ width: "95%", marginTop: "10px", bgcolor: "white" }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">

@@ -3,7 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import React, { useEffect, useState } from "react";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Web3 from "web3";
-import { useWeb3Service } from "../serviceData/accountETH";
+import { useWeb3Service } from "../../serviceData/accountETH";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 function Activity(props) {

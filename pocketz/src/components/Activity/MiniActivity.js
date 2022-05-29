@@ -1,16 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Typography } from "@mui/material";
-import { useListAccount } from "../serviceData/listAccount";
+import { useListAccount } from "../../serviceData/listAccount";
 import Web3 from "web3";
 
 function MiniActivity({ tx }) {
   const listAcc = useListAccount();
   const acc = listAcc.getSelectedAccount();
-  // const from = "0x0168E6caf2D7F16325B4cAD20f5b26890C694715",
-  // to = "0xA2f567F6cCEEEFb9af083533b727D63C56BB967C",
-  // hash = "0xa987c4a4249a62d3ecf14fbdec75b76ce07d1762fe3ff63e0d6ded79f0fb017c",
-  // timeStamp = "",
-  // value = "0";
+
   const formatWei = (value) => {
     if (value) return new Web3().utils.fromWei(String(value)).toString();
   };

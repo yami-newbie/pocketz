@@ -1,18 +1,16 @@
 import {
   Button,
   Card,
-  CardActions,
-  CardContent,
   Divider,
   Typography,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import AccDetail from "./AccDetail";
-import { useListAccount } from "../serviceData/listAccount";
+import AccDetail from "../AccountDetails/AccDetail";
+import { useListAccount } from "../../serviceData/listAccount";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useWeb3Service } from "../serviceData/accountETH";
+import { useWeb3Service } from "../../serviceData/accountETH";
 
 export default function SendConfirm({ Account, setShow, amount }) {
   const listAcc = useListAccount();
@@ -24,10 +22,10 @@ export default function SendConfirm({ Account, setShow, amount }) {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    if(web3 && web3.getSelectedProvider()){
+    if (web3 && web3.getSelectedProvider()) {
       setProvider(web3.getSelectedProvider());
     }
-  }, [web3])
+  }, [web3]);
 
   useEffect(() => {
     const load = async () => {

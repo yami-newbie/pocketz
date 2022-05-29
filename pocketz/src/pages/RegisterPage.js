@@ -1,4 +1,4 @@
-import SignUp from "../components/SignUp";
+import SignUp from "../components/ConnectWallet/SignUp";
 
 function RegisterPage(){
     return (

@@ -1,48 +1,46 @@
-import {
-  toBuffer,
-  isValidPrivate
-} from "ethereumjs-util";
-import * as React from 'react';
+import { toBuffer, isValidPrivate } from "ethereumjs-util";
+import * as React from "react";
 import { useRef, useState } from "react";
 import Wallet from "ethereumjs-wallet";
-import { useListAccount } from "../serviceData/listAccount";
-import Header from "./AppHeader";
-import {useNavigate} from 'react-router-dom'
-import { Card, CardContent, Divider, TextField, Typography, Box, MenuItem, Button, Stack } from "@mui/material";
+import { useListAccount } from "../../serviceData/listAccount";
+import Header from "../AppHeader";
+import { useNavigate } from "react-router-dom";
+import {
+  Card,
+  CardContent,
+  Divider,
+  TextField,
+  Typography,
+  MenuItem,
+  Button,
+  Stack,
+} from "@mui/material";
 
 function ImportAccount() {
-  const [file, setFile] = useState(null);
   const [privateKey, setPrivateKey] = useState(null);
   const inputFile = useRef(null);
   const listAcc = useListAccount();
   let navigate = useNavigate();
-  const [way, setWay] = useState('key');
+  const [way, setWay] = useState("key");
   const [warning, setWarning] = useState(null);
 
   const _onchange = (e) => {
     var _file = e.target.files[0];
     var reader = new FileReader();
-    //var url = reader.readAsDataURL(_file);
     reader.readAsText(_file);
-    reader.onloadend = (e) => {
-      //setSrc(e.target.result);
-      setFile(JSON.parse(e.target.result));
-    };
   };
   const submit = () => {
     try {
-      if(way === 'key'){
+      if (way === "key") {
         addWithPrivateKey(privateKey);
       }
-      
-      
-      navigate("/");
 
+      navigate("/");
     } catch (e) {
       setWarning(e.message);
       console.log(e);
     }
-  }
+  };
   const addHexPrefix = (str) => {
     if (typeof str !== "string" || str.match(/^-?0x/u)) {
       return str;
@@ -60,14 +58,14 @@ function ImportAccount() {
   };
   const ways = [
     {
-      value: 'key',
-      label: 'Private key',
+      value: "key",
+      label: "Private key",
     },
     {
-      value: 'json',
-      label: 'JSON',
-    }
-  ]
+      value: "json",
+      label: "JSON",
+    },
+  ];
   const handleChange = (event) => {
     setWay(event.target.value);
   };
@@ -86,40 +84,25 @@ function ImportAccount() {
   };
   return (
     <div className="centered-item">
-      {/* <input
-        type="file"
-        ref={inputFile}
-        onChange={(e) => {
-          _onchange(e);
-        }}
-      />
-      <form>
-        <input
-          placeholder="private key"
-          onChange={(e) => {
-            setPrivateKey(e.target.value);
-          }}
-        />
-        <div>
-          <button onClick={submit}>Import</button>
-          <button onClick={() => navigate("/")}>Cancel</button>
-        </div>
-      </form>
-      <br /> */}
-      {/* <pre>{file}</pre> */}
-      {/* { file ? <img src={_src} alt='img' id = "imgShow"/> : null} */}
-      <div style = {{width: '400px'}}>
-        <Header/>
+      <div style={{ width: "400px" }}>
+        <Header />
       </div>
-      <Card sx={{ width: '350px' }}>
+      <Card sx={{ width: "350px" }}>
         <CardContent>
           <Typography variant="h5" component="div">
             Import Account
           </Typography>
           <Divider />
-          <Stack sx={{ justifyContent: "space-around", mt: "20px" }}
-            direction="row">
-            <Typography variant="body2" gutterBottom component="div" sx={{marginTop: '10px'}}>
+          <Stack
+            sx={{ justifyContent: "space-around", mt: "20px" }}
+            direction="row"
+          >
+            <Typography
+              variant="body2"
+              gutterBottom
+              component="div"
+              sx={{ marginTop: "10px" }}
+            >
               Type:
             </Typography>
 
@@ -138,10 +121,10 @@ function ImportAccount() {
               ))}
             </TextField>
           </Stack>
-          
+
           {way === ways[1].value ? (
             <input
-              style={{marginTop: '20px', marginLeft: '20px'}}
+              style={{ marginTop: "20px", marginLeft: "20px" }}
               type="file"
               ref={inputFile}
               onChange={(e) => {
@@ -150,7 +133,13 @@ function ImportAccount() {
             />
           ) : (
             <div>
-              <div style = {{marginLeft: '10px', marginTop: '20px', marginBottom: '10px'}}>
+              <div
+                style={{
+                  marginLeft: "10px",
+                  marginTop: "20px",
+                  marginBottom: "10px",
+                }}
+              >
                 <Typography variant="p" component="div">
                   Enter your private key here:
                 </Typography>

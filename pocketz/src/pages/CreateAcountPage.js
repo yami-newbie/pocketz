@@ -1,4 +1,4 @@
-import CreateAccountForm from "../components/CreateAccountForm";
+import CreateAccountForm from "../components/ListAccount/CreateAccountForm";
 
 function CreateAccountPage() {
   return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import AccountExportPrivateKey from '../components/AccountDetails/AccountExportPrivateKey/AccountExportPrivateKey'
+import AccountExportPrivateKey from '../components/AccountDetails/AccountExportPrivateKey'
 import { useListAccount } from '../serviceData/listAccount';
 
 function AccountExportPrivateKeyPage() {

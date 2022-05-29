@@ -1,7 +1,6 @@
-import { Box } from '@mui/system'
-import { Typography, Link } from '@mui/material'
-import React from 'react'
-import { useNavigate } from 'react-router'
+import { Typography, Link } from "@mui/material";
+import React from "react";
+import { useNavigate } from "react-router";
 
 export default function SendHeader() {
   let navigate = useNavigate();

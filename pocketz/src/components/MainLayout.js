@@ -18,18 +18,16 @@ import Header from "./AppHeader";
 import { useListAccount } from "../serviceData/listAccount";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import AccountMenu from "./AccountMenu";
+import AccountMenu from "./Menu/AccountMenu";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import SendIcon from "@mui/icons-material/Send";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { useNavigate } from "react-router";
-import { useWallet } from "../serviceData/walletAccount";
-import Activity from "./Activity";
-import MiniActivity from "./MiniActivity";
-import { getInfoProvider, getInfoProviderByRPC } from "../serviceData/providers";
+import Activity from "./Activity/Activity";
+import MiniActivity from "./Activity/MiniActivity";
 
-export default function MainLayout({ Account }) {
+export default function MainLayout() {
   const [value, setValue] = useState("1");
   const [username, setUsername] = useState("");
   const [account, setAccount] = useState();
@@ -37,17 +35,14 @@ export default function MainLayout({ Account }) {
   const [balance, setBalance] = useState(0);
   const listAccount = useListAccount();
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const wallet = useWallet();
   const [txList, setTxList] = useState([]);
   const web3Service = useWeb3Service();
-  const [gasprice, setPrice] = useState();
   const [open, setOpen] = useState(false);
   const [provider, setProvider] = useState();
   const [selectedTx, setSelectedTx] = useState();
 
-  //let selectedAccount = listAccount.getSelectedAccount();
   let navigate = useNavigate();
-  
+
   const handleClickOpen = (tx) => {
     setOpen(true);
     setSelectedTx(tx);
@@ -70,44 +65,33 @@ export default function MainLayout({ Account }) {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-  };  
+  };
 
   const fixBalance = (_balance) => {
     return _balance?.toString().substr(0, 6);
   };
 
-  const listActivity = txList?.map((tx, index) =>
-  <div key={index}>
-    <ListItem disablePadding>
-      <ListItemButton onClick={()=>handleClickOpen(tx)}>
-        <MiniActivity tx = {tx}/>
-      </ListItemButton>
-    </ListItem>
-    <Divider/>
-  </div>)
-
-  useEffect(() => {
-    if (wallet.wallet === {}) {
-      navigate("/register");
-    }
-    const load = async () => {
-      setPrice(await web3Service.calGasPrice(21000));
-      getInfoProvider(97).then(console.log);
-      getInfoProviderByRPC("https://prenet.diode.io:8443/");
-    };
-    load();
-  }, []);
+  const listActivity = txList?.map((tx, index) => (
+    <div key={index}>
+      <ListItem disablePadding>
+        <ListItemButton onClick={() => handleClickOpen(tx)}>
+          <MiniActivity tx={tx} />
+        </ListItemButton>
+      </ListItem>
+      <Divider />
+    </div>
+  ));
 
   useEffect(() => {
     setProvider(web3Service.getSelectedProvider());
-  }, [web3Service])
+  }, [web3Service]);
 
   useEffect(() => {
     const load = async () => {
-      if (Account && Account.account.address) {
-        const bal = listAccount.getBalance(Account.account.address);
-        setAddress(Account.account.address);
-        setUsername(Account.username)
+      if (account && account.account) {
+        const bal = listAccount.getBalance(account.account.address);
+        setAddress(account.account.address);
+        setUsername(account.username);
         setBalance(bal);
       }
     };
@@ -115,20 +99,12 @@ export default function MainLayout({ Account }) {
     return () => {
       setBalance(0);
     };
-  }, [listAccount.balances.current, Account]);
+  }, [listAccount, account]);
 
   useEffect(() => {
-    const loadTxList = async () => {
-      ///setTxList(JSON.stringify(listAccount.getTxList()));
-      //console.log(listAccount.getTxList());
-    };
-    loadTxList();
-  }, [listAccount.txList.current]);
-
-  useEffect(() => {
-    if (listAccount.getSelectedAccount()!==null){
+    if (listAccount.getSelectedAccount() !== null) {
       setTxList(listAccount.getTxList());
-      setAccount(listAccount.getSelectedAccount())
+      setAccount(listAccount.getSelectedAccount());
     }
   }, [listAccount]);
 
@@ -237,23 +213,21 @@ export default function MainLayout({ Account }) {
                 <List>
                   <ListItem disablePadding>
                     <ListItemButton>
-                      <ListItemText primary= {fixBalance(balance)} />
+                      <ListItemText primary={fixBalance(balance)} />
                     </ListItemButton>
                   </ListItem>
                 </List>
               </TabPanel>
               {/* <TabPanel value="2">{txList}</TabPanel> */}
               <TabPanel value="2">
-                <List>
-                  {listActivity}
-                </List>
+                <List>{listActivity}</List>
               </TabPanel>
             </TabContext>
           </Box>
         </CardContent>
         <footer></footer>
       </Card>
-      <Activity open={open} onClose={handleClose} tx = {selectedTx}></Activity>
+      <Activity open={open} onClose={handleClose} tx={selectedTx}></Activity>
     </div>
   );
 }

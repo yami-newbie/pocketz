@@ -1,7 +1,6 @@
-import SendMain from "../components/SendMain";
+import SendMain from "../components/SendTx/SendMain";
 
 function SendTransactionPage() {
-
     return (
         <div className="centered-container">
             <SendMain/>

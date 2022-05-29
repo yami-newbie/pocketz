@@ -1,5 +1,5 @@
 import React from 'react'
-import SendMainAlt from '../components/SendMainAlt'
+import SendMainAlt from '../components/SendTx/SendMainAlt'
 
 function SendMainAltPage() {
   return (

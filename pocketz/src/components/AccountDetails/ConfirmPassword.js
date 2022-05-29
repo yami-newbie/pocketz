@@ -7,21 +7,21 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useWallet } from "../serviceData/walletAccount";
+import { useWallet } from "../../serviceData/walletAccount";
 
-function ConfirmPassword({setConfirm, onCancel}) {
-    const [password, setPassword] = useState("");
-    const [isIncorrect, setIsIncorrect] = useState(null);
-    const wallet = useWallet();
-    const onConfirm = () => {
-      if (password === wallet.wallet.password) {
-        setConfirm(true);
-        setIsIncorrect(false);
-        onCancel();
-      } else {
-        setIsIncorrect(true);
-      }
-    };
+function ConfirmPassword({ setConfirm, onCancel }) {
+  const [password, setPassword] = useState("");
+  const [isIncorrect, setIsIncorrect] = useState(null);
+  const wallet = useWallet();
+  const onConfirm = () => {
+    if (password === wallet.wallet.password) {
+      setConfirm(true);
+      setIsIncorrect(false);
+      onCancel();
+    } else {
+      setIsIncorrect(true);
+    }
+  };
   return (
     <Card>
       <CardContent>
@@ -35,8 +35,8 @@ function ConfirmPassword({setConfirm, onCancel}) {
             setPassword(e.target.value);
           }}
           onKeyDown={(e) => {
-            if(e.key === "Enter"){
-                onConfirm();
+            if (e.key === "Enter") {
+              onConfirm();
             }
           }}
         />
@@ -71,4 +71,4 @@ function ConfirmPassword({setConfirm, onCancel}) {
   );
 }
 
-export default ConfirmPassword
+export default ConfirmPassword;

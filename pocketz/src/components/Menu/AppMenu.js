@@ -6,21 +6,20 @@ import {
   Typography,
   Menu,
   Dialog,
-  Box,
   DialogTitle,
   DialogContent,
   Divider,
 } from "@mui/material";
 import { useNavigate } from "react-router";
-import ListAccount from "./ListAccount";
+import ListAccount from "../ListAccount/ListAccount";
 import AddIcon from "@mui/icons-material/Add";
 import SettingsIcon from "@mui/icons-material/Settings";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
-import { useWallet } from "../serviceData/walletAccount";
+import { useWallet } from "../../serviceData/walletAccount";
 import { useEffect, useState } from "react";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import AddNetworkForm from "./AddNetworkForm";
-import { useWeb3Service } from "../serviceData/accountETH";
+import AddNetworkForm from "../Service/AddNetworkForm";
+import { useWeb3Service } from "../../serviceData/accountETH";
 
 function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
   const [openForm, setOpenForm] = useState(false);
@@ -30,13 +29,13 @@ function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
 
   useEffect(() => {
     const load = () => {
-      if(!auth.wallet.isLogin){
+      if (!auth.wallet.isLogin) {
         navigate("/login");
         console.log("nahnah");
       }
-    }
+    };
     load();
-  }, [auth])
+  }, [auth]);
 
   return (
     <div className="text-account-info">
