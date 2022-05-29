@@ -1,8 +1,8 @@
 import { Button, Stack, TextField, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Web3 from 'web3';
-import { useWeb3Service } from '../serviceData/accountETH';
-import {checkProvider, getInfoProvider} from "../serviceData/providers"
+import { useWeb3Service } from '../../serviceData/accountETH';
+import {checkProvider, getInfoProvider} from "../../serviceData/providers"
 function AddNetworkForm({ onClose, onAdd }) {
   const [name, setName] = useState("");
   const [errName, setErrName] = useState(false);
@@ -18,7 +18,7 @@ function AddNetworkForm({ onClose, onAdd }) {
   const [blockExplorerURL, setBlockExplorerURL] = useState("");
   const [disableButton, setDisableButton] = useState(true);
   const [chainIdRes, setChainIdRes] = useState(-1);
-  const web3 = new Web3();
+  const web3 = useMemo(() => new Web3(), []);
   const web3Service = useWeb3Service();
 
   const Send = () => {

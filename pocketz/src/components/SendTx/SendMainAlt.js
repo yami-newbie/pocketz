@@ -10,13 +10,13 @@ import {
   CardContent,
 } from "@mui/material";
 import React, { useEffect } from "react";
-import { useListAccount } from "../serviceData/listAccount";
+import { useListAccount } from "../../serviceData/listAccount";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import SendConfirm from "./SendConfirm";
-import { useWeb3Service } from "../serviceData/accountETH";
-import Header from "./AppHeader";
+import { useWeb3Service } from "../../serviceData/accountETH";
+import Header from "../AppHeader";
 
 export default function SendMainAlt({ Account, onExit }) {
   const listAcc = useListAccount();

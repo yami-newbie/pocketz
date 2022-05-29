@@ -3,23 +3,42 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import InfoIcon from "@mui/icons-material/Info";
 import ExpandIcon from '@mui/icons-material/Expand';
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useListAccount } from "../serviceData/listAccount";
+import { useListAccount } from "../../serviceData/listAccount";
 import { useNavigate } from "react-router";
-import { useWeb3Service } from "../serviceData/accountETH";
+import { useWeb3Service } from "../../serviceData/accountETH";
 import { useEffect, useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { confirmText } from "../serviceData/constString";
-import ConfirmPassword from "./ConfirmPassword";
+import { confirmText } from "../../serviceData/constString";
+import ConfirmPassword from "../AccountDetails/ConfirmPassword";
+import AccountDetails from "../AccountDetails/AccountDetails";
 
 function AccountMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
     const listAccount = useListAccount();
     let navigate = useNavigate();
     const web3Service = useWeb3Service();
+    const [accDefault , setAccDefault] = useState(null);
     const [openConfirmForm, setOpenConfirmForm] = useState(false);
     const [isConfirm, setConfirm] = useState(false);
+    const [openAccDetail, setOpenAccDetail] = useState(false);
+
+    useEffect(() => {
+      const acc = listAccount.getSelectedAccount();
+      if(acc) {
+        setAccDefault(acc);
+      }
+    }, [listAccount])
+
+    const openDetail = () => {
+      if(accDefault)
+        setOpenAccDetail(true);
+    }
+
+    const closeDetail = () => {
+      setOpenAccDetail(false);
+    };
 
     useEffect(() => {
       if (isConfirm){
@@ -82,9 +101,7 @@ function AccountMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
               <Typography variant="inherit">Mở rộng</Typography>
             </MenuItem>
             <MenuItem
-              onClick={() => {
-                navigate("/details");
-              }}
+              onClick={openDetail}
             >
               <ListItemIcon>
                 <InfoIcon fontSize="medium" />
@@ -115,6 +132,7 @@ function AccountMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
             />
           </DialogContent>
         </Dialog>
+        { accDefault ? <AccountDetails open={openAccDetail} onClose = {closeDetail} Account={accDefault} /> : null}
       </div>
     );
 }

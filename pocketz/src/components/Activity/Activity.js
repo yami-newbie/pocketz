@@ -3,7 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import React, { useEffect, useState } from "react";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Web3 from "web3";
-import { useWeb3Service } from "../serviceData/accountETH";
+import { useWeb3Service } from "../../serviceData/accountETH";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 function Activity(props) {
@@ -137,7 +137,7 @@ function Activity(props) {
             Phí Cơ Bản (GWEI):
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
-            {formatWei(transaction.gasPrice - transaction.maxPriorityFeePerGas)}
+            {formatWei(transaction?.gasPrice - transaction?.maxPriorityFeePerGas)}
           </Typography>
         </div>
         <div className="head">
@@ -145,7 +145,7 @@ function Activity(props) {
             Phí Ưu Tiên (GWEI):
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
-            {formatWei(transaction.maxPriorityFeePerGas)}
+            {formatWei(transaction?.maxPriorityFeePerGas)}
           </Typography>
         </div>
         <div className="head">
@@ -161,7 +161,7 @@ function Activity(props) {
             Phí Tối Đa Mỗi Gas:
           </Typography>
           <Typography variant="caption" display="block" gutterBottom>
-            {formatWei(transaction.maxFeePerGas)}
+            {formatWei(transaction?.maxFeePerGas)}
           </Typography>
         </div>
         <Divider />

@@ -3,9 +3,9 @@ import { CardContent, TextField } from "@mui/material";
 import { Button } from "@mui/material";
 import { Card } from "@mui/material";
 import { Typography, Link, Box } from "@mui/material";
-import { useWallet } from "../serviceData/walletAccount";
+import { useWallet } from "../../serviceData/walletAccount";
 import { useNavigate } from "react-router-dom";
-import Header from "./AppHeader";
+import Header from "../AppHeader";
 
 
 function SignIn() {

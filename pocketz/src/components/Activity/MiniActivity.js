@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Typography } from "@mui/material";
-import { useListAccount } from "../serviceData/listAccount";
+import { useListAccount } from "../../serviceData/listAccount";
 import Web3 from "web3";
 
 function MiniActivity({ tx }) {

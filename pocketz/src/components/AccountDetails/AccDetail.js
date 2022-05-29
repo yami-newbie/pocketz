@@ -1,13 +1,11 @@
-import { Button, Dialog, IconButton, Typography, Avatar } from '@mui/material'
+import { Button, Dialog, Avatar } from '@mui/material'
 import React from 'react'
-import CloseIcon from '@mui/icons-material/Close';
-import PropTypes from 'prop-types';
 import {CopyToClipboard} from 'react-copy-to-clipboard'
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import { useEffect, useState } from 'react';
-import { useListAccount } from '../serviceData/listAccount';
-import { useWeb3Service } from '../serviceData/accountETH';
-import './AccountDetails/index.css';
+import { useState } from 'react';
+import { useListAccount } from '../../serviceData/listAccount';
+import { useWeb3Service } from '../../serviceData/accountETH';
+import './index.css';
 
 function AccDetail(props) {
   const { onClose, open, account } = props;
@@ -82,7 +80,6 @@ function AccDetail(props) {
             Xem trên Etherscan
           </Button>
       </div>
-      
     </Dialog>
   )
 }

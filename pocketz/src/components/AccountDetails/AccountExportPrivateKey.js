@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import CloseIcon from "@mui/icons-material/Close";
-import { Avatar, Button, Card, CardContent, Divider, IconButton, Stack, TextField, Typography } from '@mui/material';
-import { useNavigate } from 'react-router';
+import { Avatar, Button, Card, CardContent, Dialog, Divider, IconButton, Stack, TextField, Typography } from '@mui/material';
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import { warning } from '../../../serviceData/constString';
-import { useWallet } from '../../../serviceData/walletAccount';
+import { warning } from '../../serviceData/constString';
+import { useWallet } from '../../serviceData/walletAccount';
 import CopyToClipboard from 'react-copy-to-clipboard';
 
-function AccountExportPrivateKey({Account}) {
-  let navigate = useNavigate();
+function AccountExportPrivateKey({Account, onClose, onBack}) {
   const [show, setShow] = useState(false);
   const [tooltipText, setText] = useState("Copy to clipboard");
   const [password, setPassword] = useState("");
@@ -36,7 +34,7 @@ function AccountExportPrivateKey({Account}) {
   }
 
   return (
-    <div className="account-details">
+    <Card className="account-details">
       <div className="items" style={{ width: "100%" }}>
         <div className="grid-items">
           <IconButton
@@ -44,9 +42,7 @@ function AccountExportPrivateKey({Account}) {
               marginLeft: "15px",
               marginRight: "auto",
             }}
-            onClick={() => {
-              navigate("/details");
-            }}
+            onClick={onBack}
           >
             <ArrowBackIosNewIcon />
           </IconButton>
@@ -61,9 +57,7 @@ function AccountExportPrivateKey({Account}) {
               marginLeft: "auto",
               marginRight: "15px",
             }}
-            onClick={() => {
-              navigate("/");
-            }}
+            onClick={onClose}
           >
             <CloseIcon />
           </IconButton>
@@ -126,9 +120,7 @@ function AccountExportPrivateKey({Account}) {
                   borderRadius: "100px",
                 }}
                 variant="outlined"
-                onClick={() => {
-                  navigate("/");
-                }}
+                onClick={onClose}
               >
                 Hủy
               </Button>
@@ -175,9 +167,7 @@ function AccountExportPrivateKey({Account}) {
             </div>
             <Stack sx={{ mt: "10px" }}>
               <Button
-                onClick={() => {
-                  navigate("/");
-                }}
+                onClick={onClose}
                 variant="contained"
                 sx={{ borderRadius: "100px", height: "50px" }}
               >
@@ -187,7 +177,7 @@ function AccountExportPrivateKey({Account}) {
           </CardContent>
         </Card>
       )}
-    </div>
+    </Card>
   );
 }
 

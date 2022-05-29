@@ -7,7 +7,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useWallet } from "../serviceData/walletAccount";
+import { useWallet } from "../../serviceData/walletAccount";
 
 function ConfirmPassword({setConfirm, onCancel}) {
     const [password, setPassword] = useState("");

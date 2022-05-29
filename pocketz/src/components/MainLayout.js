@@ -18,15 +18,15 @@ import Header from "./AppHeader";
 import { useListAccount } from "../serviceData/listAccount";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import AccountMenu from "./AccountMenu";
+import AccountMenu from "./Menu/AccountMenu";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import SendIcon from "@mui/icons-material/Send";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { useNavigate } from "react-router";
 import { useWallet } from "../serviceData/walletAccount";
-import Activity from "./Activity";
-import MiniActivity from "./MiniActivity";
+import Activity from "./Activity/Activity";
+import MiniActivity from "./Activity/MiniActivity";
 import { getInfoProvider, getInfoProviderByRPC } from "../serviceData/providers";
 
 export default function MainLayout({ Account }) {

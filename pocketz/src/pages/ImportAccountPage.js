@@ -1,4 +1,4 @@
-import ImportAccount from "../components/ImportAccount";
+import ImportAccount from "../components/ListAccount/ImportAccount";
 
 
 function ImportAccountPage() {

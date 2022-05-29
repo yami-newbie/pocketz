@@ -1,6 +1,6 @@
 import { Box, Card } from '@mui/material';
 import React from 'react'
-import AddTokenForm from '../components/AddTokenForm';
+import AddTokenForm from '../components/Service/AddTokenForm';
 import AppHeader from '../components/AppHeader';
 
 function AddTokenPage() {

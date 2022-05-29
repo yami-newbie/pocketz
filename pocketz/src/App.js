@@ -25,8 +25,8 @@ function App() {
           <Route path="/register" element={<RegisterPage />}></Route>
           <Route path="/import" element={<ImportAccountPage />}></Route>
           <Route path="/create" element={<CreateAccountPage />}></Route>
-          <Route path="/details" element={<AccountDetailsPage />}></Route>
-          <Route path="/details/exportprivatekey" element={<AccountExportPrivateKeyPage />}></Route>
+          {/* <Route path="/details" element={<AccountDetailsPage />}></Route> */}
+          {/* <Route path="/details/exportprivatekey" element={<AccountExportPrivateKeyPage />}></Route> */}
           <Route path="/addtoken" element={<AddTokenPage />}></Route>
         </Routes>
       </BrowserRouter>
