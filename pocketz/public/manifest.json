@@ -6,13 +6,20 @@
   "action": {
     "default_popup": "index.html",
     "default_icon": {
-      "16": "/favicon.ico",
-      "32": "/favicon.ico",
-      "48": "/favicon.ico",
-      "128": "/logo192.ico"
+      "16": "/icons/logo192.png",
+      "32": "/icons/logo192.png",
+      "48": "/icons/logo192.png",
+      "128": "/icons/logo192.png"
     }
   },
+  "icons": {
+    "16": "/icons/logo192.png",
+    "32": "/icons/logo192.png",
+    "48": "/icons/logo192.png",
+    "128": "/icons/logo192.png"
+  },
   "permissions": [
+    "scripting",
     "storage",
     "tabs",
     "unlimitedStorage",
@@ -23,6 +30,9 @@
   ],
   "host_permissions": [
     "https://*.infura.io/",
-    "*://*.eth/"
+    "wss://*.infura.io/",
+    "*://*.eth/",
+    "http://*/",
+    "https://*/"
   ]
 }
