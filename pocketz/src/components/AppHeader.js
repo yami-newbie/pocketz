@@ -45,7 +45,7 @@ function Header() {
         }}
       >
         <Avatar className="icon-header">
-          <img src="favicon.ico" alt="pocketz logo" />
+          <img src="/icons/favicon.ico" alt="pocketz logo" />
         </Avatar>
         <Box sx={{ width: "80%" }}>
           <FormControl fullWidth>

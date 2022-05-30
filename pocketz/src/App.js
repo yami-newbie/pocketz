@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { createBrowserHistory } from 'history';
+import React, { useEffect, useMemo, useState } from 'react'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppProvider } from './components/Provider/AppProvider';
 import AddTokenPage from './pages/AddTokenPage';
 import CreateAccountPage from './pages/CreateAcountPage';
@@ -11,17 +12,18 @@ import SendMainAltPage from './pages/SendMainAltPage';
 import SendTransactionPage from './pages/SendTxPage';
 
 function App() {
-
   useEffect(() => {
-    console.log("open app???")
+    console.log(window.location.pathname)
     return () => {
       setTimeout(() => {console.log("close app???")}, 5000)
     }
   }, [])
 
+  const basename = useMemo(() => window.location.pathname, []);
+
   return (
     <AppProvider>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Routes>
           <Route path="/" element={<HomePage />}></Route>
           <Route path="/sendtx" element={<SendTransactionPage />}></Route>
