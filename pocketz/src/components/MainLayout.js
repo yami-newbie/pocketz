@@ -113,7 +113,7 @@ export default function MainLayout() {
       <div style={{ width: "400px" }}>
         <Header />
       </div>
-      <Card sx={{ width: "400px" }}>
+      <Card sx={{ width: "400px", minHeight:"570px" }}>
         <div className="grid-account-info">
           <div />
           <div className="address-account">

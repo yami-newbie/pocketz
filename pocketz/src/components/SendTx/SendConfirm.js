@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   Divider,
+  Stack,
   Typography,
 } from "@mui/material";
 import React, { useEffect } from "react";
@@ -50,7 +51,7 @@ export default function SendConfirm({ Account, setShow, amount }) {
     <div className="centered-item">
       <Card sx={{ width: "400px" }}>
         <Button size="small" onClick={setShow}>
-          Back
+          Chỉnh sửa
         </Button>
         <Divider />
         <div className="double-item">
@@ -81,28 +82,37 @@ export default function SendConfirm({ Account, setShow, amount }) {
           </Typography>
         </div>
         <Divider />
-        <div className="double-item">
-          <Button
-            variant="outlined"
-            onClick={() => {
-              navigate("/");
-            }}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              web3.sendTx({
-                account: acc.account,
-                toAddress: Account.account.address,
-                value: amount,
-                gasLimit: maxPriorityFeePerGas,
-              });
-            }}
-            variant="contained"
-          >
-            Confirm
-          </Button>
+        <div style={{
+                margin: "10px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}>
+          <Stack sx={{ width: "90%" }} direction="row" spacing={2}>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                navigate("/");
+              }}
+              sx={{ width: "50%", borderRadius: "100px" }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                web3.sendTx({
+                  account: acc.account,
+                  toAddress: Account.account.address,
+                  value: amount,
+                  gasLimit: maxPriorityFeePerGas,
+                });
+              }}
+              variant="contained"
+              sx={{ width: "50%", borderRadius: "100px" }}
+            >
+              Confirm
+            </Button>
+          </Stack>
         </div>
       </Card>
       <AccDetail
