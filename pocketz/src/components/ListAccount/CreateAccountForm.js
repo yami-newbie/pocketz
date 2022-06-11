@@ -28,47 +28,49 @@ function CreateAccountForm() {
     if (username !== "") setUsername("");
   };
   return (
-    <div className="centered-item">
-      <div style={{ width: "400px" }}>
-        <Header />
-      </div>
-      <Card sx={{ width: "350px" }}>
-        <CardContent>
-          <div>
-            <Typography variant="body1" gutterBottom>
-              Username
-            </Typography>
-          </div>
-          <div className="centered-item-10px-topbot">
-            <OutlinedInput
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-              placeholder="Username"
-            />
-          </div>
+    <div className="create-account">
+      <div className="centered-item">
+        <div style={{ width: "400px" }}>
+          <Header />
+        </div>
+        <Card className="create-card">
+          <CardContent>
+            <div>
+              <Typography variant="body1" gutterBottom>
+                Username
+              </Typography>
+            </div>
+            <div className="centered-item-10px-topbot">
+              <OutlinedInput
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
+                placeholder="Username"
+              />
+            </div>
 
-          <Stack
-            sx={{ justifyContent: "space-around", mt: "30px" }}
-            direction="row"
-          >
-            <Button
-              onClick={() => navigate("/")}
-              variant="outlined"
-              sx={{ width: "40%", borderRadius: "100px" }}
+            <Stack
+              sx={{ justifyContent: "space-around", mt: "30px" }}
+              direction="row"
             >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              sx={{ width: "40%", borderRadius: "100px" }}
-              onClick={createAccount}
-            >
-              Create
-            </Button>
-          </Stack>
-        </CardContent>
-      </Card>
+              <Button
+                onClick={() => navigate("/")}
+                variant="outlined"
+                sx={{ width: "40%", borderRadius: "100px" }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                sx={{ width: "40%", borderRadius: "100px" }}
+                onClick={createAccount}
+              >
+                Create
+              </Button>
+            </Stack>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 }

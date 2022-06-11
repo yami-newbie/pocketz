@@ -42,6 +42,7 @@ function Header() {
           paddingBottom: "10px",
           width: "100%",
           justifyContent: "flex-end",
+          backgroundColor:"#F7F7F7"
         }}
       >
         <Avatar className="icon-header">

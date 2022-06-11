@@ -109,125 +109,128 @@ export default function MainLayout() {
   }, [listAccount]);
 
   return (
-    <div className="centered-item">
-      <div style={{ width: "400px" }}>
-        <Header />
-      </div>
-      <Card sx={{ width: "400px", minHeight:"570px" }}>
-        <div className="grid-account-info">
-          <div />
-          <div className="address-account">
-            <CopyToClipboard text={address}>
-              <Button variant="text">
-                <div>
-                  <div>{username}</div>
-                  <div>{getAddressStr(address)}</div>
-                </div>
-              </Button>
-            </CopyToClipboard>
-          </div>
-          <div className="menu-account-icon">
-            <IconButton aria-label="settings" onClick={handleOpenUserMenu}>
-              <MoreVertIcon />
-            </IconButton>
-            <AccountMenu state={anchorElUser} onClose={handleCloseUserMenu} />
-          </div>
+    <div className="main-layout">
+      <div className="centered-item">
+        <div style={{ width: "400px" }}>
+          <Header />
         </div>
-
-        <CardContent>
-          <Divider />
-          <div className="card-content">
-            <div className="grid-items">
-              <div className="balance-items">
-                <div className="icon-token">
-                  <Avatar
-                    sx={{
-                      width: "32px",
-                      height: "32px",
-                    }}
-                    src="/images/ethereum-eth.png"
-                  />
-                </div>
-                <div className="balance-text-info">
-                  <div>{fixBalance(balance)}</div>
-                  <div>{provider?.symbol ? provider.symbol : null}</div>
-                </div>
-              </div>
+        <Card sx={{ width: "400px", minHeight:"570px"}} variant="outlined">
+          <div className="grid-account-info">
+            <div />
+            <div className="address-account">
+              <CopyToClipboard text={address}>
+                <Button variant="text">
+                  <div>
+                    <div>{username}</div>
+                    <div>{getAddressStr(address)}</div>
+                  </div>
+                </Button>
+              </CopyToClipboard>
             </div>
-
-            <div className="grid-items">
-              <div className="balance-button">
-                <div className="items-button">
-                  <Avatar
-                    sx={{
-                      bgcolor: "#2196f3",
-                    }}
-                  >
-                    <ArrowDownwardIcon />
-                  </Avatar>
-                  <div className="text-button">Mua</div>
-                </div>
-                <div className="items-button">
-                  <Avatar
-                    onClick={() => {
-                      navigate("./sendtx");
-                    }}
-                    sx={{
-                      bgcolor: "#2196f3",
-                    }}
-                  >
-                    <SendIcon />
-                  </Avatar>
-                  <div className="text-button">Gửi</div>
-                </div>
-                <div className="items-button">
-                  <Avatar
-                    sx={{
-                      bgcolor: "#2196f3",
-                    }}
-                  >
-                    <SwapHorizIcon />
-                  </Avatar>
-                  <div className="text-button">Hoán đổi</div>
-                </div>
-              </div>
+            <div className="menu-account-icon">
+              <IconButton aria-label="settings" onClick={handleOpenUserMenu}>
+                <MoreVertIcon />
+              </IconButton>
+              <AccountMenu state={anchorElUser} onClose={handleCloseUserMenu} />
             </div>
           </div>
 
-          <Box sx={{ width: "100%", typography: "body1" }}>
-            <TabContext value={value}>
-              <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-                <TabList
-                  sx={{
-                    fontFamily: "IBM Plex Sans",
-                  }}
-                  variant="fullWidth"
-                  onChange={handleChange}
-                  aria-label="full width tabs example"
-                >
-                  <Tab label="Tài sản" value="1" />
-                  <Tab label="Hoạt động" value="2" />
-                </TabList>
-              </Box>
-              <TabPanel value="1">
-                <List>
-                  <ListItem disablePadding>
-                    <ListItemButton>
-                      <ListItemText primary={fixBalance(balance)} />
-                    </ListItemButton>
-                  </ListItem>
-                </List>
-              </TabPanel>
-              {/* <TabPanel value="2">{txList}</TabPanel> */}
-              <TabPanel value="2">
-                <List>{listActivity}</List>
-              </TabPanel>
-            </TabContext>
-          </Box>
-        </CardContent>
-        <footer></footer>
-      </Card>
-      <Activity open={open} onClose={handleClose} tx={selectedTx}></Activity>
+          <CardContent>
+            <Divider />
+            <div className="card-content">
+              <div className="grid-items">
+                <div className="balance-items">
+                  <div className="icon-token">
+                    <Avatar
+                      sx={{
+                        width: "32px",
+                        height: "32px",
+                      }}
+                      src="/images/ethereum-eth.png"
+                    />
+                  </div>
+                  <div className="balance-text-info">
+                    <div>{fixBalance(balance)}</div>
+                    <div>{provider?.symbol ? provider.symbol : null}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid-items">
+                <div className="balance-button">
+                  <div className="items-button">
+                    <Avatar
+                      sx={{
+                        bgcolor: "#2196f3",
+                      }}
+                    >
+                      <ArrowDownwardIcon />
+                    </Avatar>
+                    <div className="text-button">Mua</div>
+                  </div>
+                  <div className="items-button">
+                    <Avatar
+                      onClick={() => {
+                        navigate("./sendtx");
+                      }}
+                      sx={{
+                        bgcolor: "#2196f3",
+                      }}
+                    >
+                      <SendIcon />
+                    </Avatar>
+                    <div className="text-button">Gửi</div>
+                  </div>
+                  <div className="items-button">
+                    <Avatar
+                      sx={{
+                        bgcolor: "#2196f3",
+                      }}
+                    >
+                      <SwapHorizIcon />
+                    </Avatar>
+                    <div className="text-button">Hoán đổi</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <Box sx={{ width: "100%", typography: "body1"}}>
+              <TabContext value={value}>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <TabList
+                    sx={{
+                      fontFamily: "IBM Plex Sans",
+                    }}
+                    variant="fullWidth"
+                    onChange={handleChange}
+                    aria-label="full width tabs example"
+                  >
+                    <Tab label="Tài sản" value="1" />
+                    <Tab label="Hoạt động" value="2" />
+                  </TabList>
+                </Box>
+                <TabPanel value="1">
+                  <List>
+                    <ListItem disablePadding>
+                      <ListItemButton>
+                        <ListItemText primary={fixBalance(balance)} />
+                      </ListItemButton>
+                    </ListItem>
+                  </List>
+                </TabPanel>
+                {/* <TabPanel value="2">{txList}</TabPanel> */}
+                <TabPanel value="2">
+                  <List>{listActivity}</List>
+                </TabPanel>
+              </TabContext>
+            </Box>
+          </CardContent>
+          <footer></footer>
+        </Card>
+        <Activity open={open} onClose={handleClose} tx={selectedTx}></Activity>
+      </div>
     </div>
+    
   );
 }
