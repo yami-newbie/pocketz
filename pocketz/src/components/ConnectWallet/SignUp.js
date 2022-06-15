@@ -25,7 +25,7 @@ function SignUp() {
   };
   return (
     <div className = "centered">
-      <Card sx={{ maxWidth: 275 }}>
+      <Card sx={{ width: 275 }}>
         <CardContent>
           <TextField
             onChange = {(e) => {

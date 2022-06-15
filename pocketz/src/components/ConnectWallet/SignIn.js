@@ -29,7 +29,7 @@ function SignIn() {
         <button onClick={() => wallet.signout()}>Sign Out</button>
       ) : (
         <div>
-          <Card sx={{ width: "400px" }}>
+          <Card sx={{ width: "400px", minWidth:"400px" }}>
             <CardContent>
               <div className="centered-item-40vh">
                 <Typography variant="h4" component="div">

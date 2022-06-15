@@ -24,6 +24,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 5px;
 }
 .centered-item-360 {
   display: flex;
@@ -74,7 +75,7 @@ code {
   align-items: center;
   width: 100%;
   height: 35vh;
-  min-height: 312px;
+  min-height: 260px;
 }
 
 .card-content .icon-token {
@@ -319,7 +320,10 @@ code {
 
 .send-content
 {
-  padding: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
 }
 
 .activity

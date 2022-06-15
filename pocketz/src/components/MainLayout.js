@@ -114,7 +114,7 @@ export default function MainLayout() {
         <div style={{ width: "400px" }}>
           <Header />
         </div>
-        <Card sx={{ width: "400px", minHeight:"570px"}} variant="outlined">
+        <Card sx={{ width: "400px", minHeight:"500px"}} variant="outlined">
           <div className="grid-account-info">
             <div />
             <div className="address-account">

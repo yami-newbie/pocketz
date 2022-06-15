@@ -40,7 +40,7 @@ function AccDetail(props) {
   };
   return (
     <Dialog onClose={handleClose} open={open}>
-      <div style={{ padding: "50px" }}>
+      <div>
         <div>
           <Avatar
             src={account.avatarSrc}
