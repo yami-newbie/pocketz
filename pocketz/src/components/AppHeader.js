@@ -13,15 +13,15 @@ function Header() {
 
   useEffect(() => {
     const loadProvider = () => {
-      setProvider(web3Service.getSelectedProvider());
+      const _provider = web3Service.getSelectedProvider();
+      setProvider(_provider);
     };
     loadProvider();
   }, [web3Service]);
 
   const handleChange = (event) => {
     const _provider = event.target.value;
-    setProvider(_provider);
-    web3Service.switchProvider(_provider.rpc);
+    web3Service.switchProvider(_provider);
   };
 
   const handleCloseUserMenu = () => {
@@ -59,14 +59,14 @@ function Header() {
                 textAlign: "center",
                 bgcolor: "white",
               }}
-              value={provider}
+              value={provider.rpc ? provider.rpc : ''}
               onChange={handleChange}
               displayEmpty
               inputProps={{ "aria-label": "Without label" }}
             >
               {web3Service.providers.map((_provider) => {
                 return (
-                  <MenuItem key={_provider?.key} value={_provider}>
+                  <MenuItem key={_provider?.key} value={_provider.rpc}>
                     {_provider?.name}
                   </MenuItem>
                 );

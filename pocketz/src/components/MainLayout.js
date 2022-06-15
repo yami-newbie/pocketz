@@ -27,6 +27,8 @@ import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { useNavigate } from "react-router";
 import Activity from "./Activity/Activity";
 import MiniActivity from "./Activity/MiniActivity";
+import { srcIconSymbol } from "../serviceData/SrcIcon";
+import { getInfoProviderByRPC } from "../serviceData/providers";
 
 export default function MainLayout() {
   const [value, setValue] = useState("1");
@@ -34,9 +36,9 @@ export default function MainLayout() {
   const [account, setAccount] = useState();
   const [address, setAddress] = useState("");
   const [balance, setBalance] = useState(0);
-  const listAccount = useListAccount();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [txList, setTxList] = useState([]);
+  const listAccount = useListAccount();
   const web3Service = useWeb3Service();
   const [open, setOpen] = useState(false);
   const [provider, setProvider] = useState();
@@ -84,7 +86,8 @@ export default function MainLayout() {
   ));
 
   useEffect(() => {
-    setProvider(web3Service.getSelectedProvider());
+    const newProvider = web3Service.getSelectedProvider();
+    setProvider(newProvider);
   }, [web3Service]);
 
   useEffect(() => {
@@ -103,7 +106,7 @@ export default function MainLayout() {
   }, [listAccount, account]);
 
   useEffect(() => {
-    if (listAccount.getSelectedAccount() !== null) {
+    if (listAccount.getSelectedAccount()) {
       setTxList(listAccount.getTxList());
       setAccount(listAccount.getSelectedAccount());
     }
@@ -136,27 +139,26 @@ export default function MainLayout() {
             </div>
           </div>
 
-          <CardContent>
-            <Divider />
-            <div className="card-content">
-              <div className="grid-items">
-                <div className="balance-items">
-                  <div className="icon-token">
-                    <Avatar
-                      sx={{
-                        width: "32px",
-                        height: "32px",
-                      }}
-                      src="/images/ethereum-eth.png"
-                    />
-                  </div>
-                  <div className="balance-text-info">
-                    <Typography variant="h4">{fixBalance(balance)}</Typography>
-                    <div>&nbsp;</div>
-                    <Typography variant="h4">{provider?.symbol ? provider.symbol : null}</Typography>
-                  </div>
+        <CardContent>
+          <Divider />
+          <div className="card-content">
+            <div className="grid-items">
+              <div className="balance-items">
+                <div className="icon-token">
+                  <Avatar
+                    sx={{
+                      width: "32px",
+                      height: "32px",
+                    }}
+                    src={provider?.symbol ? srcIconSymbol(provider.symbol) : null}
+                  />
+                </div>
+                <div className="balance-text-info">
+                  <div>{fixBalance(balance)}</div>
+                  <div>{provider?.symbol ? provider.symbol : null}</div>
                 </div>
               </div>
+            </div>
 
               <div className="grid-items">
                 <div className="balance-button">

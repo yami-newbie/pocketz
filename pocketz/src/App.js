@@ -12,12 +12,6 @@ import SendMainAltPage from './pages/SendMainAltPage';
 import SendTransactionPage from './pages/SendTxPage';
 
 function App() {
-  useEffect(() => {
-    console.log(window.location.pathname)
-    return () => {
-      setTimeout(() => {console.log("close app???")}, 5000)
-    }
-  }, [])
 
   const basename = useMemo(() => window.location.pathname, []);
 
