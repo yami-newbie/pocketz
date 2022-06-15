@@ -11,6 +11,7 @@ import {
   ListItem,
   ListItemButton,
   ListItemText,
+  Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useWeb3Service } from "../serviceData/accountETH";
@@ -150,8 +151,9 @@ export default function MainLayout() {
                     />
                   </div>
                   <div className="balance-text-info">
-                    <div>{fixBalance(balance)}</div>
-                    <div>{provider?.symbol ? provider.symbol : null}</div>
+                    <Typography variant="h4">{fixBalance(balance)}</Typography>
+                    <div>&nbsp;</div>
+                    <Typography variant="h4">{provider?.symbol ? provider.symbol : null}</Typography>
                   </div>
                 </div>
               </div>
@@ -162,6 +164,9 @@ export default function MainLayout() {
                     <Avatar
                       sx={{
                         bgcolor: "#2196f3",
+                        '&:hover':{
+                          cursor:'pointer'
+                        }
                       }}
                     >
                       <ArrowDownwardIcon />
@@ -175,6 +180,9 @@ export default function MainLayout() {
                       }}
                       sx={{
                         bgcolor: "#2196f3",
+                        '&:hover':{
+                          cursor:'pointer'
+                        }
                       }}
                     >
                       <SendIcon />
@@ -185,6 +193,9 @@ export default function MainLayout() {
                     <Avatar
                       sx={{
                         bgcolor: "#2196f3",
+                        '&:hover':{
+                          cursor:'pointer'
+                        }
                       }}
                     >
                       <SwapHorizIcon />
