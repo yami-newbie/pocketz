@@ -21,6 +21,18 @@ function WalletAccountData(){
   const setPassword = web3Service.setPassword;
   const wallet = web3Service.wallet;
 
+  window.onload = () => {
+    const time = window.localStorage.getItem("last signin");
+    const timeoff = new Date().getTime() - time;
+    if(timeoff / 1000 > 5 * 60){
+      signout();
+    }
+  }
+
+  window.onbeforeunload = () => {
+    window.localStorage.setItem("last signin", new Date().getTime())
+  };
+
     const signin = (password) => {
       try {
         setPassword(password);

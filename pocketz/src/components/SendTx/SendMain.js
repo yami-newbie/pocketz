@@ -73,9 +73,9 @@ export default function SendMain() {
               }}
             >
               <List sx={{ width: "400px" }}>
-                {valueSort.map((acc) => {
+                {valueSort.map((acc, i) => {
                   return (
-                    <div key={acc.key}>
+                    <div key={i}>
                       <ListItem
                         disablePadding
                         onClick={() => {

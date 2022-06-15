@@ -26,6 +26,8 @@ import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import { useNavigate } from "react-router";
 import Activity from "./Activity/Activity";
 import MiniActivity from "./Activity/MiniActivity";
+import { srcIconSymbol } from "../serviceData/SrcIcon";
+import { getInfoProviderByRPC } from "../serviceData/providers";
 
 export default function MainLayout() {
   const [value, setValue] = useState("1");
@@ -83,7 +85,8 @@ export default function MainLayout() {
   ));
 
   useEffect(() => {
-    setProvider(web3Service.getSelectedProvider());
+    const newProvider = web3Service.getSelectedProvider();
+    setProvider(newProvider);
   }, [web3Service]);
 
   useEffect(() => {
@@ -102,7 +105,7 @@ export default function MainLayout() {
   }, [listAccount, account]);
 
   useEffect(() => {
-    if (listAccount.getSelectedAccount() !== null) {
+    if (listAccount.getSelectedAccount()) {
       setTxList(listAccount.getTxList());
       setAccount(listAccount.getSelectedAccount());
     }
@@ -113,7 +116,7 @@ export default function MainLayout() {
       <div style={{ width: "400px" }}>
         <Header />
       </div>
-      <Card sx={{ width: "400px", minHeight:"570px" }}>
+      <Card sx={{ width: "400px", minHeight: "570px" }}>
         <div className="grid-account-info">
           <div />
           <div className="address-account">
@@ -145,7 +148,7 @@ export default function MainLayout() {
                       width: "32px",
                       height: "32px",
                     }}
-                    src="/images/ethereum-eth.png"
+                    src={provider?.symbol ? srcIconSymbol(provider.symbol) : null}
                   />
                 </div>
                 <div className="balance-text-info">
