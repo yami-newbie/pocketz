@@ -10,9 +10,9 @@ function HomePage() {
     const listAccount = useListAccount();
     const [account, setAccount] = useState(null);
     useEffect(() => {
-      const load = async () => {
+      const load = () => {
         if(!wallet.wallet.password) {
-          return navigate("./register")
+          return navigate("/register")
         }
       }
       load();

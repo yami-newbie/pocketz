@@ -31,7 +31,6 @@ function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
     const load = () => {
       if (!auth.wallet.isLogin) {
         navigate("/login");
-        console.log("nahnah");
       }
     };
     load();

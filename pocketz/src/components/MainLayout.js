@@ -35,9 +35,9 @@ export default function MainLayout() {
   const [account, setAccount] = useState();
   const [address, setAddress] = useState("");
   const [balance, setBalance] = useState(0);
-  const listAccount = useListAccount();
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [txList, setTxList] = useState([]);
+  const listAccount = useListAccount();
   const web3Service = useWeb3Service();
   const [open, setOpen] = useState(false);
   const [provider, setProvider] = useState();

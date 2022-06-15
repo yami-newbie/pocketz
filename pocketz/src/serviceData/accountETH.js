@@ -102,15 +102,15 @@ export default function ProviderWeb3Service({ children }) {
 }
 
 function AccountETH() {
-  // const web3 = useRef();
-  const web3 = window.web3;
+  const web3 = useRef();
+  // const web3 = window.web3;
   const pendingHash = useRef();
   const [wallet, setWallet, setPassword] = useEncryptStorage("wallet", {});
 
   const [providers, setProviders] = useState(wallet.providers ? wallet.providers : defaultProvider)
 
   const create = async () => {
-    return await web3.eth.accounts.create();
+    return await web3.current.eth.accounts.create();
   };
 
   //#region tx
@@ -120,9 +120,9 @@ function AccountETH() {
     const provider = getSelectedProvider();
     const myAddress = account.address; //TODO: replace this address with your own public address
 
-    const nonce = await web3.eth.getTransactionCount(myAddress, "latest");
+    const nonce = await web3.current.eth.getTransactionCount(myAddress, "latest");
 
-    var block = await web3.eth.getBlock("latest");
+    var block = await web3.current.eth.getBlock("latest");
     console.log("gasLimit: " + block.gasLimit);
 
     const transaction = {
@@ -135,12 +135,12 @@ function AccountETH() {
     };
     // console.log(gasLimit ? gasLimit : gasLimitDefault);
 
-    const signedTx = await web3.eth.accounts.signTransaction(
+    const signedTx = await web3.current.eth.accounts.signTransaction(
       transaction,
       account.privateKey
     );
 
-    web3.eth.sendSignedTransaction(
+    web3.current.eth.sendSignedTransaction(
       signedTx.rawTransaction,
       function (error, hash) {
         if (!error) {
@@ -167,9 +167,9 @@ function AccountETH() {
     if (
       defaultProvider.filter(
         (provider) => provider.chainId === currentProvider.chainId
-      ).length > 0
+      ).length > 0 && web3.current
     ) {
-      const _web3 = web3;
+      const _web3 = web3.current;
       const currentBlock = _web3.eth.getBlockNumber();
       //const block = await getWeb3().eth.getBlock(12188971).then(console.log);
       return await axios
@@ -193,7 +193,7 @@ function AccountETH() {
   };
 
   const getPendingTransactions = async (address) => {
-    const _web3 = web3;
+    const _web3 = web3.current;
 
     if (pendingHash.current && pendingHash.current !== null){
       console.log("work?");
@@ -216,7 +216,7 @@ function AccountETH() {
   //#endregion
 
   const setDefaultAccount = (address) => {
-    web3.defaultAccount = address;
+    web3.current.defaultAccount = address;
   };
 
   const getLinkCheckAccountInEtherscan = () => {
@@ -226,7 +226,7 @@ function AccountETH() {
   }
   
   const getDefaultAccount = () => {
-    return web3.defaultAccount;
+    return web3.current.defaultAccount;
   };
 
   const getSelectedProvider = useCallback(() => {
@@ -282,21 +282,23 @@ function AccountETH() {
   // };
 
   const getBalance = async (address) => {
-    var balance = await web3.eth.getBalance(address); //Will give value in.
-    balance = web3.utils.fromWei(String(balance));
-    return balance.toString();
+    if(web3.current){
+      var balance = await web3.current.eth.getBalance(address); //Will give value in.
+      balance = web3.current.utils.fromWei(String(balance));
+      return balance.toString();
+    }
   };
 
   const getGasPrice = async () => {
-    var price = await web3.eth.getGasPrice(); //Will give value in.
-    price = web3.utils.fromWei(String(price));
+    var price = await web3.current.eth.getGasPrice(); //Will give value in.
+    price = web3.current.utils.fromWei(String(price));
     return price;
   }
 
   const calGasPrice = async (maxGas) => {
-    var price = await web3.eth.getGasPrice(); //Will give value in.
+    var price = await web3.current.eth.getGasPrice(); //Will give value in.
     price = BigNumber.from(String(price)).mul(BigNumber.from(String(maxGas)));
-    price = web3.utils.fromWei(String(price));
+    price = web3.current.utils.fromWei(String(price));
     return price.toString();
   };
 
@@ -316,7 +318,7 @@ function AccountETH() {
           baseUrl: "",
         },
       });
-      if (web3) web3.setProvider(_provider);
+      if (web3.current) web3.current.setProvider(_provider);
       else CreateWeb3(_provider);
     } else {
       const _provider = new Web3.providers.WebsocketProvider(rpc, {
@@ -340,13 +342,13 @@ function AccountETH() {
           onTimeout: false,
         },
       });
-      if (web3) web3.setProvider(_provider);
+      if (web3.current) web3.current.setProvider(_provider);
       else CreateWeb3(_provider);
     }
   };
 
   const CreateWeb3 = (provider) => {
-    window.ethereum = window.web3 = new Web3(provider);
+    web3.current = new Web3(provider);
   }
 
   useEffect(() => {
