@@ -79,7 +79,7 @@ function Header() {
             onClick={handleOpenUserMenu}
             src={auth.getSelectedAccount()?.avatarSrc}
           />
-          <AppMenu state={anchorElUser} onClose={handleCloseUserMenu} />
+          {web3Service.wallet.isLogin && <AppMenu state={anchorElUser} onClose={handleCloseUserMenu} />}
         </div>
       </Box>
     </div>

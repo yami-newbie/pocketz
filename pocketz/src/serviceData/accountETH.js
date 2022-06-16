@@ -105,12 +105,18 @@ function AccountETH() {
   const web3 = useRef();
   // const web3 = window.web3;
   const pendingHash = useRef();
-  const [wallet, setWallet, setPassword] = useEncryptStorage("wallet", {});
+  const [wallet, setWallet, setPassword] = useEncryptStorage("wallet", {
+    password: "",
+    isLogin: false,
+    mnemonic: "",
+    accounts: [],
+  });
 
   const [providers, setProviders] = useState(wallet.providers ? wallet.providers : defaultProvider)
 
   const create = async () => {
-    return await web3.current.eth.accounts.create();
+    if(web3.current)
+      return await web3.current.eth.accounts.create();
   };
 
   //#region tx
@@ -162,6 +168,8 @@ function AccountETH() {
   };
 
   const getTransactionLogAccount = async (address) => {
+    
+
     const currentProvider = getSelectedProvider();
 
     if (
@@ -283,9 +291,9 @@ function AccountETH() {
 
   const getBalance = async (address) => {
     if(web3.current){
-      var balance = await web3.current.eth.getBalance(address); //Will give value in.
-      balance = web3.current.utils.fromWei(String(balance));
-      return balance.toString();
+      return await web3.current.eth.getBalance(address).then(balance => {
+        return web3.current.utils.fromWei(String(balance)).toString();
+      }); //Will give value in.
     }
   };
 

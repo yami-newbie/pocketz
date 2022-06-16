@@ -38,13 +38,14 @@ const getAvatar = () => {
 
 function ListAccountData() {
   const wallet = useWallet();
-  const [accounts, setAccounts] = useState(wallet.wallet?.accounts);
+  const [accounts, setAccounts] = useState(wallet?.wallet.accounts);
   const balances = useRef([]);
   const [key, setKey] = useLocalStorage("key", 0);
   const [count, setCount] = useLocalStorage("count", 0);
   const web3 = useWeb3Service();
   const [time, setTime] = useState(Date.now());
   const txList = useRef();
+  const loadStack = useRef([]);
 
   //#region import, create, remove Account
   const importAccount = ({ username, address, privateKey }) => {
@@ -64,7 +65,7 @@ function ListAccountData() {
         },
         pendingHash: null,
       };
-      if (accounts) {
+      if (accounts && accounts !== null) {
         setAccounts([
           ...accounts.map((acc) => ({ ...acc, selected: false })),
           newAcc,
@@ -131,9 +132,13 @@ function ListAccountData() {
     if (res.length > 0) {
       return res[0];
     } else {
-      console.log("Accounts", accounts);
-      selectAccount(accounts[0].account.address);
-      return accounts[0];
+      console.log("Accounts", accounts, res);
+      if (accounts.length > 0) {
+        selectAccount(accounts[0].account.address);
+        return accounts[0];
+      } else {
+        return null;
+      }
     }
   };
 
@@ -151,7 +156,7 @@ function ListAccountData() {
 
   //#region reload balance
   const setBalance = (address, balance) => {
-    if(balances && balances.current.length > 0){
+    if (balances && balances.current.length > 0) {
       const accList = balances.current.filter((e) => e.address === address);
       if (accList && accList.length === 0)
         balances.current = [
@@ -160,12 +165,10 @@ function ListAccountData() {
         ];
       else {
         balances.current = balances.current.map((e) =>
-          e.address === address ? ({ ...e, balance: balance }) : e
+          e.address === address ? { ...e, balance: balance } : e
         );
       }
-    }
-    else {
-
+    } else {
     }
   };
 
@@ -175,9 +178,8 @@ function ListAccountData() {
   };
 
   const ReloadBalances = () => {
-    if (accounts) {
+    if (accounts && web3 && web3.wallet.isLogin && accounts.length > 0) {
       const _provider = web3?.getSelectedProvider();
-
       if (defaultProvider.filter((e) => e.rpc === _provider.rpc).length > 0) {
         axios
           .get(
@@ -195,11 +197,20 @@ function ListAccountData() {
             // console.log(balances.current);
           });
       } else {
-        accounts.map(async (acc) => {
+        accounts.forEach((acc) => {
           const address = acc.account.address;
-          await web3.getBalance(address).then((balance) => {
-            setBalance(address, fixBalance(balance));
-          });
+          if (loadStack.current.filter((e) => e === address).length === 0) {
+            loadStack.current.push(address);
+            web3
+              .getBalance(address)
+              .then((balance) => {
+                loadStack.current = loadStack.current.filter(
+                  (e) => e === address
+                );
+                if (balance) setBalance(address, fixBalance(balance));
+              })
+              .catch(console.log);
+          }
         });
       }
     }
@@ -271,6 +282,7 @@ function ListAccountData() {
 
   useEffect(() => {
     const load = () => {
+      console.log(accounts)
       wallet.setAccounts(accounts);
       setBalancesData();
     };
