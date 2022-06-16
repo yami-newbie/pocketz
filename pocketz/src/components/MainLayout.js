@@ -253,7 +253,7 @@ export default function MainLayout() {
                     <Tab label="Hoạt động" value="2" />
                   </TabList>
                 </Box>
-                <TabPanel value="1">
+                <TabPanel value="1" >
                   <List>
                     <ListItem disablePadding>
                       <ListItemButton>
@@ -263,7 +263,7 @@ export default function MainLayout() {
                   </List>
                 </TabPanel>
                 {/* <TabPanel value="2">{txList}</TabPanel> */}
-                <TabPanel value="2">
+                <TabPanel value="2" sx={{ padding: 0 }}>
                   <List>{listActivity}</List>
                 </TabPanel>
               </TabContext>
