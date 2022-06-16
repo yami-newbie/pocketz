@@ -413,3 +413,19 @@ code {
   display: flex;
   flex-direction: column;
 }
+.greetings
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 240px;
+}
+.button
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 75px;
+}
