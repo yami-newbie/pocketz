@@ -1,5 +1,18 @@
 import { useEffect, useState } from "react";
-import { Box, Card, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, Divider, Stack, TextField, Tooltip, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Divider,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import { Button } from "@mui/material";
 import { useWallet } from "../../serviceData/walletAccount";
 import { useNavigate } from "react-router";
@@ -14,66 +27,63 @@ function SignUp() {
   const [open, setOpen] = useState(false);
   const [mnemonic, setMnemonic] = useState();
   const [show, setShow] = useState(false);
-  const [tooltipText, setText] = useState("Copy to clipboard");
+  const [tooltipText, setText] = useState("Nhấn để sao chép");
 
   const showDropdown = (e) => {
     setShow(!show);
-    setText("Copy to clipboard");
+    setText("Nhấn để sao chép");
   };
   const hideDropdown = (e) => {
     setShow(false);
   };
   const onCopied = () => {
-    setText("Copied!");
+    setText("Đã sao chép!");
   };
 
   useEffect(() => {
-    if(wallet.wallet?.isLogin){
-      return navigate("/")
+    if (wallet.wallet?.isLogin) {
+      return navigate("/");
     }
-  }, [wallet])
+  }, [wallet]);
 
   const signUp = async () => {
     if (password !== "" && confirmpassword !== "") {
-      if(password === confirmpassword) {
+      if (password === confirmpassword) {
         const newWallet = wallet.signup(password);
         setMnemonic(newWallet.mnemonic);
-        setOpen(true)
-      }
-      else {
-        setErr("Mật khẩu xác nhận không chính xác")
+        setOpen(true);
+      } else {
+        setErr("Mật khẩu xác nhận không chính xác");
       }
     }
   };
 
   return (
-    <div className = "centered">
+    <div className="centered">
       <Card sx={{ width: 275 }}>
         <CardContent>
           <TextField
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-            label="Password"
+            fullWidth
+            label="Mật khẩu"
             variant="standard"
             type="password"
           />
-          <br />
-          <br />
           <TextField
             onChange={(e) => {
               setConfirmPassword(e.target.value);
             }}
-            label="Confirm password"
+            fullWidth
+            label="Xac nhận mật khẩu"
             variant="standard"
             error={err ? true : false}
             helperText={err ? err : ""}
             type="password"
           />
-          <br />
-          <br />
           <Button variant="contained" onClick={signUp}>
-            Sign up
+            Mở ví
           </Button>
         </CardContent>
       </Card>
@@ -90,23 +100,22 @@ function SignUp() {
             Cụm từ khôi phục bí mật
           </Typography>
         </DialogTitle>
-        <Divider/>
+        <Divider />
         <DialogContent>
           <Box>
             <Typography>
               Đây là cụm mật khẩu khôi phục bí mật của bạn. Hãy lưu trữ nó ở nơi
-              an toàn
+              an toàn:
             </Typography>
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "row",
                 alignItem: "center",
-                width: "250px",
                 cursor: "pointer",
                 backgroundColor: "rgb(240,240,240)",
                 padding: "10px",
-                margin: "10px"
+                margin: "10px",
               }}
             >
               <CopyToClipboard
@@ -124,7 +133,15 @@ function SignUp() {
         </DialogContent>
         <DialogActions>
           <Stack>
-            <Button variant="outlined">Xác nhận</Button>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setOpen(false);
+                wallet.signin(password);
+              }}
+            >
+              Xác nhận
+            </Button>
           </Stack>
         </DialogActions>
       </Dialog>
