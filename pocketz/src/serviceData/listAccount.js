@@ -125,14 +125,13 @@ function ListAccountData() {
   };
 
   const getSelectedAccount = () => {
-    if (!accounts) return;
+    if (!accounts || !web3.wallet.isLogin ) return;
 
     const res = accounts.filter((account) => account.selected);
 
     if (res.length > 0) {
       return res[0];
     } else {
-      console.log("Accounts", accounts, res);
       if (accounts.length > 0) {
         selectAccount(accounts[0].account.address);
         return accounts[0];

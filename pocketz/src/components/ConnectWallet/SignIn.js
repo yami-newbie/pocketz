@@ -26,8 +26,9 @@ function SignIn() {
   };
 
   useEffect(() => {
-    if(wallet.wallet.isLogin){
-      navigate("/")
+    console.log(wallet.wallet.password === "")
+    if (wallet.wallet.password === "") {
+      navigate("/register");
     }
   }, [wallet])
 

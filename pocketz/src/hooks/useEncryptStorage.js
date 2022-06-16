@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState } from "react";
 var CryptoJS = require("crypto-js");
 
 const PASSWORD_KEY = "test pass";
 
 function useEncryptStorage(key, initialValue) {
-  const [password, setPassword] = useState("123456");
+  const [password, setPassword] = useState(PASSWORD_KEY);
 
   const [storedValue, setStoredValue] = useState(() => {
     if (typeof window === "undefined") {
@@ -13,26 +13,21 @@ function useEncryptStorage(key, initialValue) {
     try {
       // Get from local storage by key
       const item = window.localStorage.getItem(key);
-      if(item){
-        var bytes = CryptoJS.AES.decrypt(
-          item,
-          password ? password : PASSWORD_KEY
-        );
+      if (item) {
+        var bytes = CryptoJS.AES.decrypt(item, PASSWORD_KEY);
         var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
 
         return decryptedData;
       }
-      
+
       // Parse stored json or if none return initialValue
       return initialValue;
-      
     } catch (error) {
       // If error also return initialValue
       if (error.message !== "Malformed UTF-8 data") {
         console.log(error.message);
         return initialValue;
-      }
-      else {
+      } else {
         // console.log("ok i'm here");
         const item = window.localStorage.getItem(key);
         // console.log(item);
@@ -49,7 +44,7 @@ function useEncryptStorage(key, initialValue) {
         value instanceof Function ? value(storedValue) : value;
       const data = CryptoJS.AES.encrypt(
         JSON.stringify(valueToStore).toString(),
-        password ? password : PASSWORD_KEY
+        PASSWORD_KEY
       );
       // Save state
       setStoredValue(valueToStore);
@@ -64,10 +59,9 @@ function useEncryptStorage(key, initialValue) {
   };
   const setPassKey = (value) => {
     // console.log("set pass", value);
-    if(!password)
-      setPassword(value);
-  }
+    if (!password) setPassword(value);
+  };
   return [storedValue, setValue, setPassKey];
 }
 
-export default useEncryptStorage
+export default useEncryptStorage;
