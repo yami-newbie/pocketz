@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect } from "react";
 import { ethers } from "ethers";
 import { useWeb3Service } from "./accountETH";
+import { throws } from "assert";
 
 const UserContext = createContext();
 
@@ -110,6 +111,14 @@ function WalletAccountData() {
     }
   };
 
+  const changePass = (newPass, mnemonic) => {
+    if(wallet.mnemonic === mnemonic) {
+      console.log(wallet, mnemonic)
+      setWallet({...wallet, password: newPass})
+    }
+    else throw "mnemonic is not true";
+  }
+
   useEffect(() => {}, []);
 
   return {
@@ -119,5 +128,6 @@ function WalletAccountData() {
     signout,
     getMnemonic,
     setAccounts,
+    changePass
   };
 }

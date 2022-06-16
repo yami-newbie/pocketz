@@ -76,6 +76,7 @@ function Header() {
         </Box>
         <div className="avatar-header">
           <Avatar
+            sx={{ cursor: "pointer", "&:hover": { boxShadow: 3 } }}
             onClick={handleOpenUserMenu}
             src={auth.getSelectedAccount()?.avatarSrc}
           />

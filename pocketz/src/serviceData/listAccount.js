@@ -281,7 +281,6 @@ function ListAccountData() {
 
   useEffect(() => {
     const load = () => {
-      console.log(accounts)
       wallet.setAccounts(accounts);
       setBalancesData();
     };

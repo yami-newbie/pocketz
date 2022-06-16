@@ -26,7 +26,6 @@ function SignIn() {
   };
 
   useEffect(() => {
-    console.log(wallet.wallet.password === "")
     if (wallet.wallet.password === "") {
       navigate("/register");
     }
@@ -51,6 +50,7 @@ function SignIn() {
               id="fullWidth"
               label="Mật khẩu"
               error={err ? true : false}
+              helperText={err ? err : ""}
               variant="standard"
               type="password"
               sx={{ width: "400px", maxWidth: "100%" }}

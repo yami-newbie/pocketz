@@ -111,12 +111,13 @@ function ImportAccount(props) {
               component="div"
               sx={{ marginTop: "10px" }}
             >
-              Type:
+              Loại:
             </Typography>
 
             <TextField
-              sx={{ width: "240px" }}
+              sx={{ m: "0px 10px" }}
               id="outline-selected-type"
+              fullWidth
               size="small"
               select
               value={way}
@@ -149,7 +150,7 @@ function ImportAccount(props) {
                 }}
               >
                 <Typography variant="p" component="div">
-                  Enter your private key here:
+                  Nhập khóa riêng tư của bạn ở đây:
                 </Typography>
               </div>
               <div className="centered-item-10px-top">
@@ -173,14 +174,14 @@ function ImportAccount(props) {
               onClick={handleClose}
               variant="outlined"
             >
-              Cancel
+              Hủy
             </Button>
             <Button
               sx={{ width: "40%", borderRadius: "100px" }}
               onClick={submit}
               variant="contained"
             >
-              Confirm
+              Xác nhận
             </Button>
           </Stack>
           {warning ? (

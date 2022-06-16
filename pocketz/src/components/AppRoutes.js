@@ -16,10 +16,8 @@ function AppRoutes() {
     const [isLogin, setIsLogin] = useState(web3Service?.wallet.isLogin);
 
     useEffect(() => {
-      console.log(isLogin, web3Service);
       if (web3Service) {
         setIsLogin(web3Service.wallet.isLogin);
-        console.log(web3Service);
       }
     }, [web3Service]);
   return (

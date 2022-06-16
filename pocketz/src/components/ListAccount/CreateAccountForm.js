@@ -26,57 +26,56 @@ function CreateAccountForm(props) {
   const createAccount = async () => {
     try {
       listAcc.createAccount(username);
-      navigate("/");
+      onClose();
     } catch (e) {
       console.log(e);
     }
     if (username !== "") setUsername("");
   };
   return (
-    // <div className="create-account">
-    //   <div className="centered-item">
-    //     <div style={{ width: "400px" }}>
-    //       <Header />
-    //     </div>
-        <Dialog onClose={handleClose} open ={open} PaperProps={{ style: { borderRadius: "1rem" } }}>
-          <DialogContent>
-            <div>
-              <Typography variant="body1" gutterBottom>
-                Username
-              </Typography>
-            </div>
-            <div className="centered-item-10px-topbot">
-              <OutlinedInput
-                onChange={(e) => {
-                  setUsername(e.target.value);
-                }}
-                placeholder="Username"
-                sx={{width:'270px'}}
-              />
-            </div>
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      PaperProps={{ style: { borderRadius: "1rem" } }}
+    >
+      <DialogContent>
+        <div>
+          <Typography variant="body1" gutterBottom>
+            Tên tài khoản
+          </Typography>
+        </div>
+        <div className="centered-item-10px-topbot">
+          <OutlinedInput
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            placeholder="Tên tài khoản"
+            sx={{ width: "270px" }}
+          />
+        </div>
 
-            <Stack
-              sx={{ justifyContent: "space-around", mt: "30px" }}
-              direction="row"
-            >
-              <Button
-                onClick={handleClose}
-                variant="outlined"
-                sx={{ width: "40%", borderRadius: "100px" }}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                sx={{ width: "40%", borderRadius: "100px" }}
-                onClick={createAccount}
-              >
-                Create
-              </Button>
-            </Stack>
-          </DialogContent>
-        </Dialog>
-      // </div>
+        <Stack
+          sx={{ justifyContent: "space-around", mt: "30px" }}
+          direction="row"
+        >
+          <Button
+            onClick={handleClose}
+            variant="outlined"
+            sx={{ width: "40%", borderRadius: "100px" }}
+          >
+            Hủy
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ width: "40%", borderRadius: "100px" }}
+            onClick={createAccount}
+          >
+            Tạo
+          </Button>
+        </Stack>
+      </DialogContent>
+    </Dialog>
+    // </div>
     // </div>
   );
 }
