@@ -13,13 +13,19 @@ function useEncryptStorage(key, initialValue) {
     try {
       // Get from local storage by key
       const item = window.localStorage.getItem(key);
-      var bytes = CryptoJS.AES.decrypt(
-        item,
-        password ? password : PASSWORD_KEY
-      );
-      var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+      if(item){
+        var bytes = CryptoJS.AES.decrypt(
+          item,
+          password ? password : PASSWORD_KEY
+        );
+        var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+        return decryptedData;
+      }
+      
       // Parse stored json or if none return initialValue
-      return item ? decryptedData : initialValue;
+      return initialValue;
+      
     } catch (error) {
       // If error also return initialValue
       if (error.message !== "Malformed UTF-8 data") {

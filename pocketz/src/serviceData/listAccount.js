@@ -38,7 +38,7 @@ const getAvatar = () => {
 
 function ListAccountData() {
   const wallet = useWallet();
-  const [accounts, setAccounts] = useState(wallet.wallet?.accounts);
+  const [accounts, setAccounts] = useState(wallet?.wallet.accounts);
   const balances = useRef([]);
   const [key, setKey] = useLocalStorage("key", 0);
   const [count, setCount] = useLocalStorage("count", 0);
@@ -65,7 +65,7 @@ function ListAccountData() {
         },
         pendingHash: null,
       };
-      if (accounts) {
+      if (accounts && accounts !== null) {
         setAccounts([
           ...accounts.map((acc) => ({ ...acc, selected: false })),
           newAcc,
@@ -132,9 +132,13 @@ function ListAccountData() {
     if (res.length > 0) {
       return res[0];
     } else {
-      console.log("Accounts", accounts);
-      selectAccount(accounts[0].account.address);
-      return accounts[0];
+      console.log("Accounts", accounts, res);
+      if (accounts.length > 0) {
+        selectAccount(accounts[0].account.address);
+        return accounts[0];
+      } else {
+        return null;
+      }
     }
   };
 
@@ -174,7 +178,7 @@ function ListAccountData() {
   };
 
   const ReloadBalances = () => {
-    if (accounts && web3) {
+    if (accounts && web3 && web3.wallet.isLogin && accounts.length > 0) {
       const _provider = web3?.getSelectedProvider();
       if (defaultProvider.filter((e) => e.rpc === _provider.rpc).length > 0) {
         axios
@@ -278,6 +282,7 @@ function ListAccountData() {
 
   useEffect(() => {
     const load = () => {
+      console.log(accounts)
       wallet.setAccounts(accounts);
       setBalancesData();
     };

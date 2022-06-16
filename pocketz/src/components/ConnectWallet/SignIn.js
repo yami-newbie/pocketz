@@ -11,15 +11,17 @@ function SignIn() {
 
   const [password, setPassword] = useState("");
   const wallet = useWallet();
+  const [err, setErr] = useState();
 
   const login = async () => {
     try {
       if (wallet.wallet.password !== "")
         if (wallet.signin(password)) navigate("/");
+        else {
+          setErr("Mật khẩu không đúng");
+        }
     } catch (e) {
-      if (e === "password not true") {
-        //console.log("sai mat khau")
-      }
+      console.log("sai mat khau");
     }
   };
 
@@ -44,6 +46,7 @@ function SignIn() {
               <TextField
                 id="fullWidth"
                 label="Password"
+                error={err ? true : false}
                 variant="standard"
                 type="password"
                 sx={{ width: "400px", maxWidth: "100%" }}

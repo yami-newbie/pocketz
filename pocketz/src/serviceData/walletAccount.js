@@ -42,12 +42,14 @@ function WalletAccountData() {
 
   const signin = (password) => {
     try {
-      setPassword(password);
-      setWallet({
-        ...wallet,
-        isLogin: true,
-      });
-      return true;
+      if (password === wallet.password || password === wallet.mnemonic) {
+        // setPassword(password);
+        setWallet({
+          ...wallet,
+          isLogin: true,
+        });
+        return true;
+      } else return false;
     } catch (error) {
       console.log(error);
     }
@@ -65,28 +67,28 @@ function WalletAccountData() {
 
   const signout = () => {
     try {
-      setPassword(wallet.password);
+      // setPassword(wallet.password);
       setWallet({
         ...wallet,
         isLogin: false,
       });
-      setPassword();
+      // setPassword();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const signup = async (password) => {
+  const signup = (password) => {
     try {
       setPassword(password);
-      setWallet({
+      const newWallet = {
         password: password,
-        isLogin: true,
-        mnemonic: wallet.mnemonic
-          ? wallet.mnemonic
-          : await ethers.utils.entropyToMnemonic(ethers.utils.randomBytes(16)),
-        accounts: wallet.accounts ? wallet.accounts : [],
-      });
+        isLogin: false,
+        mnemonic: ethers.utils.entropyToMnemonic(ethers.utils.randomBytes(16)),
+        accounts: [],
+      };
+      setWallet(newWallet);
+      return newWallet;
     } catch (error) {
       console.log(error);
     }
@@ -98,7 +100,7 @@ function WalletAccountData() {
 
   const setAccounts = (accounts) => {
     try {
-      setPassword(wallet.password);
+      // setPassword(wallet.password);
       setWallet({
         ...wallet,
         accounts: accounts,
