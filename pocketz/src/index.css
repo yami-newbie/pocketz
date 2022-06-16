@@ -24,6 +24,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  margin-bottom: 5px;
 }
 .centered-item-360 {
   display: flex;
@@ -74,7 +75,7 @@ code {
   align-items: center;
   width: 100%;
   height: 35vh;
-  min-height: 312px;
+  min-height: 260px;
 }
 
 .card-content .icon-token {
@@ -319,7 +320,10 @@ code {
 
 .send-content
 {
-  padding: 40px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
 }
 
 .activity
@@ -358,4 +362,70 @@ code {
 {
   display: flex;
   flex-direction: row;
+}
+.main-layout
+{
+
+}
+.create-account
+{
+
+}
+.create-account .create-card
+{
+  width: 350px;
+}
+@media screen and (max-width: 500px) {
+  .main-layout
+  {
+    max-height: 600px;
+    overflow: auto;
+  }
+  body {
+    margin: 0 auto;
+    background-color: white;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  .create-account
+  {
+    height: 600px;
+  }
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+.buy
+{
+  display: flex;
+  flex-direction: column;
+}
+.greetings
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 240px;
+}
+.button
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 75px;
 }

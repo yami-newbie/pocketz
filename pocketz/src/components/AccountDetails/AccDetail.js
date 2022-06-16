@@ -1,4 +1,4 @@
-import { Button, Dialog, Avatar } from "@mui/material";
+import { Button, Dialog, Avatar, Card, IconButton } from "@mui/material";
 import React from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -6,6 +6,7 @@ import { useState } from "react";
 import { useListAccount } from "../../serviceData/listAccount";
 import { useWeb3Service } from "../../serviceData/accountETH";
 import "./index.css";
+import CloseIcon from "@mui/icons-material/Close";
 
 function AccDetail(props) {
   const { onClose, open, account } = props;
@@ -40,12 +41,24 @@ function AccDetail(props) {
   };
   return (
     <Dialog onClose={handleClose} open={open}>
-      <div style={{ padding: "50px" }}>
-        <div>
-          <Avatar
-            src={account.avatarSrc}
-            sx={{ width: 56, height: 56, m: "auto" }}
-          />
+      <Card className="account-details">
+        <div className="items" style={{ width: "100%" }}>
+          <div className="grid-items">
+            <div />
+            <Avatar
+              src={account.avatarSrc}
+              sx={{ width: 56, height: 56, m: "auto" }}
+            />
+            <IconButton
+              sx={{
+                marginLeft: "auto",
+                marginRight: "15px",
+              }}
+              onClick={onClose}
+            >
+              <CloseIcon />
+            </IconButton>
+          </div>
         </div>
         <div className="items">
           <CopyToClipboard
@@ -79,7 +92,7 @@ function AccDetail(props) {
         >
           Xem trên Etherscan
         </Button>
-      </div>
+      </Card>
     </Dialog>
   );
 }

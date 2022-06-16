@@ -64,21 +64,35 @@ export default function SendConfirm({ Account, setShow, amount }) {
           </Button>
         </div>
         <Divider />
-        <div className="send-content">
+        <div style={{padding:'40px'}}>
+          <Typography variant='caption' gutterBottom>
+            Gửi
+          </Typography>
           <Typography variant="h6" gutterBottom>
-            Số tiền: {amount} {provider?.symbol}
+            {amount} {provider?.symbol}
           </Typography>
         </div>
         <Divider />
         <div className="send-content">
-          <Typography variant="h6" gutterBottom>
-            Phí Gas(tạm tính): {gasPrice}
+          <Typography variant="subtitle1" gutterBottom>
+            Phí Gas(tạm tính): 
+          </Typography>
+          <Typography variant="subtitle1" gutterBottom>
+            {gasPrice}
           </Typography>
         </div>
         <Divider />
         <div className="send-content">
-          <Typography variant="h6" gutterBottom>
-            Tổng: {Number(amount) + Number(gasPrice)}
+          <div>
+            <Typography variant="subtitle1" gutterBottom>
+              Tổng: 
+            </Typography>
+            <Typography variant="caption" gutterBottom>
+              Số lượng + phí gas
+            </Typography>
+          </div>
+          <Typography variant="subtitle1" gutterBottom>
+            {Number(amount) + Number(gasPrice)}
           </Typography>
         </div>
         <Divider />
@@ -106,6 +120,7 @@ export default function SendConfirm({ Account, setShow, amount }) {
                   value: amount,
                   gasLimit: maxPriorityFeePerGas,
                 });
+                navigate("/");
               }}
               variant="contained"
               sx={{ width: "50%", borderRadius: "100px" }}

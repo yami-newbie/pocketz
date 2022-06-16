@@ -1,6 +1,7 @@
 import { createBrowserHistory } from 'history';
 import React, { useEffect, useMemo, useState } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ForgetPass from './components/ConnectWallet/ForgetPass';
 import { AppProvider } from './components/Provider/AppProvider';
 import AddTokenPage from './pages/AddTokenPage';
 import CreateAccountPage from './pages/CreateAcountPage';
@@ -27,6 +28,7 @@ function App() {
           <Route path="/import" element={<ImportAccountPage />}></Route>
           <Route path="/create" element={<CreateAccountPage />}></Route>
           <Route path="/addtoken" element={<AddTokenPage />}></Route>
+          <Route path="/restore-vault" element={<ForgetPass/>}></Route>
         </Routes>
       </BrowserRouter>
     </AppProvider>

@@ -31,21 +31,21 @@ function SignIn() {
         <button onClick={() => wallet.signout()}>Sign Out</button>
       ) : (
         <div>
-          <Card sx={{ width: "400px" }}>
+          <Card sx={{ width: "400px", minWidth:"400px", height: "420px" }}>
             <CardContent>
-              <div className="centered-item-40vh">
+              <div className="greetings">
                 <Typography variant="h4" component="div">
-                  Welcome back
+                  Chào mừng
                 </Typography>
                 <br />
                 <Typography variant="h5" component="div">
-                  Welcome to pocketz
+                  Chào mừng đến với Pocketz
                 </Typography>
               </div>
 
               <TextField
                 id="fullWidth"
-                label="Password"
+                label="Mật khẩu"
                 error={err ? true : false}
                 variant="standard"
                 type="password"
@@ -55,15 +55,16 @@ function SignIn() {
                 }}
               />
 
-              <div className="centered-item-10vh">
+              <div className="button">
                 <Button onClick={login} variant="contained">
-                  Unlock
+                  Mở khóa
                 </Button>
               </div>
-              <a>Or </a>
-              <Link href="#" underline="hover">
-                {"Link"}
-              </Link>
+              <Typography variant="body1" onClick={()=>{
+                navigate("/restore-vault");
+              }}>
+                {"Quên mật khẩu?"}
+              </Typography>
             </CardContent>
           </Card>
         </div>

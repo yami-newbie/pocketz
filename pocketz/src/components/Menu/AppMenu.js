@@ -20,8 +20,12 @@ import { useEffect, useState } from "react";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import AddNetworkForm from "../Service/AddNetworkForm";
 import { useWeb3Service } from "../../serviceData/accountETH";
+import CreateAccountForm from "../ListAccount/CreateAccountForm";
+import ImportAccount from "../ListAccount/ImportAccount";
 
-function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
+function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) { 
+  const [openCreate, setOpenCreate] = useState(false);
+  const [openImport, setOpenImport] = useState(false);
   const [openForm, setOpenForm] = useState(false);
   let navigate = useNavigate();
   const auth = useWallet();
@@ -35,6 +39,19 @@ function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
     };
     load();
   }, [auth]);
+
+  const handleClickCreate = () => {
+    setOpenCreate(true);
+  }
+  const handleClickImport = () => {
+    setOpenImport(true);
+  }
+  const handleCloseImport = () => {
+    setOpenImport(false);
+  }
+  const handleCloseCreate = () => {
+    setOpenCreate(false);
+  }
 
   return (
     <div className="text-account-info">
@@ -71,16 +88,14 @@ function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
           </header>
           <ListAccount onClickItems={handleCloseUserMenu} />
           <MenuItem
-            onClick={() => {
-              navigate("/create");
-            }}
+            onClick={handleClickCreate}
           >
             <ListItemIcon>
               <AddIcon fontSize="medium" />
             </ListItemIcon>
             <Typography variant="inherit">Thêm tài khoản</Typography>
           </MenuItem>
-          <MenuItem onClick={() => navigate("/import")}>
+          <MenuItem onClick={handleClickImport}>
             <ListItemIcon>
               <KeyboardDoubleArrowDownIcon fontSize="medium" />
             </ListItemIcon>
@@ -126,6 +141,8 @@ function AppMenu({ state: anchorElUser, onClose: handleCloseUserMenu }) {
           />
         </DialogContent>
       </Dialog>
+      <CreateAccountForm open={openCreate} onClose={handleCloseCreate}/>
+      <ImportAccount open={openImport} onClose={handleCloseImport}/>
     </div>
   );
 }

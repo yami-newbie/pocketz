@@ -14,9 +14,12 @@ import {
   MenuItem,
   Button,
   Stack,
+  Dialog,
+  DialogContent,
 } from "@mui/material";
 
-function ImportAccount() {
+function ImportAccount(props) {
+  const {onClose, open} = props;
   const [privateKey, setPrivateKey] = useState(null);
   const inputFile = useRef(null);
   const listAcc = useListAccount();
@@ -29,6 +32,11 @@ function ImportAccount() {
     var reader = new FileReader();
     reader.readAsText(_file);
   };
+
+  const handleClose = () => {
+    onClose();
+  }
+
   const submit = () => {
     try {
       if (way === "key") {
@@ -83,12 +91,12 @@ function ImportAccount() {
     });
   };
   return (
-    <div className="centered-item">
-      <div style={{ width: "400px" }}>
-        <Header />
-      </div>
-      <Card sx={{ width: "350px" }}>
-        <CardContent>
+    // <div className="centered-item">
+    //   <div style={{ width: "400px" }}>
+    //     <Header />
+    //   </div>
+      <Dialog onClose={handleClose} open ={open} PaperProps={{ style: { borderRadius: "1rem" } }}>
+        <DialogContent>
           <Typography variant="h5" component="div">
             Import Account
           </Typography>
@@ -162,9 +170,7 @@ function ImportAccount() {
           >
             <Button
               sx={{ width: "40%", borderRadius: "100px" }}
-              onClick={() => {
-                navigate("/");
-              }}
+              onClick={handleClose}
               variant="outlined"
             >
               Cancel
@@ -182,9 +188,9 @@ function ImportAccount() {
               <div className="warning-text">{warning}</div>
             </div>
           ) : null}
-        </CardContent>
-      </Card>
-    </div>
+        </DialogContent>
+      </Dialog>
+    // </div>
   );
 }
 
