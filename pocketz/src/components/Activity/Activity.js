@@ -34,7 +34,7 @@ function Activity(props) {
   };
   useEffect(() => {
     if (open) {
-      web3Service.web3.eth.getTransaction(tx.hash).then((res) => {
+      web3Service.web3.current.eth.getTransaction(tx.hash).then((res) => {
         setTransaction(res);
       });
     }

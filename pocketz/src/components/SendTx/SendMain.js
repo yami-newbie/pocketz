@@ -8,6 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import SendMainAlt from "./SendMainAlt";
 import SendHeader from "./SendHeader";
 import Header from "../AppHeader";
+import { useWeb3Service } from "../../serviceData/accountETH";
 
 export default function SendMain() {
   const listAcc = useListAccount();
@@ -15,6 +16,7 @@ export default function SendMain() {
   const [valueSort, setValueSort] = useState(listAcc.accounts);
   const [show, setShow] = useState(false);
   const [accountSelect, setAccountSelect] = useState();
+  const web3Service = useWeb3Service();
 
   useEffect(() => {
     if (address !== "") {
@@ -50,7 +52,14 @@ export default function SendMain() {
             <TextField
               id="outlined-search"
               onChange={(e) => {
-                setAddress(e.target.value);
+                const _address = e.target.value;
+                if (web3Service.web3.current.utils.isAddress(_address)){
+                  setAccountSelect({
+                    username: "Chưa có tên",
+                    account: { address: _address },
+                  });
+                  setShow(true)
+                }
               }}
               type="search"
               sx={{ width: "95%", marginTop: "10px", bgcolor: "white" }}
@@ -97,7 +106,7 @@ export default function SendMain() {
           </div>
         </div>
       ) : (
-        <SendMainAlt Account={accountSelect} onExit={onExit} />
+        <SendMainAlt Account={accountSelect} address={address} onExit={onExit} />
       )}
     </div>
   );
