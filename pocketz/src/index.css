@@ -412,6 +412,8 @@ code {
 {
   display: flex;
   flex-direction: column;
+  width: 320px;
+  height: 450px;
 }
 .greetings
 {
@@ -428,4 +430,8 @@ code {
   align-items: center;
   flex-direction: column;
   height: 75px;
+}
+.buy .content
+{
+  padding: 24px;
 }
