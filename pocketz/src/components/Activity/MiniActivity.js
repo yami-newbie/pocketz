@@ -16,25 +16,13 @@ function MiniActivity({ tx }) {
   const getDate = (value) => {
     return new Date(value * 1000).toLocaleDateString("vi");
   };
-  return tx.from === acc.account.address ? (
-    <div className="mini-activity">
-      <div>
-        <Typography variant="h6" gutterBottom component="div">
-          Gửi
-        </Typography>
-        <div className="two-item">
-          <Typography variant="body2" gutterBottom component="div">
-            Ngày {getDate(tx.timeStamp)} - Đến {getAddressStr(tx.to)}
-          </Typography>
-        </div>
-      </div>
-      <div>
-        <Typography variant="subtitle1" gutterBottom component="div">
-          {formatWei(tx.value)}
-        </Typography>
-      </div>
-    </div>
-  ) : (
+  const cutString = (string) => {
+    if (string.length >= 8){
+      return string.substr(0, 7) + "...";
+    }
+    else return string;
+  }
+  return tx.to === acc.account.address ? (
     <div className="mini-activity">
       <div>
         <Typography variant="h6" gutterBottom component="div">
@@ -42,13 +30,31 @@ function MiniActivity({ tx }) {
         </Typography>
         <div className="two-item">
           <Typography variant="body2" gutterBottom component="div">
-            Ngày {getDate(tx.timeStamp)} - Đến {getAddressStr(tx.from)}
+            {getDate(tx.timeStamp)} - Từ {getAddressStr(tx.from)}
           </Typography>
         </div>
       </div>
       <div>
         <Typography variant="subtitle1" gutterBottom component="div">
-          {formatWei(tx.value)}
+          {cutString(formatWei(tx.value))}
+        </Typography>
+      </div>
+    </div>
+  ) : (
+    <div className="mini-activity">
+      <div>
+        <Typography variant="h6" gutterBottom component="div">
+          Gửi
+        </Typography>
+        <div className="two-item">
+          <Typography variant="body2" gutterBottom component="div">
+            {getDate(tx.timeStamp)} - Đến {getAddressStr(tx.to)}
+          </Typography>
+        </div>
+      </div>
+      <div>
+        <Typography variant="subtitle1" gutterBottom component="div">
+          {'-'+formatWei(tx.value)}
         </Typography>
       </div>
     </div>

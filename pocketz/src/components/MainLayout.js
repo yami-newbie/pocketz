@@ -12,6 +12,7 @@ import {
   ListItemButton,
   ListItemText,
   Typography,
+  ListItemIcon,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useWeb3Service } from "../serviceData/accountETH";
@@ -29,6 +30,8 @@ import Activity from "./Activity/Activity";
 import MiniActivity from "./Activity/MiniActivity";
 import { srcIconSymbol } from "../serviceData/SrcIcon";
 import { getInfoProviderByRPC } from "../serviceData/providers";
+import Buy from "./Buy";
+import AccountDetails from "./AccountDetails/AccountDetails";
 
 export default function MainLayout() {
   const [value, setValue] = useState("1");
@@ -43,9 +46,25 @@ export default function MainLayout() {
   const [open, setOpen] = useState(false);
   const [provider, setProvider] = useState();
   const [selectedTx, setSelectedTx] = useState();
+  const [buy, setBuy] = useState(false)
+  const [openAccDetail, setOpenAccDetail] = useState(false);
+  const [accDefault, setAccDefault] = useState(null);
 
   let navigate = useNavigate();
 
+  useEffect(() => {
+    const acc = listAccount.getSelectedAccount();
+    if (acc) {
+      setAccDefault(acc);
+    }
+  }, [listAccount]);
+  const openDetail = () => {
+    if (accDefault) setOpenAccDetail(true);
+  };
+
+  const closeDetail = () => {
+    setOpenAccDetail(false);
+  };
   const handleClickOpen = (tx) => {
     setOpen(true);
     setSelectedTx(tx);
@@ -53,6 +72,12 @@ export default function MainLayout() {
   const handleClose = () => {
     setOpen(false);
   };
+  const handleClickBuy = () => {
+    setBuy(true);
+  }
+  const handleCloseBuy = () => {
+    setBuy(false);
+  }
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(false);
@@ -78,6 +103,9 @@ export default function MainLayout() {
     <div key={index}>
       <ListItem disablePadding>
         <ListItemButton onClick={() => handleClickOpen(tx)}>
+          <ListItemIcon>
+            {tx.to === account.account.address?(<ArrowDownwardIcon color="primary"/>):(<SendIcon color="primary"/>)}
+          </ListItemIcon>
           <MiniActivity tx={tx} />
         </ListItemButton>
       </ListItem>
@@ -154,8 +182,9 @@ export default function MainLayout() {
                   />
                 </div>
                 <div className="balance-text-info">
-                  <div>{fixBalance(balance)}</div>
-                  <div>{provider?.symbol ? provider.symbol : null}</div>
+                  <Typography variant="h4">{fixBalance(balance)}</Typography>
+                  <div>&nbsp;</div>
+                  <Typography variant="h4">{provider?.symbol ? provider.symbol : null}</Typography>
                 </div>
               </div>
             </div>
@@ -164,6 +193,7 @@ export default function MainLayout() {
                 <div className="balance-button">
                   <div className="items-button">
                     <Avatar
+                      onClick={handleClickBuy}
                       sx={{
                         bgcolor: "#2196f3",
                         '&:hover':{
@@ -227,7 +257,7 @@ export default function MainLayout() {
                   <List>
                     <ListItem disablePadding>
                       <ListItemButton>
-                        <ListItemText primary={fixBalance(balance)} />
+                        <ListItemText primary={fixBalance(balance)+' '+(provider?.symbol ? provider.symbol : null)}  />
                       </ListItemButton>
                     </ListItem>
                   </List>
@@ -242,6 +272,14 @@ export default function MainLayout() {
           <footer></footer>
         </Card>
         <Activity open={open} onClose={handleClose} tx={selectedTx}></Activity>
+        <Buy open={buy} onClose={handleCloseBuy} openAcc={openDetail}></Buy>
+        {accDefault ? (
+          <AccountDetails
+            open={openAccDetail}
+            onClose={closeDetail}
+            Account={accDefault}
+          />
+        ) : null}
       </div>
     </div>
     

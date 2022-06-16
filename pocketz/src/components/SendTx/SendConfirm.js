@@ -120,6 +120,7 @@ export default function SendConfirm({ Account, setShow, amount }) {
                   value: amount,
                   gasLimit: maxPriorityFeePerGas,
                 });
+                navigate("/");
               }}
               variant="contained"
               sx={{ width: "50%", borderRadius: "100px" }}

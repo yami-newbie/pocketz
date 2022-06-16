@@ -408,3 +408,8 @@ code {
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
 }
+.buy
+{
+  display: flex;
+  flex-direction: column;
+}
