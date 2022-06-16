@@ -283,9 +283,9 @@ function AccountETH() {
 
   const getBalance = async (address) => {
     if(web3.current){
-      var balance = await web3.current.eth.getBalance(address); //Will give value in.
-      balance = web3.current.utils.fromWei(String(balance));
-      return balance.toString();
+      return await web3.current.eth.getBalance(address).then(balance => {
+        return web3.current.utils.fromWei(String(balance)).toString();
+      }); //Will give value in.
     }
   };
 
