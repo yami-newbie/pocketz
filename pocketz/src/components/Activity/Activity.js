@@ -49,7 +49,7 @@ function Activity(props) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      {tx?.to===acc.account.address?(
+      {tx?.to===acc?.account.address?(
         <div className="activity-small">
           <div className="head">
             <Typography variant="button" display="block" gutterBottom>

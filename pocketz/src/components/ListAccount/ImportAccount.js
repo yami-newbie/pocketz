@@ -165,18 +165,19 @@ function ImportAccount(props) {
             </div>
           )}
           <Stack
-            sx={{ justifyContent: "space-around", mt: "30px" }}
+            sx={{ justifyContent: "space-around", mt: "30px", height:"40px" }}
             direction="row"
+            spacing={2}
           >
             <Button
-              sx={{ width: "40%", borderRadius: "100px" }}
+              sx={{ width: "50%", borderRadius: "100px" }}
               onClick={handleClose}
               variant="outlined"
             >
               Hủy
             </Button>
             <Button
-              sx={{ width: "40%", borderRadius: "100px" }}
+              sx={{ width: "50%", borderRadius: "100px" }}
               onClick={submit}
               variant="contained"
             >
