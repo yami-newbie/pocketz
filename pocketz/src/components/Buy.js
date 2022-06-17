@@ -10,12 +10,14 @@ import {
 import React, { useEffect, useState } from "react";
 import { useWeb3Service } from "../serviceData/accountETH";
 import { getInfoProvider } from "../serviceData/providers";
-
+import { useListAccount } from "../serviceData/listAccount"
 function Buy(props) {
   const { open, onClose, openAcc } = props;
   const [main, setMain] = useState(true);
+  const [url, setUrl] = useState();
 
   const web3Service = useWeb3Service();
+  const listAcc = useListAccount();
 
   const handleClose = () => {
     onClose();
@@ -32,7 +34,15 @@ function Buy(props) {
         console.log(res)
         if(res && res.length > 0){
           if (res[0].network) {
-            setMain(res[0].network !== "testnet");
+            const provider = res[0];
+            setMain(provider.network !== "testnet");
+            console.log(res[0])
+            if(provider.faucets[0]){
+              const _url = provider.faucets[0];
+              const address = listAcc.getSelectedAccount().account.address;
+              console.log(address);
+              setUrl(_url.replace("${ADDRESS}", address))
+            }
           } else {
             setMain(true);
           }
@@ -44,9 +54,14 @@ function Buy(props) {
     }
   }, [open]);
 
+  useEffect(() => {
+    console.log(url)
+  }, [url])
+
   return (
     <Dialog onClose={onClose} open={open}>
       <DialogTitle>Lấy ETH</DialogTitle>
+      <Divider/>
       <DialogContent>
         {main ? (
           <div className="buy">
@@ -124,7 +139,11 @@ function Buy(props) {
             <Stack className="content" spacing={2}>
               <Typography variant="h5">Vòi thử nghiệm</Typography>
               <Typography variant="body1">Nhận Ether từ vòi</Typography>
-              <Button variant="outlined" sx={{ borderRadius: "20px" }}>
+              <Button onClick={() => {
+                if(url){
+                  window.open(url);
+                }
+              }} variant="outlined" sx={{ borderRadius: "20px" }}>
                 Nhận ETher
               </Button>
             </Stack>
