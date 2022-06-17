@@ -92,7 +92,7 @@ export default function SendMainAlt({ Account, onExit }) {
             <div className="item">
               <div className="margin-left">
                 <Typography variant="body1" gutterBottom>
-                  Asset:
+                  Tài sản:
                 </Typography>
                 <div>
                   <Select
@@ -108,7 +108,7 @@ export default function SendMainAlt({ Account, onExit }) {
                     gutterBottom
                     sx={{ padding: "10px" }}
                   >
-                    Balance: {balance} {provider?.symbol}
+                    Số dư: {balance} {provider?.symbol}
                   </Typography>
                 </div>
               </div>
@@ -116,7 +116,7 @@ export default function SendMainAlt({ Account, onExit }) {
             <div className="item">
               <div className="margin-left">
                 <Typography variant="body1" gutterBottom>
-                  Amount:
+                  Số tiền:
                 </Typography>
                 <TextField
                   variant="outlined"
@@ -149,7 +149,7 @@ export default function SendMainAlt({ Account, onExit }) {
                   sx={{ width: "50%", borderRadius: "100px" }}
                   variant="outlined"
                 >
-                  Cancel
+                  Hủy
                 </Button>
                 <Button
                   sx={{ width: "50%", borderRadius: "100px" }}
@@ -164,7 +164,7 @@ export default function SendMainAlt({ Account, onExit }) {
                     // navigate("./mainalt");
                   }}
                 >
-                  Continue
+                  Tiếp tục
                 </Button>
               </Stack>
             </div>

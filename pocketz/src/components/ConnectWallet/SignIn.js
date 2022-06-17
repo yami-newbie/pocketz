@@ -34,7 +34,7 @@ function SignIn() {
   return (
     <div className="centered-container">
       <div>
-        <Card sx={{ width: "400px", minWidth: "400px", height: "420px" }}>
+        <Card sx={{ width: "400px", minWidth: "400px", height: "430px" }}>
           <CardContent>
             <div className="greetings">
               <Typography variant="h4" component="div">

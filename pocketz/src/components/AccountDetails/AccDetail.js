@@ -86,7 +86,7 @@ function AccDetail(props) {
           onClick={() => {
             window.open(linkToEtherscan());
           }}
-          sx={{ width: "100%", borderRadius: "32px" }}
+          sx={{ width: "80%", borderRadius: "32px", height: '40px', mt:'20px', mb:'20px' }}
           className="button"
           variant="outlined"
         >

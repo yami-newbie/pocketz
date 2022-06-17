@@ -6,14 +6,14 @@ export default function SendHeader() {
   let navigate = useNavigate();
   return (
     <div className="double-item">
-      <Typography component="h6">Send</Typography>
+      <Typography component="h6">Gửi</Typography>
       <Link
         sx={{ cursor: "context-menu" }}
         onClick={() => {
           navigate("/");
         }}
       >
-        Cancel
+        Hủy
       </Link>
     </div>
   );

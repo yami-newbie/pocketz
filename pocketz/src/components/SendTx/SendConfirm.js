@@ -110,7 +110,7 @@ export default function SendConfirm({ Account, setShow, amount }) {
               }}
               sx={{ width: "50%", borderRadius: "100px" }}
             >
-              Cancel
+              Hủy
             </Button>
             <Button
               onClick={() => {
@@ -125,7 +125,7 @@ export default function SendConfirm({ Account, setShow, amount }) {
               variant="contained"
               sx={{ width: "50%", borderRadius: "100px" }}
             >
-              Confirm
+              Xác nhận
             </Button>
           </Stack>
         </div>

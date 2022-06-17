@@ -71,7 +71,7 @@ function Activity(props) {
               Xem trong trình khám phá khối
             </Link>
           </div>
-          <div className="head">
+          <div style={{display: 'flex', flexDirection:'row', justifyContent: 'space-between'}}>
             <Typography variant="subtitle2" gutterBottom component="div">
               Đã xác nhận
             </Typography>
@@ -172,7 +172,7 @@ function Activity(props) {
               Xem trong trình khám phá khối
             </Link>
           </div>
-          <div className="head">
+          <div style={{display: 'flex', flexDirection:'row', justifyContent: 'space-between'}}>
             <Typography variant="subtitle2" gutterBottom component="div">
               Đã xác nhận
             </Typography>
