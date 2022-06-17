@@ -7,6 +7,7 @@ import {
   TextField,
   Button,
   Stack,
+  setRef,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { useListAccount } from "../../serviceData/listAccount";
@@ -16,6 +17,7 @@ import { useState } from "react";
 import SendConfirm from "./SendConfirm";
 import { useWeb3Service } from "../../serviceData/accountETH";
 import Header from "../AppHeader";
+import { intToBuffer } from "ethereumjs-util";
 
 export default function SendMainAlt({ Account, onExit }) {
   const listAcc = useListAccount();
@@ -27,7 +29,8 @@ export default function SendMainAlt({ Account, onExit }) {
   const [balance, setBalance] = useState(0);
   const [accountSelect, setAccountSelect] = useState(null);
   const [provider, setProvider] = useState();
-  const [amount, setAmount] = useState("0");
+  const [amount, setAmount] = useState(0);
+  const [err, setErr] = useState();
 
   useEffect(() => {
     if (web3 && web3.getSelectedProvider()) {
@@ -117,10 +120,14 @@ export default function SendMainAlt({ Account, onExit }) {
                 </Typography>
                 <TextField
                   variant="outlined"
-                  defaultValue="0"
+                  value={amount}
+                  error={err ? true : false}
+                  helperText={err ? err : null}
+                  type="number"
                   sx={{ width: "95%" }}
                   onChange={(e) => {
-                    setAmount(e.target.value);
+                    const value = e.target.value;
+                    setAmount(value);
                   }}
                 />
               </div>
@@ -148,8 +155,12 @@ export default function SendMainAlt({ Account, onExit }) {
                   sx={{ width: "50%", borderRadius: "100px" }}
                   variant="contained"
                   onClick={() => {
-                    setAccountSelect(Account);
-                    onSelectAccount();
+                    if (amount > 0) {
+                      setAccountSelect(Account);
+                      onSelectAccount();
+                    } else {
+                      setErr("Số tiền phải lớn hơn 0")
+                    }
                     // navigate("./mainalt");
                   }}
                 >

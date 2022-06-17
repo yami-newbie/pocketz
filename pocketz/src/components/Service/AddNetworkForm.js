@@ -39,7 +39,7 @@ function AddNetworkForm({ onClose, onAdd }) {
     const value =
       !errBlockExplorer &&
       !errChainId &&
-      name.length > 0 &&
+      name.length > 3 &&
       checkUrl &&
       symbol.length > 0 &&
       chainId.length > 0;
