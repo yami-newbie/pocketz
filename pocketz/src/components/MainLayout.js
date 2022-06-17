@@ -99,19 +99,21 @@ export default function MainLayout() {
     return _balance?.toString().substr(0, 6);
   };
 
-  const listActivity = txList?.map((tx, index) => (
-    <div key={index}>
-      <ListItem disablePadding>
-        <ListItemButton onClick={() => handleClickOpen(tx)}>
-          <ListItemIcon>
-            {tx.to === account.account.address?(<ArrowDownwardIcon color="primary"/>):(<SendIcon color="primary"/>)}
-          </ListItemIcon>
-          <MiniActivity tx={tx} />
-        </ListItemButton>
-      </ListItem>
-      <Divider />
-    </div>
-  ));
+  const listActivity = txList?.map((tx, index) => {
+    return (
+      <div key={index}>
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => handleClickOpen(tx)}>
+            <ListItemIcon>
+              {tx.to === account.account.address?(<ArrowDownwardIcon color="primary"/>):(<SendIcon color="primary"/>)}
+            </ListItemIcon>
+            <MiniActivity tx={tx} />
+          </ListItemButton>
+        </ListItem>
+        <Divider />
+      </div>
+    )
+});
 
   useEffect(() => {
     const newProvider = web3Service.getSelectedProvider();
@@ -264,7 +266,23 @@ export default function MainLayout() {
                 </TabPanel>
                 {/* <TabPanel value="2">{txList}</TabPanel> */}
                 <TabPanel value="2" sx={{ padding: 0 }}>
-                  <List>{listActivity}</List>
+                  <List>{
+                    txList?.map((tx, index) => {
+                      return (
+                        <div key={index}>
+                          <ListItem disablePadding>
+                            <ListItemButton onClick={() => handleClickOpen(tx)}>
+                              <ListItemIcon>
+                                {tx.to === account.account.address?(<ArrowDownwardIcon color="primary"/>):(<SendIcon color="primary"/>)}
+                              </ListItemIcon>
+                              <MiniActivity tx={tx} />
+                            </ListItemButton>
+                          </ListItem>
+                          <Divider />
+                        </div>
+                      )
+                    })
+                  }</List>
                 </TabPanel>
               </TabContext>
             </Box>

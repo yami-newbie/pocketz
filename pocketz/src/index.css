@@ -334,7 +334,7 @@ code {
   font-family: 'Times New Roman', Times, serif;
 }
 
-.activity .head
+.head
 {
   display: flex;
   flex-direction: row;
