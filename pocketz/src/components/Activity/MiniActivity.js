@@ -22,7 +22,7 @@ function MiniActivity({ tx }) {
     }
     else return string;
   }
-  return tx.to === acc.account.address ? (
+  return tx?.to === acc?.account.address ? (
     <div className="mini-activity">
       <div>
         <Typography variant="h6" gutterBottom component="div">
