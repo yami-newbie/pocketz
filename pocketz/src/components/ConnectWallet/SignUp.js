@@ -59,9 +59,21 @@ function SignUp() {
   };
 
   return (
-    <div className="centered">
-      <Card sx={{ width: 275 }}>
+    <div style={{
+      display:'flex',
+      justifyContent: 'center',
+      alignItems: 'flex-start',
+    }}>
+      <Card sx={{ width: '550px' }}>
         <CardContent>
+          <div style={{display:'flex', flexDirection:'column', alignItems:'center'}}>
+            <Typography variant="h4" sx={{mt:'20px'}}>
+              Chào mừng đến với Pocketz
+            </Typography>
+            <Typography variant="h5" sx={{mt:'50px'}}>
+              Mời bạn tạo mật khẩu
+            </Typography>
+          </div>
           <TextField
             onChange={(e) => {
               setPassword(e.target.value);
@@ -87,6 +99,7 @@ function SignUp() {
           <Button variant="contained" onClick={signUp} sx={{marginTop:'20px'}}>
             Mở ví
           </Button>
+          
         </CardContent>
       </Card>
       <Dialog
