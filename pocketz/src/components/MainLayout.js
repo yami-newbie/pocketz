@@ -46,7 +46,7 @@ export default function MainLayout() {
   const [open, setOpen] = useState(false);
   const [provider, setProvider] = useState();
   const [selectedTx, setSelectedTx] = useState();
-  const [buy, setBuy] = useState(false)
+  const [buy, setBuy] = useState(false);
   const [openAccDetail, setOpenAccDetail] = useState(false);
   const [accDefault, setAccDefault] = useState(null);
 
@@ -74,10 +74,10 @@ export default function MainLayout() {
   };
   const handleClickBuy = () => {
     setBuy(true);
-  }
+  };
   const handleCloseBuy = () => {
     setBuy(false);
-  }
+  };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(false);
@@ -99,21 +99,23 @@ export default function MainLayout() {
     return _balance?.toString().substr(0, 6);
   };
 
-  const listActivity = txList?.map((tx, index) => {
-    return (
-      <div key={index}>
-        <ListItem disablePadding>
-          <ListItemButton onClick={() => handleClickOpen(tx)}>
-            <ListItemIcon>
-              {tx.to === account.account.address?(<ArrowDownwardIcon color="primary"/>):(<SendIcon color="primary"/>)}
-            </ListItemIcon>
-            <MiniActivity tx={tx} />
-          </ListItemButton>
-        </ListItem>
-        <Divider />
-      </div>
-    )
-});
+   const listActivity = txList?.map((tx, index) => (
+     <div key={index}>
+       <ListItem disablePadding>
+         <ListItemButton onClick={() => handleClickOpen(tx)}>
+           <ListItemIcon>
+             {tx.to === account.account.address ? (
+               <ArrowDownwardIcon color="primary" />
+             ) : (
+               <SendIcon color="primary" />
+             )}
+           </ListItemIcon>
+           <MiniActivity tx={tx} />
+         </ListItemButton>
+       </ListItem>
+       <Divider />
+     </div>
+   ));
 
   useEffect(() => {
     const newProvider = web3Service.getSelectedProvider();
@@ -148,7 +150,7 @@ export default function MainLayout() {
         <div style={{ width: "400px" }}>
           <Header />
         </div>
-        <Card sx={{ width: "400px", minHeight:"500px"}} variant="outlined">
+        <Card sx={{ width: "400px", minHeight: "500px" }} variant="outlined">
           <div className="grid-account-info">
             <div />
             <div className="address-account">
@@ -169,27 +171,31 @@ export default function MainLayout() {
             </div>
           </div>
 
-        <CardContent sx={{ paddingTop: 0 }}>
-          <Divider />
-          <div className="card-content">
-            <div className="grid-items">
-              <div className="balance-items">
-                <div className="icon-token">
-                  <Avatar
-                    sx={{
-                      width: "32px",
-                      height: "32px",
-                    }}
-                    src={provider?.symbol ? srcIconSymbol(provider.symbol) : null}
-                  />
-                </div>
-                <div className="balance-text-info">
-                  <Typography variant="h4">{fixBalance(balance)}</Typography>
-                  <div>&nbsp;</div>
-                  <Typography variant="h4">{provider?.symbol ? provider.symbol : null}</Typography>
+          <CardContent sx={{ paddingTop: 0 }}>
+            <Divider />
+            <div className="card-content">
+              <div className="grid-items">
+                <div className="balance-items">
+                  <div className="icon-token">
+                    <Avatar
+                      sx={{
+                        width: "32px",
+                        height: "32px",
+                      }}
+                      src={
+                        provider?.symbol ? srcIconSymbol(provider.symbol) : null
+                      }
+                    />
+                  </div>
+                  <div className="balance-text-info">
+                    <Typography variant="h4">{fixBalance(balance)}</Typography>
+                    <div>&nbsp;</div>
+                    <Typography variant="h4">
+                      {provider?.symbol ? provider.symbol : null}
+                    </Typography>
+                  </div>
                 </div>
               </div>
-            </div>
 
               <div className="grid-items">
                 <div className="balance-button">
@@ -198,9 +204,9 @@ export default function MainLayout() {
                       onClick={handleClickBuy}
                       sx={{
                         bgcolor: "#2196f3",
-                        '&:hover':{
-                          cursor:'pointer'
-                        }
+                        "&:hover": {
+                          cursor: "pointer",
+                        },
                       }}
                     >
                       <ArrowDownwardIcon />
@@ -214,9 +220,9 @@ export default function MainLayout() {
                       }}
                       sx={{
                         bgcolor: "#2196f3",
-                        '&:hover':{
-                          cursor:'pointer'
-                        }
+                        "&:hover": {
+                          cursor: "pointer",
+                        },
                       }}
                     >
                       <SendIcon />
@@ -227,9 +233,9 @@ export default function MainLayout() {
                     <Avatar
                       sx={{
                         bgcolor: "#2196f3",
-                        '&:hover':{
-                          cursor:'pointer'
-                        }
+                        "&:hover": {
+                          cursor: "pointer",
+                        },
                       }}
                     >
                       <SwapHorizIcon />
@@ -240,7 +246,7 @@ export default function MainLayout() {
               </div>
             </div>
 
-            <Box sx={{ width: "100%", typography: "body1"}}>
+            <Box sx={{ width: "100%", typography: "body1" }}>
               <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
                   <TabList
@@ -255,11 +261,17 @@ export default function MainLayout() {
                     <Tab label="Hoạt động" value="2" />
                   </TabList>
                 </Box>
-                <TabPanel value="1" >
+                <TabPanel value="1">
                   <List>
                     <ListItem disablePadding>
                       <ListItemButton>
-                        <ListItemText primary={fixBalance(balance)+' '+(provider?.symbol ? provider.symbol : null)}  />
+                        <ListItemText
+                          primary={
+                            fixBalance(balance) +
+                            " " +
+                            (provider?.symbol ? provider.symbol : null)
+                          }
+                        />
                       </ListItemButton>
                     </ListItem>
                   </List>
@@ -300,6 +312,5 @@ export default function MainLayout() {
         ) : null}
       </div>
     </div>
-    
   );
 }

@@ -42,8 +42,7 @@ function ImportAccount(props) {
       if (way === "key") {
         addWithPrivateKey(privateKey);
       }
-
-      navigate("/");
+      onClose();
     } catch (e) {
       setWarning(e.message);
       console.log(e);

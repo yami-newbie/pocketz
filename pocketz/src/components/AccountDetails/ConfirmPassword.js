@@ -17,7 +17,8 @@ function ConfirmPassword({ setConfirm, onCancel }) {
     if (password === wallet.wallet.password) {
       setConfirm(true);
       setIsIncorrect(false);
-      onCancel();
+      if(onCancel)
+        onCancel();
     } else {
       setIsIncorrect(true);
     }
@@ -31,6 +32,7 @@ function ConfirmPassword({ setConfirm, onCancel }) {
           sx={{ mt: "10px", textAlign: "left" }}
           fullWidth
           type="password"
+          error={isIncorrect ? true : false}
           onChange={(e) => {
             setPassword(e.target.value);
           }}

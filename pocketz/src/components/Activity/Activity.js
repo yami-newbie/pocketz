@@ -45,7 +45,7 @@ function Activity(props) {
         setTransaction(res);
       });
     }
-  }, [open]);
+  }, [open, web3Service]);
 
   return (
     <Dialog onClose={handleClose} open={open}>
