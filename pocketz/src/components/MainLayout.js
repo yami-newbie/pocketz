@@ -167,7 +167,7 @@ export default function MainLayout() {
             </div>
           </div>
 
-        <CardContent>
+        <CardContent sx={{ paddingTop: 0 }}>
           <Divider />
           <div className="card-content">
             <div className="grid-items">
