@@ -72,7 +72,7 @@ function SignIn() {
               }}
               variant="body1"
               onClick={() => {
-                window.open("/restore-vault");
+                navigate("/restore-vault");
               }}
             >
               {"Quên mật khẩu?"}
