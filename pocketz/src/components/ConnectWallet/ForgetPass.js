@@ -3,6 +3,7 @@ import {
   IconButton,
   InputAdornment,
   OutlinedInput,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -55,7 +56,7 @@ function ForgetPass() {
       <div style={{ width: "400px" }}>
         <Header />
       </div>
-      <div style={{ width: "70%" }}>
+      <Stack sx={{ width: "70%", backgroundColor:"white"}} spacing={1}>
         <Typography
           onClick={() => {
             navigate("/");
@@ -129,7 +130,7 @@ function ForgetPass() {
         <Button onClick={onChangePass} variant="contained">
           Khôi phục
         </Button>
-      </div>
+      </Stack>
     </div>
   );
 }

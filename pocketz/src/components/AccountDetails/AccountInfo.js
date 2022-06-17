@@ -153,7 +153,7 @@ function AccountInfo({Account, onClose, openExport}) {
             </div>
           </CopyToClipboard>
         </div>
-        <Stack spacing={1} sx={{ mb: "20px" }} className="items">
+        <Stack spacing={1} sx={{ mb: "20px", mt: '20px', height: '100px' }} >
           <Button
             onClick={() => {
               window.open(linkToEtherscan());

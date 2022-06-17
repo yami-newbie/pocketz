@@ -34,7 +34,7 @@ function MiniActivity({ tx }) {
           </Typography>
         </div>
       </div>
-      <div>
+      <div style={{display:'flex', alignItems:'center'}}>
         <Typography variant="subtitle1" gutterBottom component="div">
           {cutString(formatWei(tx.value))}
         </Typography>
@@ -52,9 +52,9 @@ function MiniActivity({ tx }) {
           </Typography>
         </div>
       </div>
-      <div>
-        <Typography variant="subtitle1" gutterBottom component="div">
-          {'-'+formatWei(tx.value)}
+      <div style={{display:'flex', alignItems:'center'}}>
+        <Typography variant="subtitle1" gutterBottom component="div" >
+          {'- '+formatWei(tx.value)}
         </Typography>
       </div>
     </div>

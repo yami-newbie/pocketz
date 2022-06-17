@@ -70,19 +70,21 @@ function SignUp() {
             label="Mật khẩu"
             variant="standard"
             type="password"
+            sx={{marginTop:'20px'}}
           />
           <TextField
             onChange={(e) => {
               setConfirmPassword(e.target.value);
             }}
             fullWidth
-            label="Xac nhận mật khẩu"
+            label="Xác nhận mật khẩu"
             variant="standard"
             error={err ? true : false}
             helperText={err ? err : ""}
             type="password"
+            sx={{marginTop:'20px'}}
           />
-          <Button variant="contained" onClick={signUp}>
+          <Button variant="contained" onClick={signUp} sx={{marginTop:'20px'}}>
             Mở ví
           </Button>
         </CardContent>
